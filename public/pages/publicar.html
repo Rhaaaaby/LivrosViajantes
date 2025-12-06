@@ -1,0 +1,55 @@
+<section>
+    <form action="#" method="post" enctype="multipart/form-data">
+        <h1>Nova Publicação</h1>
+
+        <!-- Título -->
+        <label for="titulo">Título</label>
+        <input 
+            type="text" 
+            id="titulo"
+            name="titulo"
+            placeholder="Digite o título da publicação"
+            required
+        />
+
+        <!-- Upload de Arquivos -->
+        <label for="arquivo">Fazer upload de arquivos</label>
+        <input 
+            type="file"
+            id="arquivo"
+            name="arquivo"
+        />
+
+        <!-- Categorias -->
+        <label>Categorias</label>
+
+        <div class="categorias">
+            <label>
+                <input type="radio" name="categoria" value="emprestimo" />
+                Empréstimo
+            </label>
+
+            <label>
+                <input type="radio" name="categoria" value="troca" />
+                Troca
+            </label>
+
+            <label>
+                <input type="radio" name="categoria" value="doacao" />
+                Doação
+            </label>
+        </div>
+
+        <!-- Descrição -->
+        <label for="descricao">Descrição</label>
+        <textarea 
+            id="descricao" 
+            name="descricao"
+            placeholder="Escreva o conteúdo aqui"
+            rows="5"
+        ></textarea>
+
+        <!-- Botão -->
+        <button type="submit">Publicar</button>
+    </form>
+</section>
