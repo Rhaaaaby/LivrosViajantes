@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Publicação</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main class="detalhes-container">
+
+        <!-- Capa -->
+        <section class="capa">
+            <img src="/book-default.png" alt="Capa do livro" class="imagem-livro">
+        </section>
+
+        <!-- Informações principais -->
+        <section class="info">
+            <h1 class="titulo">Título do Livro</h1>
+            <p class="autor"><strong>Autor:</strong> Nome do Autor</p>
+            <p class="categoria"><strong>Categoria:</strong> Empréstimo / Troca / Doação</p>
+
+            <p class="descricao">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Aqui vai a descrição completa da publicação, história, estado do livro, 
+                observações e tudo que o usuário escreveu.
+            </p>
+
+            <!-- Dados do usuário dono da publicação -->
+            <div class="usuario-dono">
+                <img src="/user-default.png" alt="Foto do Usuário" class="foto-user">
+                
+                <div>
+                    <p><strong>Publicado por:</strong> Nome do Usuário</p>
+                    <a href="/perfil/usuario" class="ver-perfil">Ver perfil</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ações -->
+        <section class="acoes">
+            <button class="btn-contato">Entrar em Contato</button>
+            <button class="btn-voltar" onclick="history.back()">Voltar</button>
+        </section>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pesquisar </title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="pesquisa-container">
+        <form action="pesquisar.php" method="GET">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Digite título, autor ou categoria..."
+                required
+            />
+
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+
+        <div class="resultados">
+            <!-- Os resultados aparecem aqui
+                 (no futuro, com PHP ou JS) -->
+        </div>
+    </div>
+
+    <div class="filtro-categorias">
+        <nav class="filtros">
+            <a href="pesquisar.html?categoria=doacao">DOAÇÕES</a>
+            <a href="pesquisar.html?categoria=emprestimo">EMPRÉSTIMOS</a>
+            <a href="pesquisar.html?categoria=troca">TROCAS</a>
+        </nav>
+    </div>
+
+    <div>
+        <!-- bookcards -->
+    </div>
+
+</body>
+</html>
