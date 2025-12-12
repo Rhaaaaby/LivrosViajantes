@@ -1,97 +1,54 @@
-/* ===================== */
-/*        HEADER          */
-/* ===================== */
-
 .header {
-  position: absolute;
-  top: 25px;
-  left: 0;
-  width: 700px;
-  height: 160px;
-  mix-blend-mode: normal;
-}
-
-/* ======= LOGO ======= */
-
-.logo {
-  position: absolute;
-  left: 39px;
-  top: 45px;
-  width: 78px;
-  height: 70px;
-  border: 0;
-  mix-blend-mode: normal;
-}
-
-/* ======= MENU ======= */
-
-.menu {
-  position: absolute;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 700px;
-  height: 160px;
-  background: #569fcaFF;
-  border: 0;
-  mix-blend-mode: normal;
+  z-index: 1000;
+  background-color: var(--cabecalho);
+  box-shadow: var(--shadow);
 }
 
-/* ======= MENSAGENS ======= */
-
-.link-mensagem {
-  position: absolute;
-  left: 465px;
-  top: 56px;
-  width: 48px;
-  height: 48px;
-  background: transparent;
-  overflow: hidden;
-  mix-blend-mode: normal;
-}
-
-/* Icone de mensagens */
-.icone-mensagem {
-  position: absolute;
-  left: 6px;
-  top: 6px;
-  width: 36px;
-  height: 36px;
-  mix-blend-mode: normal;
-}
-
-.icone-mensagem> svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(0px, 0px);
-}
-
-/* ======= NOTIFICAÇÕES ======= */
-
-.link-notificacao {
-  position: absolute;
-  left: 522px;
-  top: 56px;
-  width: 48px;
-  height: 48px;
-  border: 0;
-  overflow: hidden;
-  mix-blend-mode: normal;
-}
-
-/* Icone de notificações */
-.icone-notificacao {
-  position: absolute;
-  left: 8px;
-  top: 4px;
-  width: 32px;
+/*logo */
+.header .logo img {
+ width: auto; 
   height: 40px;
-  mix-blend-mode: normal;
 }
 
-.icone-notificacao > svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(0px, 0px);
+/*ícones */
+
+.header a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 10px;
+}
+
+.header .logo {
+  margin-right: auto;
+}
+
+/*parte clicável */
+
+.icone-mensagem, 
+.icone-notificao
+.icone-avatar {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+/* foto de perfil do usuário */
+
+.icone-avatar {
+  margin-right: 30px;
+  box-shadow: var(--shadow);
+  border-radius: 50%;
 }
