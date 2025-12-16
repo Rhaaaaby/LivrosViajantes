@@ -1,5 +1,5 @@
 <section>
-    <form id ="formLivro" enctype="multipart/form-data">
+    <form class="form-container" id ="formLivro" enctype="multipart/form-data">
         <h1>Nova Publicação</h1>
 
         <!-- Título -->
@@ -24,9 +24,9 @@
         <label>Categorias</label>
 
         <select id="categoria">
-            <option value="disponivel">Disponível</option>
-            <option value="emprestado">Emprestado</option>
-            <option value="doacao">Doação</option>
+            <option value="Disponível">Disponível</option>
+            <option value="Emprestado">Emprestado</option>
+            <option value="Doação">Doação</option>
         </select>
 
         <!-- Descrição -->
@@ -41,8 +41,6 @@
         <!-- Botão -->
         <button type="submit">Publicar</button>
     </form>
-
-    <div id="lista-livros"></div>
 </section>
 
 <script src="../js/bookcard.js"></script>

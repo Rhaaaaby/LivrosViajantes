@@ -1,0 +1,54 @@
+.form-container {
+  width: 90%;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 20px;
+
+  background: var(--footer);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+
+  font-family: var(--fonte-sistema);
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container label {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+
+  border-radius: var(--radius);
+  border: 1px solid #000;
+
+  font-family: var(--fonte-sistema);
+  font-size: 0.9rem;
+}
+
+.form-container button {
+  width: 100%;
+  padding: 12px;
+
+  background: var(--mensagem-sucesso);
+  border: none;
+  border-radius: var(--radius);
+
+  font-family: var(--fonte-sistema);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  box-shadow: var(--shadow);
+}

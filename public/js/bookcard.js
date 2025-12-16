@@ -13,10 +13,23 @@ function criarCard(livro) {
     card.classList.add("book-card");
 
     card.innerHTML = `
-        <h3 class="titulo-livro">${livro.titulo}</h3>
-        <img src="${livro.arquivo}" alt="capa do livro" class="capa-livro">
-        <span class="categoria">${livro.categoria}</span>
-        <p class="descricao-publicacao">${livro.descricao}</p>
+        
+        <img 
+        src="img/bookcard/livro-sonho.webp" 
+        alt="capa do livro" 
+        class="capa-livro"
+        >
+
+        <div class="info-livro">
+            <h3 class="titulo-livro">${livro.titulo}</h3>
+            <span class="categoria">${livro.categoria}</span>
+            <p class="descricao-publicacao">${livro.descricao}</p>
+        
+            <button class="btn-interesse" data-id="${livro.id}">
+                Tenho interesse
+            </button>
+
+        </div>
     `;
 
     document.querySelector("#lista-livros").appendChild(card);
@@ -52,7 +65,6 @@ function iniciarFormularioLivro() {
         };
 
         salvarLivro(livro);
-        criarCard(livro);
         form.reset();
     });
 }
