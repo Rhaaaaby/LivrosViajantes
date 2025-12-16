@@ -5,4 +5,5 @@ async function carregar(id, arquivo) {
 
 carregar("header", "header.html");
 carregar("footer", "footer.html");
-carregar("tab_menu", "tab_menu.html")
+carregar("tab_menu", "tab_menu.html");
+carregar("bookcard", "bookcard.html");
