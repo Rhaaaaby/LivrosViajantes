@@ -1,0 +1,46 @@
+.msg {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+  z-index: 9999;
+  animation: slideUp .3s ease;
+}
+
+/* variações */
+.msg.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.msg.error {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.msg.warn {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+/* esconder */
+.hidden {
+  display: none;
+}
+
+/* animação */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

@@ -32,4 +32,7 @@
 
     /* sombra */
     --shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+
+    /*borda*/
+    --borda: 1px solid black;
 }

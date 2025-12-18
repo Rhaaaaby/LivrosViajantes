@@ -1,33 +1,59 @@
-<section>
-    
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-    <form class="form-container">
-        
-        <h1>Bem Vindo :D!</h1>
+<head>
+    <meta charset="UTF-8">
 
-        <span>Vamos Começar?</span>
+    <!-- SEO básico -->
+    <title>Registrar</title>
+    <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <label for="email">Título</label>
-        <input
-            id="email"
-            type="email"
-            placeholder="Digite o seu melhor e-mail"
-        />
+    <!-- CSS BASE (sempre presente) -->
+    <link rel="stylesheet" href="../css/sistema_base/basestyle.css">
 
-        <label for="nome">Nome</label>
-        <input 
-            id="nome"
-            type="text"
-            placeholder="Vamos criar seu nome de usuário!"
-        />
+    <!-- CSS específico (formulários)-->
+    <link rel="stylesheet" href="../css/sistema_base/brandingstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+</head>
 
-        <label for="senha">Senha</label>
-        <input
-            id="senha"
-            type="password"
-            placeholder="Digite sua senha"
-        />
+<body>
+    <div id="branding"></div>
 
-        <button type="submit">Criar Conta</button>
-    </form>
-</section>
+    <section>
+        <form class="form-container">
+
+            <h1>Bem Vindo :D!</h1>
+
+            <span>Vamos Começar?</span>
+
+            <label for="email">E-mail</label>
+            <input id="email" type="email" placeholder="Digite o seu melhor e-mail" />
+
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" placeholder="Vamos criar seu nome de usuário!" />
+
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" placeholder="Digite sua senha" />
+
+            <button type="submit">Criar Conta</button>
+        </form>
+
+        <!-- mensagens (sucesso, alerta, erro)-->
+        <div id="mensagem-global" class="msg hidden"></div>
+    </section>
+
+    <script>
+        const BASE_COMPONENTS = "../pages/components/";
+    </script>
+    <script src="../js/core/carregar_paginas.js"></script>
+    <script src="../js/core/base_forms.js"></script>
+    <script src="../js/core/mensagem_sistema.js"></script>
+
+    <!-- scripts específicos -->
+    <script src="../js/forms/registrar.js"></script>
+
+</body>
+
+</html>

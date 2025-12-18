@@ -2,11 +2,12 @@
   width: 90%;
   max-width: 420px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 60px;
 
   background: var(--footer);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  outline: var(--borda);
 
   font-family: var(--fonte-sistema);
 }
@@ -18,8 +19,15 @@
 
 .form-container label {
   font-size: 0.85rem;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   display: block;
+}
+
+.form-container span {
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin: 10px;
 }
 
 .form-container input,
@@ -30,25 +38,45 @@
   margin-bottom: 14px;
 
   border-radius: var(--radius);
-  border: 1px solid #000;
+  border: var(--borda);
 
   font-family: var(--fonte-sistema);
   font-size: 0.9rem;
 }
 
 .form-container button {
-  width: 100%;
+  width: 40%;
   padding: 12px;
+  margin-top: 20px;
 
   background: var(--mensagem-sucesso);
-  border: none;
   border-radius: var(--radius);
 
   font-family: var(--fonte-sistema);
   font-size: 0.9rem;
   cursor: pointer;
+
+  align-self: center;
+  display: block !important;
+  margin: 16px auto !important;
 }
 
 .form-container button:hover {
   box-shadow: var(--shadow);
+}
+
+@keyframes flutuar {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.form-container h1 {
+  animation: flutuar 2.5s ease-in-out infinite;
 }
