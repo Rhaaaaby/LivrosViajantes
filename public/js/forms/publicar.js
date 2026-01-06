@@ -1,5 +1,5 @@
 configurarFormulario({
-  formId: "formLivro",
+  formId: "formPublicar",
 
   validar: (form) => {
     if (!form.titulo.value.trim()) {
@@ -11,6 +11,7 @@ configurarFormulario({
 
   aoEnviar: async (form) => {
     const livro = {
+      id: Date.now(),
       titulo: form.titulo.value,
       categoria: form.categoria.value,
       descricao: form.descricao.value

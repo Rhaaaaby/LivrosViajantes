@@ -6,13 +6,12 @@ Ele serve como referência para todas as páginas HTML do projeto.
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
 
   <!-- SEO básico -->
   <title><!-- título da página --></title>
-  <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!
+  <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
   <meta name=" viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- CSS BASE (sempre presente) -->
@@ -26,10 +25,20 @@ Ele serve como referência para todas as páginas HTML do projeto.
   <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
   <link rel="stylesheet" href="../css/sistema_base/bookcardstyle.css">
   <link rel="stylesheet" href="../css/sistema_base/branding.css">
-  <link rel="stylesheet" href="../css/sistema_base/mensagem_sistem.css">
+  <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+  
   -->
 
-  <!-- CSS PAGES: páginas específicas que (provavelmente) só serão chamadas uma única vez-->
+  <!-- CSS PAGES: páginas específicas que (provavelmente) só serão chamadas uma única vez
+  
+  <link rel="stylesheet" href="../css/pages/pesquisar.css">
+  <link rel="stylesheet" href="../css/pages/publicacao_detalhada.css">
+  <link rel="stylesheet" href="../css/pages/area_usuario.css">
+  <link rel="stylesheet" href="../css/pages/mensagem.css">
+
+  <link rel="stylesheet" href="../css/sistema_base/responsive.css">
+  -->
+
 </head>
 
 <!-- Principais componentes das páginas, para copiar e colar quando necessário-->
@@ -64,12 +73,17 @@ Ele serve como referência para todas as páginas HTML do projeto.
   <!-- Scripts específicos 
     <script src="../js/bookcard/bookcard.js"></script>
     <script src="../js/bookcard/btncard_interesse.js"></script>
+    <script src="../js/bookcard/filtro.js"></script>
+    <script src="../js/bookcard/publicacao_detalhada.js"></script>
     
     <script src="../js/forms/login.js"></script>
     <script src="../js/forms/publicar.js"></script>
     <script src="../js/forms/registrar.js"></script>
+    
+    <script src="../js/user/area_usuario.js"></script>
+    <script src="../js/user/mensagem.menu.js"></script>
+
   -->
 
 </body>
-
 </html>

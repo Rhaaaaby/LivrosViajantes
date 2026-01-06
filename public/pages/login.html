@@ -15,14 +15,22 @@
     <!--CSS específico da página-->
     <link rel="stylesheet" href="../css/sistema_base/brandingstyle.css">
     <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
-    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistem.css">
+    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
+
+    <style> 
+        body  {
+            background-color: #569FCA; 
+        }
+    </style>
 </head>
 
 <body>
     <section>
         <div id="branding"></div>
 
-        <form class="form-container" action="#" method="POST">
+        <form id="formLogin" class="form-container" action="../api/login.php" method="POST">
             <h1>Bem vindo de volta :)!</h1>
 
             <span>Login</span>
@@ -36,6 +44,8 @@
             <button type="submit">
                 Entrar
             </button>
+
+            <a href="../pages/registrar.html"> Ainda não tem uma conta?</a>
         </form>
 
         <!-- mensagens (sucesso, alerta, erro)-->

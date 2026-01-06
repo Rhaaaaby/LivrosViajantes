@@ -16,13 +16,22 @@
     <link rel="stylesheet" href="../css/sistema_base/brandingstyle.css">
     <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
     <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
+
+    <style> 
+        body  {
+            background-color: #569FCA; 
+        }
+    </style>
+
 </head>
 
 <body>
     <div id="branding"></div>
 
     <section>
-        <form class="form-container">
+        <form id="formRegistrar" class="form-container" action="../api/registrar.php" method="POST">
 
             <h1>Bem Vindo :D!</h1>
 
@@ -38,6 +47,8 @@
             <input id="senha" type="password" placeholder="Digite sua senha" />
 
             <button type="submit">Criar Conta</button>
+
+            <a href="../pages/login.html"> Já tem uma conta?</a>
         </form>
 
         <!-- mensagens (sucesso, alerta, erro)-->

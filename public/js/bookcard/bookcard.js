@@ -20,8 +20,9 @@ function criarCard(livro) {
         class="capa-livro"
         >
 
+
         <div class="info-livro">
-            <h3 class="titulo-livro">${livro.titulo}</h3>
+            <h1 class="titulo-livro">${livro.titulo}</h1>
             <span class="categoria">${livro.categoria}</span>
             <p class="descricao-publicacao">${livro.descricao}</p>
         
@@ -32,6 +33,11 @@ function criarCard(livro) {
         </div>
     `;
 
+    //tornando os cards clicáveis (links)
+    card.addEventListener("click", () => {
+        window.location.href= `pages/publicacao_detalhada.html?id=${livro.id}`;
+    });
+
     document.querySelector("#lista-livros").appendChild(card);
 }
 
@@ -39,7 +45,7 @@ function criarCard(livro) {
 
 function carregarLivros() {
     const livros = JSON.parse(localStorage.getItem("livros")) || [];
-    livros.forEach(livro => criarCard(livro));
+    renderizarLivros(livros);
 }
 
 //recebendo e salvando os cards que serão criados
@@ -73,3 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarLivros();
     iniciarFormularioLivro();
 });
+
+// renderizando livros
+
+function renderizarLivros(livros) {
+    const lista = document.getElementById("lista-livros");
+    if (!lista) return;
+
+    lista.innerHTML = "";
+    livros.forEach(livro => criarCard(livro));
+}

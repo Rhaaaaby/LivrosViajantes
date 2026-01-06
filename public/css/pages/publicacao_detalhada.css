@@ -1,0 +1,135 @@
+.detalhes-container {
+  max-width: 360px;
+  width: 90%;
+  padding: 20px;
+  font-family: var(--fonte-body);
+  background-color: var(--footer);
+  border-radius: var(--radius);
+  margin: 30px auto;
+  outline: var(--borda);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*informações do livro*/
+
+.detalhe-titulo {
+  font-size: 1.4rem;
+  padding: 10px;
+  text-align: center;
+}
+
+/*detalhes da capa*/
+
+.detalhe-capa {
+  justify-content: center;
+  height: 160px;
+  width: 120px;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.detalhe-categoria {
+  width: fit-content;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  background-color: var(--categorias);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  outline: var(--borda);
+  text-align: center;
+  margin-top: 10px;
+}
+
+.detalhe-descricao {
+  width: 100%;
+  margin-top: 12px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: var(--radius);
+  outline: var(--borda);
+
+  text-align: left;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  box-sizing: border-box;
+}
+
+/*info user*/
+
+.detalhe-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0,0,0,.1);
+}
+
+/*setas */
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+
+  background-color: var(--footer);
+  
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seta.esquerda {
+  left: -60px;
+}
+
+.seta.direita {
+  right: -60px;
+}
+
+.seta:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.btn-interesse {
+  width: 100%;
+  font-family: var(--fonte-sistema);
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background: var(--mensagem-sucesso);
+  color: #000;
+  cursor: pointer;
+  font-size: 0.8rem;
+  outline: var(--borda);
+}
+
+.btn-interesse:hover {
+  box-shadow: var(--shadow);
+}

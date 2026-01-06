@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="../css/sistema_base/tab_menustyle.css">
     <!--CSS específico (formulários)-->
     <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
-    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistem.css">
+    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
 
 </head>
 
@@ -26,7 +28,9 @@
     <header id="header"></header>
 
     <section>
-        <form class="form-container" id="formLivro" enctype="multipart/form-data">
+        <form id="formPublicar" class="form-container form-livro" enctype="multipart/form-data"
+            action="../api/publicar.php" method="POST">
+
             <h1>Nova Publicação</h1>
 
             <!-- Título -->
@@ -55,7 +59,7 @@
         </form>
     </section>
 
-     <!-- Footer Global -->
+    <!-- Footer Global -->
     <footer id="footer"></footer>
 
     <!-- mensagens (sucesso, alerta, erro)-->

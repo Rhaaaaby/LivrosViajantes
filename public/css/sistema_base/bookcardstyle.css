@@ -3,7 +3,7 @@
     padding: 12px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    width: 80%;
+    width: min(90%, 360px);
     margin: 15px auto;
     display: flex;
     gap: 6px;
@@ -27,6 +27,8 @@
     flex-direction: column;
     gap: 10px;
     margin: 10px;
+    flex: 1;     
+    min-width: 0; 
 }
 
 /*título */
@@ -39,23 +41,36 @@
 /*categoria (disponivel, emprestado e doado) */
 
 .categoria {
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
     background-color: var(--categorias);
     display: flex;
     padding: 8px 20px;
     border-radius: var(--radius);
-    outline: var(--borda)
+    outline: var(--borda);
 }
 
 /* campo de texto do usuário */
 
 .descricao-publicacao {
+    max-width: 100%;
     font-size: 0.85rem;
     line-height: 1.4;
     outline: 1px solid black;
     border-radius: var(--radius);
     height: 80px;
-    width: 120%;
-    padding: 5px;
+    padding: 10px;
+    
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+
+    overflow: hidden;
+
+    white-space: normal;
+
+    box-sizing: border-box;
 }
 
 
@@ -71,7 +86,7 @@
   color: #000;
   cursor: pointer;
   font-size: 0.8rem;
-  outline: var(--borda)
+  outline: var(--borda);
 }
 
 .btn-interesse:hover {

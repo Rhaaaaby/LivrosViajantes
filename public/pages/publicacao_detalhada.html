@@ -1,36 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- SEO básico -->
+    <title> Publicação Detalhada </title>
+    <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS BASE (sempre presente) -->
+    <link rel="stylesheet" href="../css/sistema_base/basestyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/headerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/footerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/tab_menustyle.css">
+
+    <!-- CSS OPCIONAL (usar conforme a página) -->
+
+    <link rel="stylesheet" href="../css/pages/publicacao_detalhada.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
+</head>
+
 <body>
+
+    <header id="header"></header>
+
     <main class="detalhes-container">
+        <section class="info-principal">
 
-        <!-- Capa -->
-        <section class="capa">
-            <img src="/book-default.png" alt="Capa do livro" class="imagem-livro">
-        </section>
+            <h1 class="detalhe-titulo" id="detalhe-titulo"></h1>
 
-        <!-- Informações principais -->
-        <section class="info">
-            <h1 class="titulo">Título do Livro</h1>
-            <p class="autor"><strong>Autor:</strong> Nome do Autor</p>
-            <p class="categoria"><strong>Categoria:</strong> Empréstimo / Troca / Doação</p>
+            <div class="carousel">
+                <button class="seta esquerda" id="prev">
+                    <img src="../img/publi_detalhada/Arrow left-circle.svg">
+                </button>
 
-            <p class="descricao">
+                <img
+                    id="detalhe-capa"
+                    class="detalhe-capa"
+                    src="../img/bookcard/livro-sonho.webp"
+                />
+
+                <button class="seta direita" id="next">
+                    <img src="../img/publi_detalhada/Arrow right-circle.svg">
+                </button>
+            </div>
+
+
+            <p class="detalhe-categoria">
+                <span id="detalhe-categoria"></span>
             </p>
 
-            <!-- Dados do usuário dono da publicação -->
-            <div class="usuario-dono">
-                <img src="/user-default.png" alt="Foto do Usuário" class="foto-user">
-                
-                <div>
-                    <p><strong>Publicado por:</strong> Nome do Usuário</p>
-                    <a href="/perfil/usuario" class="ver-perfil">Ver perfil</a>
-                </div>
-            </div>
-        </section>
+            <p class="detalhe-descricao" id="detalhe-descricao"></p>
 
-        <!-- Ações -->
-        <section class="acoes">
-            <button class="btn-contato">Entrar em Contato</button>
-            <button class="btn-voltar" onclick="history.back()">Voltar</button>
-        </section>
+            <p>
+                <span id="detalhe-usuario"></span>
+            </p>
 
+            <button class="btn-interesse"> TENHO INTERESSE </button>
+        </section>
     </main>
+
+    <nav id="tab_menu"></nav>
+
+    <!-- Footer Global -->
+    <footer id="footer"></footer>
+
+    <!-- SCRIPTS -->
+    <!-- carregando as páginas base -->
+    <script>
+        const BASE_COMPONENTS = "../pages/components/";
+    </script>
+
+    <script src="../js/core/carregar_paginas.js"></script>
+
+    <!-- Scripts específicos -->
+    <script src="../js/bookcard/bookcard.js"></script>
+    <script src="../js/bookcard/btncard_interesse.js"></script>
+    <script src="../js/bookcard/publicacao_detalhada.js"></script>
 </body>
+
+</html>

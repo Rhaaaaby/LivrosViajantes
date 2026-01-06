@@ -19,9 +19,7 @@ main {
   width: 100%;
   background: var(--cabecalho);
   padding: 20px 0;
-  box-shadow: var(--shadow);
   z-index: 1000;
-  outline: var(--borda);
 }
 
 /* empilhamento central */

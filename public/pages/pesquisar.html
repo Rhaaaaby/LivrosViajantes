@@ -1,45 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Pesquisar </title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- SEO básico -->
+    <title>Pesquisar</title>
+    <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS BASE (sempre presente) -->
+    <link rel="stylesheet" href="../css/sistema_base/basestyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/headerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/footerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/tab_menustyle.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/bookcardstyle.css">
+
+    <link rel="stylesheet" href="../css/pages/pesquisar.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
 </head>
 
 <body>
-    <div class="pesquisa-container">
-        <form action="pesquisar.php" method="GET">
-            <input 
-                type="text" 
-                name="q" 
-                placeholder="Digite título, autor ou categoria..."
-                required
-            />
+    <header id="header"></header>
 
-            <button type="submit">
-                <i class="fa fa-search"></i>
-            </button>
-        </form>
+    <main class="pesquisar">
 
-        <div class="resultados">
-            <!-- Os resultados aparecem aqui
-                 (no futuro, com PHP ou JS) -->
-        </div>
-    </div>
+        <!-- filtros -->
+        <section class="filtros">
+            <div class="busca">
+                <input type="text" id="filtro-titulo" placeholder="Buscar por título...">
 
-    <div class="filtro-categorias">
-        <nav class="filtros">
-            <a href="pesquisar.html?categoria=doacao">DOAÇÕES</a>
-            <a href="pesquisar.html?categoria=emprestimo">EMPRÉSTIMOS</a>
-            <a href="pesquisar.html?categoria=troca">TROCAS</a>
-        </nav>
-    </div>
+                <button id="btn-buscar" aria-label="Buscar">
+                    <img src="../img/tab_menu/Search.svg">
+                </button>
+            </div>
+            
+            <div class="filtro-categoria">
+                <button class="filtro-btn ativo" data-categoria="">Todos</button>
+                <button class="filtro-btn" data-categoria="Disponível">Disponível</button>
+                <button class="filtro-btn" data-categoria="Emprestado">Emprestado</button>
+                <button class="filtro-btn" data-categoria="Doação">Doação</button>
+            </div>
+        </section>
 
-    <div>
-        <!-- bookcards -->
-    </div>
+        <!-- LISTA -->
+        <section id="lista-livros" class="lista-livros"></section>
+
+    </main>
+
+    <nav id="tab_menu"></nav>
+
+    <footer id="footer"></footer>
+
+    <!-- SCRIPTS -->
+    <!-- carregando as páginas base -->
+    <script>
+        const BASE_COMPONENTS = "components/";
+    </script>
+
+    <script src="../js/core/carregar_paginas.js"></script>
+    <script src="../js/core/base_forms.js"></script>
+    <script src="../js/core/mensagem_sistema.js"></script>
+
+    <!-- Scripts específicos -->
+    <script src="../js/bookcard/bookcard.js"></script>
+    <script src="../js/bookcard/btncard_interesse.js"></script>
+    <script src="../js/bookcard/filtro.js"></script>
 
 </body>
+
 </html>
