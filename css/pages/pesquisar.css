@@ -1,0 +1,61 @@
+.pesquisar {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.busca {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+
+.busca input {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 8px 0 0 8px;
+  font-family: var(--fonte-sistema);
+}
+
+.busca button {
+  padding: 0 1rem;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+.filtro-categoria {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+
+.filtro-btn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 10px;
+  outline: var(--borda);
+  background-color: var(--categorias);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: var(--fonte-sistema);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filtro-btn.ativo {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}

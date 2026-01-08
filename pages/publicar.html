@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- SEO básico -->
+    <title>Publicar</title>
+    <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS BASE (sempre presente) -->
+    <link rel="stylesheet" href="../css/sistema_base/basestyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/headerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/footerstyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/tab_menustyle.css">
+    <!--CSS específico (formulários)-->
+    <link rel="stylesheet" href="../css/sistema_base/form_basestyle.css">
+    <link rel="stylesheet" href="../css/sistema_base/mensagem_sistema.css">
+
+    <link rel="stylesheet" href="../css/sistema_base/responsive.css">
+
+</head>
+
+<body>
+
+    <!-- Header Global -->
+    <header id="header"></header>
+
+    <section>
+        <form id="formPublicar" class="form-container form-livro" enctype="multipart/form-data"
+            action="../api/publicar.php" method="POST">
+
+            <h1>Nova Publicação</h1>
+
+            <!-- Título -->
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Digite o título da publicação" required />
+
+            <!-- Upload de Arquivos -->
+            <label for="arquivo">Fazer upload de arquivos</label>
+            <input type="file" id="arquivo" name="arquivo" />
+
+            <!-- Categorias -->
+            <label>Categorias</label>
+
+            <select id="categoria">
+                <option value="Disponível">Disponível</option>
+                <option value="Emprestado">Emprestado</option>
+                <option value="Doação">Doação</option>
+            </select>
+
+            <!-- Descrição -->
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" name="descricao" placeholder="Escreva o conteúdo aqui" rows="5"></textarea>
+
+            <!-- Botão -->
+            <button type="submit">Publicar</button>
+        </form>
+    </section>
+
+    <!-- Footer Global -->
+    <footer id="footer"></footer>
+
+    <!-- mensagens (sucesso, alerta, erro)-->
+    <div id="mensagem-global" class="msg hidden"></div>
+
+    <!-- carregando as páginas -->
+    <script>
+        const BASE_COMPONENTS = "../pages/components/";
+    </script>
+    <script src="../js/core/carregar_paginas.js"></script>
+    <script src="../js/core/base_forms.js"></script>
+    <script src="../js/core/mensagem_sistema.js"></script>
+
+    <!-- scripts específicos-->
+
+    <script src="../js/forms/publicar.js"></script>
+</body>
+
+</html>

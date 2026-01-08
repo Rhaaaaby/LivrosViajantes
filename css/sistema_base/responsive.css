@@ -1,0 +1,110 @@
+/* Documento voltado para todos os breakpoints e telas */
+
+/* até 480px — celulares pequenos */
+@media (max-width: 480px) {}
+
+/* até 768px — celular grande / tablet */
+@media (max-width: 768px) {}
+
+/* até 1024px — notebook pequeno */
+@media (max-width: 1024px) {}
+
+/* =========================
+  MOBILE (até 480px)
+========================= */
+@media (max-width: 480px) {
+
+  main {
+    padding: 10px;
+  }
+
+  /* HEADER */
+  .header,
+  .chat-header {
+    padding: 10px;
+  }
+
+  /* BOOKCARD */
+  .bookcard {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-livro {
+    margin: 0;
+    width: 100%;
+  }
+
+  .categoria {
+    width: fit-content;
+  }
+
+  /* PUBLICAÇÃO DETALHADA */
+  .detalhes-container {
+    max-width: 100%;
+    margin: 15px;
+  }
+
+  /* CHAT */
+  .mensagem-layout {
+    flex-direction: column;
+  }
+
+  .btn-menu {
+    display: none; /* mobile usa gaveta */
+  }
+
+  .chat-gaveta {
+    width: 80%;
+  }
+
+  /* INPUT */
+  .input-area {
+    max-width: 100%;
+  }
+}
+
+
+/* =========================
+  TABLET (até 768px)
+========================= */
+@media (max-width: 768px) {
+
+  /* BOOKCARD */
+  .bookcard {
+    width: 95%;
+  }
+
+  .chat-gaveta {
+    width: 260px;
+  }
+
+  /* ÁREA DO USUÁRIO */
+  .cards-acoes {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
+
+
+/* =========================
+  NOTEBOOK PEQUENO
+========================= */
+@media (max-width: 1024px) {
+
+  main {
+    padding: 20px;
+  }
+
+  .chat-menu {
+    width: 240px;
+  }
+
+  .detalhes-container {
+    max-width: 420px;
+  }
+}

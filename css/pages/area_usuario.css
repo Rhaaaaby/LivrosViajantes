@@ -1,0 +1,121 @@
+/* area do usuario */
+
+.area-usuario {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: var(--fonte-sistema);
+}
+
+.perfil-topo {
+  display: flex;
+  gap: 16px;
+  margin: 10px;
+  align-items: center;
+}
+
+.foto-perfil {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  outline: var(--borda);
+}
+
+.seguir {
+  background-color: var(--mensagem-sucesso);
+  border-radius: var(--radius);
+  font-family: var(--fonte-sistema);
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+/* cards de ações (campos) */
+.cards-acoes {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0;
+  align-items: center;
+}
+
+.card {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--categorias);
+  outline: var(--borda);
+  cursor: pointer;
+  text-align: center;
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
+}
+
+.bloco {
+  margin-top: 40px;
+}
+
+.oculto {
+  display: none;
+}
+
+/* Editar perfil */
+
+.editar_perfil {
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.texto {
+  padding: 2px;
+}
+
+.campo {
+  border-radius: var(--radius);
+  padding: 10px;
+}
+
+.campo:hover {
+  box-shadow: var(--shadow);
+}
+
+.btn-salvar {
+  background-color: var(--mensagem-sucesso);
+  font-family: var(--fonte-sistema);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  align-self: center;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* configurações */
+
+#config:not(.oculto) {
+  margin: 10px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-excluir {
+  background-color: var(--mensagem-erro);
+  font-family: var(--fonte-sistema);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  align-self: center;
+  cursor: pointer;
+}
+
+.btn-logout {
+  background-color: var(--mensagem-alerta);
+  font-family: var(--fonte-sistema);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  align-self: center;
+  cursor: pointer;
+  margin-top: 25px;
+}

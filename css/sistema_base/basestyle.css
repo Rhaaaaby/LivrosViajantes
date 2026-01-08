@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+
+:root {
+    /* paleta de cores */
+    --background: #F2F5EE;
+    --cabecalho: #569FCA;
+    --mensagem-sucesso: #34C759;
+    --mensagem-alerta: #FF8D28;
+    --mensagem-erro: #FF383C;
+    --categorias: #F99CA2;
+    --footer: #d9d9d9;
+
+    /* cores auxiliares */
+    --bg: var(--background);
+    --text-dark: #1A1A1A;
+    --text-light: #ffffff;
+    --book-card: #D9D9D9;
+
+    /* tipografia */
+    --fonte-sistema: "Pixelify Sans", sans-serif;
+    --fonte-body: "Alata", sans-serif;
+
+    /* espaçamentos globais */
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+
+    /* curvatura */
+    --radius: 10px;
+
+    /* sombra */
+    --shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+
+    /*borda*/
+    --borda: 1px solid black;
+}
