@@ -18,3 +18,8 @@ main {
   z-index: 1000;
   outline: var(--borda)
 }
+
+.tab-menu img {
+  max-width: 32px;
+  max-height: 32px;
+}
