@@ -1,4 +1,7 @@
 async function carregar(id, arquivo) {
+
+  const BASE_COMPONENTS = "/livrosViajantes/public/pages/components/";
+  
   try {
 
     //a variável é chamada para evitar escrever os caminhos absolutos das páginas
