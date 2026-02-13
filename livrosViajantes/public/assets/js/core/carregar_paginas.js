@@ -1,6 +1,6 @@
 async function carregar(id, arquivo) {
 
-  const BASE_COMPONENTS = "/livrosViajantes/public/pages/components/";
+  const BASE_COMPONENTS = "pages/components/";
   
   try {
 
