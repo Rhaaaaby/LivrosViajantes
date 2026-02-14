@@ -1,23 +1,16 @@
 async function carregar(id, arquivo) {
 
-  const BASE_COMPONENTS = "pages/components/";
-  
-  try {
+  const BASE_COMPONENTS = "/livrosViajantes/public/pages/components/";
 
-    //a variável é chamada para evitar escrever os caminhos absolutos das páginas
-    //e diminuir os erros de path
+  try {
     const res = await fetch(`${BASE_COMPONENTS}${arquivo}`);
 
-    // try/catch para garantir que as páginas foram carregadas ou
-    // enviar mensagem se der erro
     if (!res.ok) {
       throw new Error(`Erro ao carregar ${arquivo}: ${res.status}`);
     }
 
-    //chamando o conteúdo
     const conteudo = await res.text();
 
-    //chamando apenas a página específica no HTML com container
     const container = document.getElementById(id);
     if (!container) return;
 
