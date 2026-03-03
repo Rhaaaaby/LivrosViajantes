@@ -1,110 +1,94 @@
-/* Documento voltado para todos os breakpoints e telas */
+/* ==============================
+   RESPONSIVIDADE FINAL - PÁGINA PUBLICAR
+   ============================== */
 
-/* até 480px — celulares pequenos */
-@media (max-width: 480px) {}
+/* Container principal do form */
+#formPublicar {
+    max-width: 600px;     /* limite de largura */
+    width: 100%;          /* ocupa toda a largura disponível */
+    margin: 0 auto;       /* centraliza horizontalmente */
+    padding: 0 10px;      /* espaço lateral */
+    box-sizing: border-box;
+}
 
-/* até 768px — celular grande / tablet */
-@media (max-width: 768px) {}
+/* Inputs, selects e textarea */
+#formPublicar input,
+#formPublicar select,
+#formPublicar textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+}
 
-/* até 1024px — notebook pequeno */
-@media (max-width: 1024px) {}
+/* Ajusta altura de select e file input para mobile */
+#formPublicar select,
+#formPublicar input[type="file"] {
+    height: 2.2rem;
+}
 
-/* =========================
-  MOBILE (até 480px)
-========================= */
+/* Botão */
+#formPublicar button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+}
+
+/* Footer links compactos */
+#footer .footer-conteudo nav a {
+    display: inline-block;
+    padding: 4px 0;
+    line-height: 1.2;
+    font-size: 0.9rem;
+}
+
+/* Ajusta gap do footer para ficar mais compacto */
+#footer .footer-conteudo {
+    gap: 8px;
+    padding-bottom: 20px;
+}
+
+/* ==============================
+   MOBILE (até 480px)
+   ============================== */
 @media (max-width: 480px) {
 
-  main {
-    padding: 10px;
-  }
+    main {
+        padding: 0; /* só o form controla padding */
+    }
 
-  /* HEADER */
-  .header,
-  .chat-header {
-    padding: 10px;
-  }
+    #formPublicar {
+        padding: 0 10px;
+    }
 
-  /* BOOKCARD */
-  .bookcard {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
+    #formPublicar h1 {
+        font-size: 1.2rem;
+    }
 
-  .info-livro {
-    margin: 0;
-    width: 100%;
-  }
+    #footer .footer-conteudo nav a {
+        font-size: 0.8rem;
+        padding: 2px 0;
+    }
 
-  .categoria {
-    width: fit-content;
-  }
-
-  /* PUBLICAÇÃO DETALHADA */
-  .detalhes-container {
-    max-width: 100%;
-    margin: 15px;
-  }
-
-  /* CHAT */
-  .mensagem-layout {
-    flex-direction: column;
-  }
-
-  .btn-menu {
-    display: none; /* mobile usa gaveta */
-  }
-
-  .chat-gaveta {
-    width: 80%;
-  }
-
-  /* INPUT */
-  .input-area {
-    max-width: 100%;
-  }
+    #formPublicar select,
+    #formPublicar input[type="file"] {
+        font-size: 0.9rem;
+    }
 }
 
-
-/* =========================
-  TABLET (até 768px)
-========================= */
+/* ==============================
+   TABLET (até 768px)
+   ============================== */
 @media (max-width: 768px) {
-
-  /* BOOKCARD */
-  .bookcard {
-    width: 95%;
-  }
-
-  .chat-gaveta {
-    width: 260px;
-  }
-
-  /* ÁREA DO USUÁRIO */
-  .cards-acoes {
-    flex-direction: column;
-  }
-
-  .card {
-    width: 100%;
-  }
+    #formPublicar {
+        padding: 0 15px;
+    }
 }
 
-
-/* =========================
-  NOTEBOOK PEQUENO
-========================= */
+/* ==============================
+   NOTEBOOK PEQUENO (até 1024px)
+   ============================== */
 @media (max-width: 1024px) {
-
-  main {
-    padding: 20px;
-  }
-
-  .chat-menu {
-    width: 240px;
-  }
-
-  .detalhes-container {
-    max-width: 420px;
-  }
+    #formPublicar {
+        padding: 0 20px;
+    }
 }

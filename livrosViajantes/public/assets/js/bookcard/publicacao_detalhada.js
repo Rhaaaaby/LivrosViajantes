@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 📸 carrossel
   const imagens = livro.imagens?.length
     ? livro.imagens
-    : ["../img/bookcard/livro-sonho.webp"];
+    : ["/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp"];
 
   let indiceAtual = 0;
   const img = document.getElementById("detalhe-capa");

@@ -34,6 +34,7 @@
     </script>
     <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
     <script src="/livrosViajantes/public/assets/js/bookcard/bookcard.js"></script>
+    <script src="/livrosViajantes/public/assets/js/bookcard/publicacao_detalhada.js"></script>
 
 </body>
 </html>
