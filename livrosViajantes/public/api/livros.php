@@ -3,13 +3,12 @@ require_once '../../app/database/Connection.php';
 
 header('Content-Type: application/json');
 
-$conn = Connection::getConnection();
+$conn = Connection::connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $dados = json_decode(file_get_contents("php://input"), true);
 
-    // Validação mínima
     if (!isset($dados['titulo'], $dados['categoria_id'], $dados['autor_id'])) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Dados incompletos']);
         exit;
