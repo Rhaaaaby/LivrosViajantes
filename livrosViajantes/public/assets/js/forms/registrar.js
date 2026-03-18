@@ -1,19 +1,33 @@
 configurarFormulario({
-    formId: "formRegistrar",
+  formId: "formRegistrar",
 
-    validar: (form) => {
-        if(!form.email.value || !form.senha.value) {
-            mostrarMensagem("Preencha todos os campos!", "erro");
-            return false;
-        }
+  validar: (form) => {
+    if (!form.nome.value || !form.email.value || !form.senha.value) {
+      mostrarMensagem("Preencha todos os campos!", "erro");
+      return false;
+    }
+    return true;
+  },
 
-        return true;
-    },
+  aoEnviar: async (form) => {
 
-    aoEnviar: async () => {
-        await new Promise(r => setTimeout(r, 800));
-        localStorage.setItem("usuarioregistrado", "true");
-    },
+    const usuario = {
+      nome: form.nome.value,
+      email: form.email.value,
+      senha: form.senha.value
+    };
 
-    sucessoMsg: "Usuário cadastrado com sucesso!"
-})
+    const resposta = await fetch("/livrosViajantes/public/api/usuarios.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(usuario)
+    });
+
+    const resultado = await resposta.json();
+    console.log(resultado);
+  },
+
+  sucessoMsg: "Conta criada com sucesso!"
+});
