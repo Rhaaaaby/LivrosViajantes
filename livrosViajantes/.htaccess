@@ -1,14 +1,3 @@
-<FilesMatch "\.(env|php)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
-
-<Files ~ "\.(env|json|lock|md|yml|yaml|sql|log)$">
-    Order allow,deny
-    Deny from all
-</Files>
-
-<FilesMatch "\.php$">
-    Order allow,deny
-    Deny from all
+<FilesMatch "\.(env|json|lock|md|yml|yaml|sql|log)$">
+    Require all denied
 </FilesMatch>

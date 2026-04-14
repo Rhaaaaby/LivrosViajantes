@@ -9,7 +9,7 @@ class Connection
      * Usa valores do arquivo .env
      *
      * @return PDO
-     * @throws PDOException Se a conexão falhar
+     * @throws PDOException 
      */
     
     public static function connect(): PDO
@@ -18,14 +18,12 @@ class Connection
             return self::$instance;
         }
 
-        // Lê do .env (com valores padrão de fallback para desenvolvimento local)
         $host     = $_ENV['DB_HOST']     ?? 'localhost';
         $port     = $_ENV['DB_PORT']     ?? '5432';
         $dbname   = $_ENV['DB_NAME']     ?? 'livros_viajantes';
         $user     = $_ENV['DB_USER']     ?? 'postgres';
-        $password = $_ENV['DB_PASS']     ?? '';
+        $password = $_ENV['DB_PASS']     ?? '123456';
 
-        // Monta a string DSN para PostgreSQL
         $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};";
 
         $dsn .= "options='--client_encoding=UTF8'";
@@ -47,7 +45,7 @@ class Connection
 
         } catch (PDOException $e) {
             if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
-                throw $e; // mostra erro completo só em dev
+                throw $e;
             }
 
             error_log("Erro de conexão com banco: " . $e->getMessage());
