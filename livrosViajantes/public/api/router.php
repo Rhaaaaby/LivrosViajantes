@@ -3,12 +3,12 @@
 
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-use app\controllers\usuarioController;
-use app\controllers\livroController;
+use App\Controllers\UsuarioController;
+use App\Controllers\LivroController;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-// ==================== FUNÇÕES AUXILIARES ====================
+// Funções auxiliares
 function json_response($data, $status = 200) {
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
@@ -20,58 +20,70 @@ function get_json_input() {
     return json_decode(file_get_contents('php://input'), true) ?? [];
 }
 
-// ROTAS PÚBLICAS 
-
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$method = $_SERVER['REQUEST_METHOD'];
-
-// Remove prefixo "api/"
-$uri = preg_replace('#^api/#', '', $uri);
-
-if ($uri === 'usuario' && $method === 'POST') {
-    $data = get_json_input();
-    (new UsuarioController())->registrar($data);
-}
-
-if ($uri === 'login' && $method === 'POST') {
-    $data = get_json_input();
-    (new UsuarioController())->login($data);
-}
-
-// ==================== MIDDLEWARE DE AUTENTICAÇÃO ====================
-function verificarAutenticacao() {
+// Middleware de autenticação
+function auth(): int {
     $headers = getallheaders();
     $auth = $headers['Authorization'] ?? '';
 
     if (!preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
-        json_response(['erro' => 'Token de autenticação necessário'], 401);
+        json_response(['erro' => 'Token de autenticação obrigatório'], 401);
     }
 
     try {
-        $token = $matches[1];
-        $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET'], 'HS256'));
-        return $decoded->sub; // retorna o user_id
+        $decoded = JWT::decode($matches[1], new Key($_ENV['JWT_SECRET'], 'HS256'));
+        return (int) $decoded->sub;
     } catch (\Exception $e) {
         json_response(['erro' => 'Token inválido ou expirado'], 401);
     }
 }
 
-// ==================== ROTAS PROTEGIDAS ====================
-$user_id = null;
+// ====================== ROTAS ======================
+$uri    = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$method = $_SERVER['REQUEST_METHOD'];
+$uri    = preg_replace('#^api/#', '', $uri);
 
-if (strpos($uri, 'livros') === 0 && $method === 'POST') {
-    $user_id = verificarAutenticacao();   // só deixa passar se estiver logado
+$usuarioCtrl = new UsuarioController();
+$livroCtrl   = new LivroController();
+
+// Rotas públicas
+if ($uri === 'usuario' && $method === 'POST') {
+    $data = get_json_input();
+    $usuarioCtrl->registrar($data);
 }
 
-// Rotas de Livro
+if ($uri === 'login' && $method === 'POST') {
+    $data = get_json_input();
+    $usuarioCtrl->login($data);
+}
+
+// Rotas protegidas
+if (strpos($uri, 'perfil') === 0 || strpos($uri, 'livros') === 0) {
+    $user_id = auth();
+}
+
+// Rotas do Usuário protegidas
+if ($uri === 'perfil' && $method === 'GET') {
+    $usuarioCtrl->perfil($user_id);
+}
+
+if ($uri === 'perfil' && $method === 'PUT') {
+    $data = get_json_input();
+    $usuarioCtrl->atualizar($user_id, $data);
+}
+
+if ($uri === 'perfil' && $method === 'DELETE') {
+    $usuarioCtrl->deletar($user_id);
+}
+
+// Rotas do Livro
 if ($uri === 'livros' && $method === 'GET') {
-    (new LivroController())->listar();
+    $livroCtrl->listar();
 }
 
 if ($uri === 'livros' && $method === 'POST') {
     $data = get_json_input();
-    (new LivroController())->criar($data, $user_id);
+    $livroCtrl->criar($data, $user_id);
 }
 
-// Rota não encontrada
+// 404
 json_response(['erro' => 'Rota não encontrada'], 404);

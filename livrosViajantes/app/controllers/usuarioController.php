@@ -1,80 +1,105 @@
 <?php
-// public/api/router.php
-// Este é o único arquivo que gerencia as rotas da API
 
-// 1. Carrega tudo necessário (bootstrap traz .env, conexão, autoload, etc.)
-require_once __DIR__ . '/../../app/bootstrap.php';
+namespace App\Controllers;
 
-// 2. Usa namespaces corretos
-use App\Controllers\UsuarioController;
+use App\Models\Usuario;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-// 3. Função auxiliar para responder JSON (reutilizável)
-function json_response($data, $status = 200) {
-    http_response_code($status);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    exit;
-}
+class UsuarioController
+{
+    private Usuario $model;
 
-// 4. Pega o caminho da URL depois de /api/
-$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method      = $_SERVER['REQUEST_METHOD'];
+    public function __construct()
+    {
+        $this->model = new Usuario();
+    }
 
-// Remove o prefixo /api/ e limpa barras extras
-$path = trim(str_replace('/api', '', $request_uri), '/');
-$path_parts = explode('/', $path);
+    public function registrar(array $data)
+    {
+        if (empty($data['nome_usuario']) || empty($data['email']) || empty($data['senha'])) {
+            json_response(['erro' => 'Nome de usuário, email e senha são obrigatórios'], 400);
+        }
 
-// 5. Rotas públicas (não precisam de token)
-if ($path === 'usuario' && $method === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true) ?? [];
-    (new UsuarioController())->registrar($data);
-    exit;
-}
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            json_response(['erro' => 'Email inválido'], 400);
+        }
 
-if ($path === 'login' && $method === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true) ?? [];
-    (new UsuarioController())->login($data);
-    exit;
-}
+        if (strlen($data['senha']) < 8) {
+            json_response(['erro' => 'A senha deve ter no mínimo 8 caracteres'], 400);
+        }
 
-// 6. Middleware simples de autenticação JWT (para rotas protegidas)
-$headers = getallheaders();
-$auth_header = $headers['Authorization'] ?? '';
+        // Verifica se email já existe
+        if ($this->model->buscarPorEmail($data['email'])) {
+            json_response(['erro' => 'Este email já está cadastrado'], 409);
+        }
 
-$token = null;
-if (preg_match('/Bearer\s(\S+)/', $auth_header, $matches)) {
-    $token = $matches[1];
-}
+        $sucesso = $this->model->criar($data);
 
-$user_id = null;
-if ($token) {
-    try {
-        $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET'], 'HS256'));
-        $user_id = $decoded->sub ?? null;
-    } catch (Exception $e) {
-        json_response(['erro' => 'Token inválido ou expirado'], 401);
-        exit;
+        if ($sucesso) {
+            json_response(['mensagem' => 'Usuário criado com sucesso'], 201);
+        } else {
+            json_response(['erro' => 'Erro ao criar usuário'], 500);
+        }
+    }
+
+    public function login(array $data)
+    {
+        if (empty($data['email']) || empty($data['senha'])) {
+            json_response(['erro' => 'Email e senha são obrigatórios'], 400);
+        }
+
+        $usuario = $this->model->buscarPorEmail($data['email']);
+
+        if (!$usuario || !password_verify($data['senha'], $usuario['senha_hash'])) {
+            json_response(['erro' => 'Credenciais inválidas'], 401);
+        }
+
+        $payload = [
+            'sub'          => $usuario['id'],
+            'nome_usuario' => $usuario['nome_usuario'],
+            'iat'          => time(),
+            'exp'          => time() + (60 * 60 * 24)   // 24 horas
+        ];
+
+        $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
+
+        json_response([
+            'mensagem' => 'Login realizado com sucesso',
+            'token'    => $jwt,
+            'usuario'  => [
+                'id'           => $usuario['id'],
+                'nome_usuario' => $usuario['nome_usuario']
+            ]
+        ]);
+    }
+
+    public function perfil(int $user_id)
+    {
+        $usuario = $this->model->buscarPorId($user_id);
+        if (!$usuario) {
+            json_response(['erro' => 'Usuário não encontrado'], 404);
+        }
+        json_response(['usuario' => $usuario]);
+    }
+
+    public function atualizar(int $user_id, array $data)
+    {
+        $sucesso = $this->model->atualizar($user_id, $data);
+        if ($sucesso) {
+            json_response(['mensagem' => 'Perfil atualizado com sucesso']);
+        } else {
+            json_response(['erro' => 'Erro ao atualizar perfil'], 500);
+        }
+    }
+
+    public function deletar(int $user_id)
+    {
+        $sucesso = $this->model->deletar($user_id);
+        if ($sucesso) {
+            json_response(['mensagem' => 'Conta deletada com sucesso']);
+        } else {
+            json_response(['erro' => 'Erro ao deletar conta'], 500);
+        }
     }
 }
-
-// Se chegou aqui e a rota precisa de login → erro
-$rotas_protegidas = ['livros']; // adicione mais rotas aqui conforme criar
-if (in_array($path_parts[0] ?? '', $rotas_protegidas) && !$user_id) {
-    json_response(['erro' => 'Autenticação necessária'], 401);
-    exit;
-}
-
-// 7. Rotas protegidas (exemplo – você vai adicionar mais)
-if ($path === 'livros' && $method === 'GET') {
-    // Aqui virá o LivroController->listar()
-    json_response([
-        'mensagem' => 'Listagem de livros (ainda em desenvolvimento)',
-        'user_logado' => $user_id
-    ]);
-    exit;
-}
-
-// 8. Rota não encontrada
-json_response(['erro' => 'Rota não encontrada'], 404);
