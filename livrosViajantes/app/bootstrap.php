@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+var_dump(class_exists(\App\Controllers\UsuarioController::class));
+exit;
+
 // 2. Carrega as variáveis de ambiente do .env
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');

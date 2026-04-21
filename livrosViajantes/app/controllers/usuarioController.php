@@ -45,13 +45,19 @@ class UsuarioController
 
     public function login(array $data)
     {
-        if (empty($data['email']) || empty($data['senha'])) {
+        var_dump($data);
+        exit;
+
+        var_dump($usuario);
+        exit;
+
+        if (empty($data['email']) || empty($data['senha_hash'])) {
             json_response(['erro' => 'Email e senha são obrigatórios'], 400);
         }
 
         $usuario = $this->model->buscarPorEmail($data['email']);
 
-        if (!$usuario || !password_verify($data['senha'], $usuario['senha_hash'])) {
+        if (!$usuario || !password_verify($data['senha_hash'], $usuario['senha_hash'])) {
             json_response(['erro' => 'Credenciais inválidas'], 401);
         }
 
@@ -61,6 +67,9 @@ class UsuarioController
             'iat'          => time(),
             'exp'          => time() + (60 * 60 * 24)   // 24 horas
         ];
+
+        var_dump($_ENV['JWT_SECRET']);
+        exit;
 
         $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
 

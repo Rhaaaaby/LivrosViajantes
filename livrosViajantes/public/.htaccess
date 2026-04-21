@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /livrosViajantes/public/
 
     # Redireciona todas as requisições para index.php (exceto arquivos reais)
     RewriteCond %{REQUEST_FILENAME} !-f
