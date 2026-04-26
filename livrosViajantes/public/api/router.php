@@ -53,6 +53,9 @@ $uri = preg_replace('#^/api#', '', $uri);
 // limpa barras
 $uri = trim($uri, '/');
 
+//debug
+//json_response(['debug_uri' => $uri]);
+
 // ================== CONTROLLERS ==================
 $usuarioCtrl = new UsuarioController();
 $livroCtrl   = new LivroController();
@@ -60,7 +63,7 @@ $livroCtrl   = new LivroController();
 // ================== ROTAS ==================
 
 // -------- PÚBLICAS --------
-if ($uri === 'usuario' && $method === 'POST') {
+if ($uri === 'cadastrar' && $method === 'POST') {
     $usuarioCtrl->registrar(get_json_input());
 }
 
@@ -69,6 +72,9 @@ if ($uri === 'login' && $method === 'POST') {
 }
 
 // -------- PROTEGIDAS --------
+
+$user_id = null;
+
 if (str_starts_with($uri, 'perfil') || str_starts_with($uri, 'livros')) {
     $user_id = auth();
 }
@@ -78,12 +84,14 @@ if ($uri === 'perfil' && $method === 'GET') {
     $usuarioCtrl->perfil($user_id);
 }
 
-if ($uri === 'perfil' && $method === 'PUT') {
+if ($uri === 'atualizar' && $method === 'PUT') {
+    $user_id = auth();
     $usuarioCtrl->atualizar($user_id, get_json_input());
 }
 
-if ($uri === 'perfil' && $method === 'DELETE') {
-    $usuarioCtrl->deletar($user_id);
+if ($uri === 'deletar' && $method === 'DELETE') {
+    $user_id = auth();
+    $usuarioCtrl->deletar($user_id, get_json_input());
 }
 
 // -------- LIVROS --------

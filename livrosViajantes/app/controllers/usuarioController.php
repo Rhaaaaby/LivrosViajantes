@@ -45,21 +45,32 @@ class UsuarioController
 
     public function login(array $data)
     {
-        var_dump($data);
-        exit;
-
-        var_dump($usuario);
-        exit;
-
-        if (empty($data['email']) || empty($data['senha_hash'])) {
+        if (empty($data['email']) || empty($data['senha'])) {
             json_response(['erro' => 'Email e senha são obrigatórios'], 400);
         }
 
         $usuario = $this->model->buscarPorEmail($data['email']);
 
-        if (!$usuario || !password_verify($data['senha_hash'], $usuario['senha_hash'])) {
-            json_response(['erro' => 'Credenciais inválidas'], 401);
+        ///var_dump([
+        ///'senha_digitada' => $data['senha'],
+        ///'senha_tipo' => gettype($data['senha']),
+        ///'hash' => $usuario['senha_hash'],
+        ///'verify' => password_verify($data['senha'], $usuario['senha_hash'])
+        ///]);
+        ///exit;
+
+        if (
+        !isset($data['email'], $data['senha']) ||
+        !$usuario ||
+        !isset($usuario['senha_hash']) ||
+        !password_verify($data['senha'], $usuario['senha_hash'])
+        ) {
+        json_response(['erro' => 'Credenciais inválidas'], 401);
         }
+
+        //if (!$usuario || !password_verify($data['senha_hash'], $usuario['senha_hash'])) {
+          //  json_response(['erro' => 'Credenciais inválidas'], 401);
+        //}
 
         $payload = [
             'sub'          => $usuario['id'],
@@ -67,9 +78,6 @@ class UsuarioController
             'iat'          => time(),
             'exp'          => time() + (60 * 60 * 24)   // 24 horas
         ];
-
-        var_dump($_ENV['JWT_SECRET']);
-        exit;
 
         $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
 
