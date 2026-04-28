@@ -53,9 +53,6 @@ $uri = preg_replace('#^/api#', '', $uri);
 // limpa barras
 $uri = trim($uri, '/');
 
-//debug
-//json_response(['debug_uri' => $uri]);
-
 // ================== CONTROLLERS ==================
 $usuarioCtrl = new UsuarioController();
 $livroCtrl   = new LivroController();
@@ -79,7 +76,7 @@ if (str_starts_with($uri, 'perfil') || str_starts_with($uri, 'livros')) {
     $user_id = auth();
 }
 
-// -------- USUÁRIO --------
+// =========================== USUÁRIO =================================
 if ($uri === 'perfil' && $method === 'GET') {
     $usuarioCtrl->perfil($user_id);
 }
@@ -94,13 +91,34 @@ if ($uri === 'deletar' && $method === 'DELETE') {
     $usuarioCtrl->deletar($user_id, get_json_input());
 }
 
-// -------- LIVROS --------
-if ($uri === 'livros' && $method === 'GET') {
+// ==================== ROTAS DE LIVRO ====================
+
+// Rota para listar todos os livros disponíveis
+
+if ($uri === 'listar' && $method === 'GET') {
     $livroCtrl->listar();
 }
 
-if ($uri === 'livros' && $method === 'POST') {
-    $livroCtrl->criar(get_json_input(), $user_id);
+// Rota para listar os livros do usuário logado
+
+if ($uri === 'meus-livros' && $method === 'GET') {
+    $user_id = auth();
+    $livroCtrl->meusLivros($user_id);
+}
+
+//cadastrar livro
+
+if ($uri === 'publicar' && $method === 'POST') {
+    $user_id = auth();
+
+    $data = $_POST;
+
+    // fallback pra JSON
+    if (empty($data)) {
+        $data = get_json_input();
+    }
+
+    $livroCtrl->criar($data, $user_id);
 }
 
 // -------- 404 --------
