@@ -1,41 +1,36 @@
+// filtro.js - Filtros com dados da API
+
+let todosLivros = [];
+
 document.addEventListener("DOMContentLoaded", () => {
     const inputTitulo = document.getElementById("filtro-titulo");
     const selectCategoria = document.getElementById("filtro-categoria");
     const botaoBuscar = document.getElementById("btn-buscar");
     const lista = document.getElementById("lista-livros");
 
-    let categoriaAtiva = "";
+    const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
 
-    document.querySelectorAll(".filtro-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".filtro-btn")
-                .forEach(b => b.classList.remove("ativo"));
-
-            btn.classList.add("ativo");
-            categoriaAtiva = btn.dataset.categoria;
-
-            aplicarFiltros();
-        });
-    });
-
-
-    function obterLivros() {
-        return JSON.parse(localStorage.getItem("livros")) || [];
+// Carregar livros da API
+    async function carregarLivros() {
+        try {
+            const res = await fetch(`${API_BASE}/api/listar`);
+            const data = await res.json();
+            if (res.ok) {
+                todosLivros = data.livros || [];
+                aplicarFiltros();
+            }
+        } catch (err) {
+            console.error("Erro ao carregar livros para filtro:", err);
+        }
     }
 
     function aplicarFiltros() {
         const termo = inputTitulo.value.toLowerCase().trim();
-        const categoria = categoriaAtiva;
+        const categoria = selectCategoria ? selectCategoria.value : "";
 
-        const livros = obterLivros();
-
-        const filtrados = livros.filter(livro => {
-            const matchTitulo =
-                !termo || livro.titulo?.toLowerCase().includes(termo);
-
-            const matchCategoria =
-                !categoria || livro.categoria === categoria;
-
+        const filtrados = todosLivros.filter(livro => {
+            const matchTitulo = !termo || livro.titulo.toLowerCase().includes(termo);
+            const matchCategoria = !categoria || livro.categoria_nome === categoria;
             return matchTitulo && matchCategoria;
         });
 
@@ -44,24 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderizarResultado(livros) {
         lista.innerHTML = "";
-
         if (livros.length === 0) {
             lista.innerHTML = "<p class='lista-vazia'>Nenhum livro encontrado 📭</p>";
             return;
         }
-
-        livros.forEach(livro => criarCard(livro));
+        livros.forEach(livro => lista.appendChild(criarCard(livro)));
     }
 
-    // eventos
-    inputTitulo.addEventListener("input", aplicarFiltros);
-    selectCategoria.addEventListener("change", aplicarFiltros);
-    botaoBuscar.addEventListener("click", aplicarFiltros);
+    // Eventos
+    if (inputTitulo) inputTitulo.addEventListener("input", aplicarFiltros);
+    if (selectCategoria) selectCategoria.addEventListener("change", aplicarFiltros);
+    if (botaoBuscar) botaoBuscar.addEventListener("click", aplicarFiltros);
 
-    inputTitulo.addEventListener("keydown", e => {
-        if (e.key === "Enter") aplicarFiltros();
-    });
-
-    // primeira renderização
-    aplicarFiltros();
+    // Carregar ao iniciar
+    carregarLivros();
 });

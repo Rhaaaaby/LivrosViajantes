@@ -40,18 +40,11 @@ function auth(): int {
 }
 
 // ================== REQUEST ==================
-$uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-// remove /livrosViajantes/public do caminho
-$base = '/livrosViajantes/public';
-$uri = str_replace($base, '', $uri);
-
-// remove /api
-$uri = preg_replace('#^/api#', '', $uri);
-
-// limpa barras
-$uri = trim($uri, '/');
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = explode('/api/', $uri, 2)[1] ?? '';
+$uri = strtolower(trim($uri, '/'));
 
 // ================== CONTROLLERS ==================
 $usuarioCtrl = new UsuarioController();
@@ -68,16 +61,9 @@ if ($uri === 'login' && $method === 'POST') {
     $usuarioCtrl->login(get_json_input());
 }
 
-// -------- PROTEGIDAS --------
-
-$user_id = null;
-
-if (str_starts_with($uri, 'perfil') || str_starts_with($uri, 'livros')) {
-    $user_id = auth();
-}
-
-// =========================== USUÁRIO =================================
+// -------- USUÁRIO --------
 if ($uri === 'perfil' && $method === 'GET') {
+    $user_id = auth();
     $usuarioCtrl->perfil($user_id);
 }
 
@@ -88,37 +74,53 @@ if ($uri === 'atualizar' && $method === 'PUT') {
 
 if ($uri === 'deletar' && $method === 'DELETE') {
     $user_id = auth();
-    $usuarioCtrl->deletar($user_id, get_json_input());
+    $usuarioCtrl->deletar($user_id);
 }
 
-// ==================== ROTAS DE LIVRO ====================
+// -------- LIVROS --------
 
-// Rota para listar todos os livros disponíveis
-
+// listar todos
 if ($uri === 'listar' && $method === 'GET') {
     $livroCtrl->listar();
 }
 
-// Rota para listar os livros do usuário logado
-
+// listar meus livros
 if ($uri === 'meus-livros' && $method === 'GET') {
     $user_id = auth();
     $livroCtrl->meusLivros($user_id);
 }
 
-//cadastrar livro
-
+// criar livro (JSON ou form-data)
 if ($uri === 'publicar' && $method === 'POST') {
     $user_id = auth();
 
     $data = $_POST;
 
-    // fallback pra JSON
     if (empty($data)) {
         $data = get_json_input();
     }
 
     $livroCtrl->criar($data, $user_id);
+}
+
+// rotas com ID
+if (preg_match('#^livros/(\d+)$#', $uri, $matches)) {
+    $livro_id = (int)$matches[1];
+
+    if ($method === 'GET') {
+        $livro = $livroCtrl->buscarUm($livro_id);
+        json_response(['livro' => $livro]);
+    }
+
+    if ($method === 'PUT') {
+        $user_id = auth();
+        $livroCtrl->atualizar($livro_id, get_json_input(), $user_id);
+    }
+
+    if ($method === 'DELETE') {
+        $user_id = auth();
+        $livroCtrl->deletar($livro_id, $user_id);
+    }
 }
 
 // -------- 404 --------

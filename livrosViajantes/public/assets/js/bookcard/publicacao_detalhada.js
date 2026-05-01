@@ -1,53 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS da página de detalhe carregou 🚀");
+// publicacao_detalhada.js
 
-  const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get("id"));
+const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
 
-  const container = document.querySelector(".detalhes-container");
-  const livros = JSON.parse(localStorage.getItem("livros")) || [];
+document.addEventListener("DOMContentLoaded", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = Number(params.get("id"));
+    const container = document.querySelector(".detalhes-container");
 
-  if (!livros.length) {
-    container.innerHTML = "<p>Nenhuma publicação disponível ainda 📚</p>";
-    return;
-  }
+    if (!id) {
+        container.innerHTML = "<p>ID do livro não informado.</p>";
+        return;
+    }
 
-  if (!id) return;
+    try {
+        const response = await fetch(`${API_BASE}/api/livros/${id}`);
+        const data = await response.json();
 
-  const livro = livros.find(l => l.id === id);
+        if (!response.ok) {
+            container.innerHTML = `<p>${data.erro || 'Livro não encontrado'}</p>`;
+            return;
+        }
 
-  if (!livro) {
-    container.innerHTML = "<p>Livro não encontrado 😢</p>";
-    return;
-  }
+        const livro = data.livro;
 
-  // textos
-  document.getElementById("detalhe-titulo").textContent =
-    livro.titulo || "Título não encontrado.";
+        document.getElementById("detalhe-titulo").textContent = livro.titulo;
+        document.getElementById("detalhe-categoria").textContent = livro.categoria_nome || 'Sem categoria';
+        document.getElementById("detalhe-descricao").textContent = livro.descricao || 'Sem descrição.';
 
-  document.getElementById("detalhe-categoria").textContent =
-    livro.categoria || "Categoria não encontrada.";
+        // Imagem
+        const img = document.getElementById("detalhe-capa");
+        img.src = livro.imagem 
+            ? `/livrosViajantes/public/${livro.imagem}` 
+            : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
 
-  document.getElementById("detalhe-descricao").textContent =
-    livro.descricao || "Sem descrição.";
-
-  // 📸 carrossel
-  const imagens = livro.imagens?.length
-    ? livro.imagens
-    : ["/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp"];
-
-  let indiceAtual = 0;
-  const img = document.getElementById("detalhe-capa");
-
-  img.src = imagens[indiceAtual];
-
-  document.getElementById("next").addEventListener("click", () => {
-    indiceAtual = (indiceAtual + 1) % imagens.length;
-    img.src = imagens[indiceAtual];
-  });
-
-  document.getElementById("prev").addEventListener("click", () => {
-    indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-    img.src = imagens[indiceAtual];
-  });
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = "<p>Erro ao carregar os detalhes do livro.</p>";
+    }
 });

@@ -1,94 +1,73 @@
-// FUNÇÃO PARA SALVAR LIVROS NO localStorage
-function salvarLivro(livro) {
-    let livros = JSON.parse(localStorage.getItem("livros")) || [];
-    livros.push(livro);
-    localStorage.setItem("livros", JSON.stringify(livros));
-}
+// bookcard.js - Integrado com API real
 
-// FUNÇÃO PARA CRIAR OS CARDS DE LIVROS
+let todosLivros = [];
+
+// Criar card de livro
 function criarCard(livro) {
     const card = document.createElement("div");
     card.classList.add("book-card");
 
+    const imagem = livro.imagem 
+        ? `/livrosViajantes/public/${livro.imagem}` 
+        : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
+
     card.innerHTML = `
-        <img 
-            src="assets/img/bookcard/livro-sonho.webp" 
-            alt="capa do livro" 
-            class="capa-livro"
-        >
+        <img src="${imagem}" alt="${livro.titulo}" class="capa-livro">
         <div class="info-livro">
             <h1 class="titulo-livro">${livro.titulo}</h1>
-            <span class="categoria">${livro.categoria}</span>
-            <p class="descricao-publicacao">${livro.descricao}</p>
+            <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
+            <p class="descricao-publicacao">${livro.descricao ? livro.descricao.substring(0, 120) + '...' : 'Sem descrição'}</p>
             <button class="btn-interesse" data-id="${livro.id}">
                 Tenho interesse
             </button>
         </div>
     `;
 
-    card.addEventListener("click", () => {
-        window.location.href = `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
+    // Clique no card (exceto no botão)
+    card.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("btn-interesse")) {
+            window.location.href = `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
+        }
     });
 
-    document.querySelector("#lista-livros").appendChild(card);
+    return card;
 }
 
-// FUNÇÃO PARA RENDERIZAR LIVROS
+// Renderizar lista de livros
 function renderizarLivros(livros) {
     const lista = document.getElementById("lista-livros");
     if (!lista) return;
 
     lista.innerHTML = "";
-    livros.forEach(livro => criarCard(livro));
+    todosLivros = livros;
+
+    if (livros.length === 0) {
+        lista.innerHTML = `<p class="lista-vazia">Nenhum livro encontrado 📭</p>`;
+        return;
+    }
+
+    livros.forEach(livro => lista.appendChild(criarCard(livro)));
 }
 
-// CARREGA LIVROS DO localStorage
-///function carregarLivros() {
-///    const livros = JSON.parse(localStorage.getItem("livros")) || [];
-///    renderizarLivros(livros);
-///}
+const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
 
-// nova função para fetch com php
-livros.forEach(livro => {
-    fetch('/livrosViajantes/public/api/livros.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            titulo: livro.titulo,
-            descricao: livro.descricao,
-            imagem: livro.imagem || null,
-            autor_id: 1,       // ID do usuário que será autor
-            categoria_id: 1,   // ID da categoria que o livro pertence
-            status: true
-        })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data));
-});
+// Carregar livros da API
+async function carregarLivros() {
+    try {
+        const response = await fetch(`${API_BASE}/api/listar`);
+        const data = await response.json();
 
-// INICIA FORMULÁRIO PARA ADICIONAR NOVOS LIVROS
-function iniciarFormularioLivro() {
-    const form = document.getElementById("formLivro");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const livro = {
-            id: Date.now(),
-            titulo: document.getElementById("titulo").value,
-            categoria: document.getElementById("categoria").value,
-            descricao: document.getElementById("descricao").value
-        };
-
-        salvarLivro(livro);
-        form.reset();
-        carregarLivros(); // Atualiza lista de cards sem recarregar a página
-    });
+        if (response.ok) {
+            renderizarLivros(data.livros || []);
+        } else {
+            console.error("Erro ao carregar livros:", data.erro);
+        }
+    } catch (error) {
+        console.error("Erro de conexão:", error);
+    }
 }
 
-// INICIALIZA QUANDO DOM ESTÁ PRONTO
+// Inicialização
 document.addEventListener("DOMContentLoaded", () => {
     carregarLivros();
-    iniciarFormularioLivro();
 });

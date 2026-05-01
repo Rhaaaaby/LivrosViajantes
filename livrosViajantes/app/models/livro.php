@@ -70,4 +70,85 @@ class Livro
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
     }
+
+    /**
+     * UPDATE - Atualizar livro
+     */
+    public function atualizar(int $id, array $data, int $user_id): bool
+    {
+        // Verifica se o livro pertence ao usuário antes de atualizar
+        $livro = $this->buscarPorId($id);
+        if (!$livro || $livro['autor_id'] != $user_id) {
+            return false;
+        }
+
+        $sql = "UPDATE livro 
+                SET titulo = :titulo, 
+                    descricao = :descricao, 
+                    categoria_id = :categoria_id
+                WHERE id = :id AND autor_id = :user_id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':titulo'       => trim($data['titulo']),
+            ':descricao'    => trim($data['descricao'] ?? ''),
+            ':categoria_id' => (int)($data['categoria_id'] ?? 1),
+            ':id'           => $id,
+            ':user_id'      => $user_id
+        ]);
+    }
+
+    /**
+     * Atualizar livro com possibilidade de nova imagem
+     */
+    public function atualizarComImagem(int $id, array $data, int $user_id, ?string $novaImagem = null): bool
+    {
+        $livro = $this->buscarPorId($id);
+        if (!$livro || $livro['autor_id'] != $user_id) {
+            return false;
+        }
+
+        $sql = "UPDATE livro 
+                SET titulo = :titulo, 
+                    descricao = :descricao, 
+                    categoria_id = :categoria_id";
+
+        $params = [
+            ':titulo'       => trim($data['titulo']),
+            ':descricao'    => trim($data['descricao'] ?? ''),
+            ':categoria_id' => (int)($data['categoria_id'] ?? 1),
+            ':id'           => $id,
+            ':user_id'      => $user_id
+        ];
+
+        if ($novaImagem !== null) {
+            $sql .= ", imagem = :imagem";
+            $params[':imagem'] = $novaImagem;
+        }
+
+        $sql .= " WHERE id = :id AND autor_id = :user_id";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    /**
+     * DELETE - Excluir livro (soft delete - apenas desativa)
+     */
+    public function deletar(int $id, int $user_id): bool
+    {
+        // Segurança: só permite excluir se for o dono do livro
+        $livro = $this->buscarPorId($id);
+        if (!$livro || $livro['autor_id'] != $user_id) {
+            return false;
+        }
+
+        $sql = "UPDATE livro SET status = false WHERE id = :id AND autor_id = :user_id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':id'      => $id,
+            ':user_id' => $user_id
+        ]);
+    }
 }

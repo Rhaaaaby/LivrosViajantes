@@ -2,13 +2,9 @@
     RewriteEngine On
     RewriteBase /livrosViajantes/public/
 
-    # Redireciona todas as requisições para index.php (exceto arquivos reais)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Cabeçalhos de segurança básicos
-Header set X-Content-Type-Options "nosniff"
-Header set X-Frame-Options "DENY"
-Header set X-XSS-Protection "1; mode=block"
+Options -Indexes
