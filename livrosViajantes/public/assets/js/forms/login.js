@@ -1,6 +1,16 @@
 // login.js
 
-const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
+let API_BASE = '';
+if (window.location.pathname.includes('/pages/')) {
+    API_BASE = window.location.pathname.split('/pages/')[0];
+}
+API_BASE = API_BASE.replace(/\/$/, '');
+
+const formLogin = document.getElementById('formLogin');
+if (formLogin) {
+    formLogin.action = `${API_BASE}/api/login`;
+    formLogin.method = 'POST';
+}
 
 configurarFormulario({
     formId: "formLogin",

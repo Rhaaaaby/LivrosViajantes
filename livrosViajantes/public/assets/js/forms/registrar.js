@@ -1,6 +1,16 @@
 // registrar.js
 
-const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
+let API_BASE = '';
+if (window.location.pathname.includes('/pages/')) {
+    API_BASE = window.location.pathname.split('/pages/')[0];
+}
+API_BASE = API_BASE.replace(/\/$/, '');
+
+const formRegistrar = document.getElementById('formRegistrar');
+if (formRegistrar) {
+    formRegistrar.action = `${API_BASE}/api/cadastrar`;
+    formRegistrar.method = 'POST';
+}
 
 configurarFormulario({
     formId: "formRegistrar",

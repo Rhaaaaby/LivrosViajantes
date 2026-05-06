@@ -11,13 +11,18 @@ function configurarFormulario({
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopImmediatePropagation();
 
     const botao = form.querySelector("button");
-    botao.classList.add("loading");
+    if (botao) {
+      botao.classList.add("loading");
+    }
 
     // IF → validação
     if (validar && !validar(form)) {
-      botao.classList.remove("loading");
+      if (botao) {
+        botao.classList.remove("loading");
+      }
       return;
     }
 
@@ -36,7 +41,9 @@ function configurarFormulario({
       mostrarMensagem("Algo deu errado 😢", "erro");
 
     } finally {
-      botao.classList.remove("loading");
+      if (botao) {
+        botao.classList.remove("loading");
+      }
     }
   });
 }

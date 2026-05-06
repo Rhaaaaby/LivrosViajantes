@@ -2,11 +2,21 @@
 
 const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
 
+const formPublicar = document.getElementById('formPublicar');
+if (formPublicar) {
+    formPublicar.action = `${API_BASE}/api/publicar`;
+    formPublicar.method = 'POST';
+}
+
 configurarFormulario({
     formId: "formPublicar",
     validar: (form) => {
         if (!form.titulo.value.trim()) {
             mostrarMensagem("Título é obrigatório!", "erro");
+            return false;
+        }
+        if (!form.categoria_id.value) {
+            mostrarMensagem("Categoria é obrigatória!", "erro");
             return false;
         }
         return true;
