@@ -1,11 +1,5 @@
 // login.js
 
-let API_BASE = '';
-if (window.location.pathname.includes('/pages/')) {
-    API_BASE = window.location.pathname.split('/pages/')[0];
-}
-API_BASE = API_BASE.replace(/\/$/, '');
-
 const formLogin = document.getElementById('formLogin');
 if (formLogin) {
     formLogin.action = `${API_BASE}/api/login`;
@@ -41,6 +35,7 @@ configurarFormulario({
                 localStorage.setItem("token", resultado.token);
                 localStorage.setItem("usuarioLogado", "true");
                 localStorage.setItem("usuarioNome", resultado.usuario.nome_usuario);
+                localStorage.setItem("usuario_id", resultado.usuario.id);
 
                 mostrarMensagem("Login realizado com sucesso!", "sucesso");
 

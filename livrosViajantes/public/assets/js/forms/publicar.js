@@ -1,7 +1,5 @@
 // publicar.js - Cadastro de livro com imagem
 
-const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
-
 const formPublicar = document.getElementById('formPublicar');
 if (formPublicar) {
     formPublicar.action = `${API_BASE}/api/publicar`;

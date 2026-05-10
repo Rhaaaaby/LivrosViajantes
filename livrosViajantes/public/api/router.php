@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../app/bootstrap.php';
 
 use App\Controllers\UsuarioController;
 use App\Controllers\LivroController;
+use App\Controllers\SolicitacaoController;
+use App\Controllers\MensagemController;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -49,6 +51,8 @@ $uri = strtolower(trim($uri, '/'));
 // ================== CONTROLLERS ==================
 $usuarioCtrl = new UsuarioController();
 $livroCtrl   = new LivroController();
+$solicitacaoCtrl = new SolicitacaoController();
+$mensagemCtrl = new MensagemController();
 
 // ================== ROTAS ==================
 
@@ -121,6 +125,98 @@ if (preg_match('#^livros/(\d+)$#', $uri, $matches)) {
         $user_id = auth();
         $livroCtrl->deletar($livro_id, $user_id);
     }
+}
+
+// -------- SOLICITAÇÕES --------
+
+// criar solicitação de interesse
+if ($uri === 'solicitacoes' && $method === 'POST') {
+    $user_id = auth();
+    $result = $solicitacaoCtrl->criar(get_json_input(), $user_id);
+    json_response($result);
+}
+
+// listar todas as solicitações do usuário
+if ($uri === 'solicitacoes' && $method === 'GET') {
+    $user_id = auth();
+    $result = $solicitacaoCtrl->listarTodas($user_id);
+    json_response($result);
+}
+
+// listar solicitações recebidas
+if ($uri === 'solicitacoes/recebidas' && $method === 'GET') {
+    $user_id = auth();
+    $result = $solicitacaoCtrl->listarRecebidas($user_id);
+    json_response($result);
+}
+
+// listar solicitações enviadas
+if ($uri === 'solicitacoes/enviadas' && $method === 'GET') {
+    $user_id = auth();
+    $result = $solicitacaoCtrl->listarEnviadas($user_id);
+    json_response($result);
+}
+
+// responder solicitação
+if (preg_match('#^solicitacoes/(\d+)/responder$#', $uri, $matches)) {
+    $solicitacao_id = (int)$matches[1];
+    $user_id = auth();
+
+    if ($method === 'PUT') {
+        $acao = $_GET['acao'] ?? '';
+        $result = $solicitacaoCtrl->responder($solicitacao_id, $acao, $user_id);
+        json_response($result);
+    } else {
+        json_response(['sucesso' => false, 'erro' => 'Método não permitido. Use PUT'], 405);
+    }
+}
+
+// cancelar solicitação (apenas pelo solicitante)
+if (preg_match('#^solicitacoes/(\d+)/cancelar$#', $uri, $matches)) {
+    $solicitacao_id = (int)$matches[1];
+    $user_id = auth();
+
+    if ($method === 'DELETE') {
+        $result = $solicitacaoCtrl->cancelar($solicitacao_id, $user_id);
+        json_response($result);
+    } else {
+        json_response(['sucesso' => false, 'erro' => 'Método não permitido. Use DELETE'], 405);
+    }
+}
+
+// -------- MENSAGENS --------
+if ($uri === 'conversas' && $method === 'GET') {
+    $user_id = auth();
+    $result = $mensagemCtrl->listarConversas($user_id);
+    json_response($result);
+}
+
+if (preg_match('#^conversas/(\d+)$#', $uri, $matches) && $method === 'GET') {
+    $user_id = auth();
+    $partner_id = (int)$matches[1];
+    $result = $mensagemCtrl->listarMensagens($user_id, $partner_id);
+    json_response($result);
+}
+
+if (preg_match('#^conversas/(\d+)/mensagens$#', $uri, $matches)) {
+    $partner_id = (int)$matches[1];
+    $user_id = auth();
+
+    if ($method === 'POST') {
+        $dados = get_json_input();
+        $conteudo = $dados['conteudo'] ?? '';
+        $result = $mensagemCtrl->enviarMensagem($user_id, $partner_id, $conteudo);
+        json_response($result);
+    }
+
+    json_response(['sucesso' => false, 'erro' => 'Método não permitido. Use POST'], 405);
+}
+
+// buscar dados de usuário por id para conversas
+if (preg_match('#^usuarios/(\d+)$#', $uri, $matches) && $method === 'GET') {
+    $user_id = auth();
+    $target_id = (int)$matches[1];
+    $usuarioCtrl->buscarPorId($target_id);
 }
 
 // -------- 404 --------

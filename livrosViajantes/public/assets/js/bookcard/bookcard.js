@@ -3,7 +3,6 @@
 let todosLivros = [];
 
 // Criar card de livro
-function criarCard(livro) {
     const card = document.createElement("div");
     card.classList.add("book-card");
 
@@ -48,8 +47,6 @@ function renderizarLivros(livros) {
 
     livros.forEach(livro => lista.appendChild(criarCard(livro)));
 }
-
-const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
 
 // Carregar livros da API
 async function carregarLivros() {

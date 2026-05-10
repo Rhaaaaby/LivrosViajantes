@@ -100,6 +100,15 @@ class UsuarioController
         json_response(['usuario' => $usuario]);
     }
 
+    public function buscarPorId(int $user_id)
+    {
+        $usuario = $this->model->buscarPorId($user_id);
+        if (!$usuario) {
+            json_response(['sucesso' => false, 'erro' => 'Usuário não encontrado'], 404);
+        }
+        json_response(['sucesso' => true, 'usuario' => $usuario]);
+    }
+
     public function atualizar(int $user_id, array $data)
     {
         $sucesso = $this->model->atualizar($user_id, $data);

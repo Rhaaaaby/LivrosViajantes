@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const botaoBuscar = document.getElementById("btn-buscar");
     const lista = document.getElementById("lista-livros");
 
-    const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
-
 // Carregar livros da API
     async function carregarLivros() {
         try {

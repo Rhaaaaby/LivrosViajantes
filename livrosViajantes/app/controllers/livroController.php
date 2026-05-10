@@ -130,7 +130,7 @@ class LivroController
         }
     }
 
-    public function buscarUm(int $id) //já testado
+    public function buscarUm(int $id) //já testado/
     {
         $livro = $this->model->buscarPorId($id);
         if (!$livro) {

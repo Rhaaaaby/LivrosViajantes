@@ -17,53 +17,31 @@
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
 </head>
 <body>
-
   <header id="header">
     <h1>Notificações</h1>
   </header>
 
   <main class="notificacoes-container">
 
-    <ul class="lista-notificacoes">
+    <section class="notificacoes-section">
+      <h2>Solicitações recebidas</h2>
+      <ul id="lista-solicitacoes-recebidas" class="lista-notificacoes">
+        <li class="notificacao-carregando">Carregando solicitações recebidas...</li>
+      </ul>
+    </section>
 
-      <li class="notificacao-item">
-        <span class="icone">📚</span>
-        <div class="conteudo">
-          <p class="mensagem">
-            <strong>Fulano</strong> demonstrou interesse em um livro seu.
-          </p>
-          <span class="tempo">há 2 horas</span>
-        </div>
-      </li>
+    <section class="notificacoes-section">
+      <h2>Solicitações enviadas</h2>
+      <ul id="lista-solicitacoes-enviadas" class="lista-notificacoes">
+        <li class="notificacao-carregando">Carregando solicitações enviadas...</li>
+      </ul>
+    </section>
 
-      <li class="notificacao-item">
-        <span class="icone">💬</span>
-        <div class="conteudo">
-          <p class="mensagem">
-            Você recebeu uma <strong>nova mensagem</strong>.
-          </p>
-          <span class="tempo">há 1 dia</span>
-        </div>
-      </li>
-
-      <li class="notificacao-item">
-        <span class="icone">✨</span>
-        <div class="conteudo">
-          <p class="mensagem">
-            Sua publicação teve <strong>nova interação</strong>.
-          </p>
-          <span class="tempo">há 3 dias</span>
-        </div>
-      </li>
-
-    </ul>
-
-    <!-- Estado vazio ( futuro JS) -->
-    <!--
-    <div class="notificacoes-vazio">
-      <p>🌙 Nenhuma notificação por enquanto</p>
+    <div id="notificacoes-vazio" class="notificacoes-vazio" >
+      <p>🌙 Nenhuma solicitação encontrada por enquanto.</p>
     </div>
-    -->
+
+    <div id="notificacoes-mensagem" class="notificacoes-mensagem"></div>
 
     <nav id="tab_menu"></nav>
 
@@ -73,11 +51,10 @@
 
   <!-- SCRIPTS -->
   <!-- carregando as páginas base --> 
-  <script>
-    const BASE_COMPONENTS = "/livrosViajantes/public/assets/js/core/components/";
-  </script>
-
+  <!-- SCRIPTS -->
+  <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
   <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
+  <script src="/livrosViajantes/public/assets/js/notificacoes.js"></script>
 
 </body>
 </html>

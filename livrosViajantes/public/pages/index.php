@@ -29,6 +29,7 @@
     <footer id="footer"></footer>
 
     <!-- carregando as páginas -->
+    <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
     <script>
         const BASE_COMPONENTS = "/livrosViajantes/public/assets/js/core/components/";
     </script>

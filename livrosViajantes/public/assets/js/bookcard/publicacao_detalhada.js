@@ -1,7 +1,5 @@
 // publicacao_detalhada.js
 
-const API_BASE = window.location.pathname.includes('/pages/') ? window.location.pathname.split('/pages/')[0] : '';
-
 document.addEventListener("DOMContentLoaded", async () => {
     const params = new URLSearchParams(window.location.search);
     const id = Number(params.get("id"));
