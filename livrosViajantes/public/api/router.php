@@ -71,9 +71,15 @@ if ($uri === 'perfil' && $method === 'GET') {
     $usuarioCtrl->perfil($user_id);
 }
 
-if ($uri === 'atualizar' && $method === 'PUT') {
+if ($uri === 'atualizar' && ($method === 'PUT' || $method === 'POST')) {
     $user_id = auth();
-    $usuarioCtrl->atualizar($user_id, get_json_input());
+
+    $data = $_POST;
+    if (empty($data)) {
+        $data = get_json_input();
+    }
+
+    $usuarioCtrl->atualizar($user_id, $data);
 }
 
 if ($uri === 'deletar' && $method === 'DELETE') {

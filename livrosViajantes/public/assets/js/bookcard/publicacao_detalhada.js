@@ -31,6 +31,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             ? `/livrosViajantes/public/${livro.imagem}` 
             : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
 
+        // Buscar nome do autor
+        const autorResponse = await fetch(`${API_BASE}/api/usuarios/${livro.autor_id}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+            }
+        });
+        if (autorResponse.ok) {
+            const autorData = await autorResponse.json();
+            document.getElementById("detalhe-usuario").textContent = `Publicado por: ${autorData.usuario.nome_usuario}`;
+        } else {
+            document.getElementById("detalhe-usuario").textContent = 'Publicado por: Usuário desconhecido';
+        }
+
     } catch (error) {
         console.error(error);
         container.innerHTML = "<p>Erro ao carregar os detalhes do livro.</p>";

@@ -49,13 +49,31 @@ class Usuario
     // UPDATE
     public function atualizar(int $id, array $data): bool
     {
-        $sql = "UPDATE usuario SET nome_usuario = :nome_usuario, foto = :foto WHERE id = :id";
+        $usuario = $this->buscarPorId($id);
+        if (!$usuario) {
+            return false;
+        }
+
+        $fields = [];
+        $params = [':id' => $id];
+
+        if (isset($data['nome_usuario']) && trim($data['nome_usuario']) !== '') {
+            $fields[] = 'nome_usuario = :nome_usuario';
+            $params[':nome_usuario'] = trim($data['nome_usuario']);
+        }
+
+        if (array_key_exists('foto', $data)) {
+            $fields[] = 'foto = :foto';
+            $params[':foto'] = $data['foto'];
+        }
+
+        if (empty($fields)) {
+            return true;
+        }
+
+        $sql = 'UPDATE usuario SET ' . implode(', ', $fields) . ' WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':nome_usuario' => trim($data['nome_usuario'] ?? ''),
-            ':foto'         => $data['foto'] ?? null,
-            ':id'           => $id
-        ]);
+        return $stmt->execute($params);
     }
 
     // DELETE (soft delete - apenas marca como inativo)

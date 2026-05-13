@@ -27,6 +27,8 @@ composer.phar
 # Uploads
 uploads/
 
-.agents
+#workflow
+skills/
+.agents/
 
 .htaccess

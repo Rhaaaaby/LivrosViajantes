@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste JavaScript</title>
+</head>
+<body>
+    <h1>Teste JavaScript - Livros Viajantes</h1>
+    <div id="teste-api"></div>
+    <div id="teste-bookcard"></div>
+
+    <script>
+// api-config.js
+const API_BASE = '/livrosViajantes/public';
+console.log('[API Config] API_BASE:', API_BASE);
+
+// Teste da API
+async function testarAPI() {
+    try {
+        console.log('Testando API...');
+        const response = await fetch(`${API_BASE}/api/listar`);
+        console.log('Response status:', response.status);
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+
+        document.getElementById('teste-api').innerHTML = `
+            <h2>API Funcionando!</h2>
+            <p>Livros encontrados: ${data.livros ? data.livros.length : 0}</p>
+        `;
+    } catch (error) {
+        console.error('Erro na API:', error);
+        document.getElementById('teste-api').innerHTML = `
+            <h2>Erro na API</h2>
+            <p>${error.message}</p>
+        `;
+    }
+}
+
+// Teste do bookcard
+function testarBookcard() {
+    try {
+        console.log('Testando bookcard...');
+
+        // Simular um livro
+        const livro = {
+            id: 1,
+            titulo: "Livro de Teste",
+            descricao: "Descrição de teste",
+            imagem: null,
+            categoria_nome: "Disponível"
+        };
+
+        function criarCard(livro) {
+            const card = document.createElement("div");
+            card.classList.add("book-card");
+            card.innerHTML = `
+                <img src="${livro.imagem ? `/livrosViajantes/public/${livro.imagem}` : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`}" alt="${livro.titulo}" class="capa-livro">
+                <div class="info-livro">
+                    <h1 class="titulo-livro">${livro.titulo}</h1>
+                    <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
+                    <p class="descricao-publicacao">${livro.descricao ? livro.descricao.substring(0, 120) + '...' : 'Sem descrição'}</p>
+                    <button class="btn-interesse" data-id="${livro.id}">Tenho interesse</button>
+                </div>
+            `;
+            return card;
+        }
+
+        const card = criarCard(livro);
+        document.getElementById('teste-bookcard').appendChild(card);
+
+        console.log('Bookcard criado com sucesso!');
+    } catch (error) {
+        console.error('Erro no bookcard:', error);
+        document.getElementById('teste-bookcard').innerHTML = `
+            <h2>Erro no Bookcard</h2>
+            <p>${error.message}</p>
+        `;
+    }
+}
+
+// Executar testes
+testarAPI();
+testarBookcard();
+    </script>
+</body>
+</html>

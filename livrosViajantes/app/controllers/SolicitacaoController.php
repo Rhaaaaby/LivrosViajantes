@@ -80,6 +80,22 @@ class SolicitacaoController
         ]);
     }
 
+    public function responder(int $solicitacao_id, string $acao, int $user_id): array
+    {
+        if (!in_array($acao, ['aceitar', 'recusar'])) {
+            return Response::error('Ação inválida. Use aceitar ou recusar', 400);
+        }
+
+        $status = $acao === 'aceitar' ? 'aceito' : 'recusado';
+        $resultado = $this->solicitacaoModel->atualizarStatus($solicitacao_id, $status, $user_id);
+
+        if ($resultado) {
+            return Response::success("Solicitação {$acao}ada com sucesso!", 200);
+        }
+
+        return Response::error('Não foi possível responder à solicitação. Verifique as permissões ou se a solicitação existe.', 400);
+    }
+
     // Cancelar solicitação (apenas pelo solicitante)
     public function cancelar(int $solicitacao_id, int $user_id): array
     {

@@ -3,11 +3,12 @@
 let todosLivros = [];
 
 // Criar card de livro
+function criarCard(livro) {
     const card = document.createElement("div");
     card.classList.add("book-card");
 
-    const imagem = livro.imagem 
-        ? `/livrosViajantes/public/${livro.imagem}` 
+    const imagem = livro.imagem
+        ? `/livrosViajantes/public/${livro.imagem}`
         : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
 
     card.innerHTML = `

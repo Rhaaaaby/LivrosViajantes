@@ -111,12 +111,49 @@ class UsuarioController
 
     public function atualizar(int $user_id, array $data)
     {
+        $fotoPath = $this->uploadFoto();
+        if ($fotoPath !== null) {
+            $data['foto'] = $fotoPath;
+        }
+
         $sucesso = $this->model->atualizar($user_id, $data);
         if ($sucesso) {
             json_response(['mensagem' => 'Perfil atualizado com sucesso']);
         } else {
             json_response(['erro' => 'Erro ao atualizar perfil'], 500);
         }
+    }
+
+    private function uploadFoto(): ?string
+    {
+        if (!isset($_FILES['foto']) || $_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+            return null;
+        }
+
+        $uploadDir = __DIR__ . '/../../public/assets/img/usuarios/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (!in_array($ext, $allowed)) {
+            json_response(['erro' => 'Formato de imagem inválido. Use JPG, PNG ou WEBP'], 400);
+        }
+
+        if ($_FILES['foto']['size'] > 5 * 1024 * 1024) {
+            json_response(['erro' => 'A imagem não pode exceder 5MB'], 400);
+        }
+
+        $novoNome = uniqid('usuario_') . '.' . $ext;
+        $caminhoCompleto = $uploadDir . $novoNome;
+
+        if (move_uploaded_file($_FILES['foto']['tmp_name'], $caminhoCompleto)) {
+            return 'assets/img/usuarios/' . $novoNome;
+        }
+
+        return null;
     }
 
     public function deletar(int $user_id)
