@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const id = Number(params.get("id"));
     const container = document.querySelector(".detalhes-container");
 
-    if (!id) {
+    if (!container) return; // Se a página não tiver o container (ex: home page), encerra aqui.
+
+    if (!id || isNaN(id)) {
         container.innerHTML = "<p>ID do livro não informado.</p>";
         return;
     }
@@ -27,8 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Imagem
         const img = document.getElementById("detalhe-capa");
-        img.src = livro.imagem 
-            ? `/livrosViajantes/public/${livro.imagem}` 
+        img.src = livro.imagem
+            ? `/livrosViajantes/public/${livro.imagem}`
             : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
 
         // Buscar nome do autor

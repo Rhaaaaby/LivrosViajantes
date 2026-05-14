@@ -36,3 +36,53 @@
     /*borda*/
     --borda: 1px solid black;
 }
+
+/* Layout com Sidebar (Home e Área do Usuário) */
+.layout-com-sidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.conteudo-principal {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar-mensagens {
+    width: 320px;
+    min-width: 320px;
+    height: calc(100vh - 120px);
+    position: sticky;
+    top: 100px; /* abaixo do header */
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: var(--borda);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-mensagens iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 900px) {
+    .layout-com-sidebar {
+        flex-direction: column;
+    }
+    .sidebar-mensagens {
+        width: 100%;
+        min-width: 100%;
+        position: static;
+        height: 600px;
+    }
+}

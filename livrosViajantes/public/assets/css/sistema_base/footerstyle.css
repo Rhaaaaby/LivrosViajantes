@@ -33,34 +33,6 @@ main {
     gap: 15px;
 }
 
-/* TÍTULO */
-.footer-conteudo h2 {
-    margin: 0;
-    font-family: var(--fonte-sistema);
-    font-size: 1.2rem;
-}
-
-/* LINKS EM PILHA */
-.footer-conteudo nav {
-    display: flex;
-    flex-direction: column; 
-    gap: 6px;                
-    align-items: center;     
-
-}
-
-/* ESTILO DOS LINKS */
-.footer-conteudo nav a {
-    text-decoration: none;
-    color: black;
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-.footer-conteudo nav a:hover {
-    opacity: 1;
-}
-
 /* TEXTO FINAL */
 .footer-conteudo p {
     margin: 0;

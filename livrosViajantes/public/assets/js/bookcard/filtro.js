@@ -1,20 +1,21 @@
 // filtro.js - Filtros com dados da API
 
-let todosLivros = [];
-
 document.addEventListener("DOMContentLoaded", () => {
     const inputTitulo = document.getElementById("filtro-titulo");
-    const selectCategoria = document.getElementById("filtro-categoria");
+    const botoesCategoria = document.querySelectorAll(".filtro-btn");
     const botaoBuscar = document.getElementById("btn-buscar");
     const lista = document.getElementById("lista-livros");
+    
+    let livrosParaFiltro = [];
+    let categoriaAtual = "";
 
 // Carregar livros da API
-    async function carregarLivros() {
+    async function carregarLivrosFiltro() {
         try {
-            const res = await fetch(`${API_BASE}/api/listar`);
+            const res = await fetch(`${window.API_BASE}/api/listar`);
             const data = await res.json();
             if (res.ok) {
-                todosLivros = data.livros || [];
+                livrosParaFiltro = data.livros || [];
                 aplicarFiltros();
             }
         } catch (err) {
@@ -23,12 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function aplicarFiltros() {
-        const termo = inputTitulo.value.toLowerCase().trim();
-        const categoria = selectCategoria ? selectCategoria.value : "";
+        const termo = inputTitulo ? inputTitulo.value.toLowerCase().trim() : "";
 
-        const filtrados = todosLivros.filter(livro => {
-            const matchTitulo = !termo || livro.titulo.toLowerCase().includes(termo);
-            const matchCategoria = !categoria || livro.categoria_nome === categoria;
+        const filtrados = livrosParaFiltro.filter(livro => {
+            const matchTitulo = !termo || (livro.titulo && livro.titulo.toLowerCase().includes(termo));
+            
+            const matchCategoria = !categoriaAtual || 
+                (livro.categoria_nome && livro.categoria_nome.toLowerCase() === categoriaAtual.toLowerCase());
+                
             return matchTitulo && matchCategoria;
         });
 
@@ -36,19 +39,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderizarResultado(livros) {
+        if (!lista) return;
         lista.innerHTML = "";
         if (livros.length === 0) {
             lista.innerHTML = "<p class='lista-vazia'>Nenhum livro encontrado 📭</p>";
             return;
         }
-        livros.forEach(livro => lista.appendChild(criarCard(livro)));
+        livros.forEach(livro => {
+            if (typeof criarCard === "function") {
+                lista.appendChild(criarCard(livro));
+            }
+        });
     }
 
     // Eventos
     if (inputTitulo) inputTitulo.addEventListener("input", aplicarFiltros);
-    if (selectCategoria) selectCategoria.addEventListener("change", aplicarFiltros);
     if (botaoBuscar) botaoBuscar.addEventListener("click", aplicarFiltros);
+    
+    if (botoesCategoria.length > 0) {
+        botoesCategoria.forEach(botao => {
+            botao.addEventListener("click", (e) => {
+                botoesCategoria.forEach(b => b.classList.remove("ativo"));
+                e.target.classList.add("ativo");
+                categoriaAtual = e.target.getAttribute("data-categoria") || "";
+                aplicarFiltros();
+            });
+        });
+    }
 
     // Carregar ao iniciar
-    carregarLivros();
+    carregarLivrosFiltro();
 });

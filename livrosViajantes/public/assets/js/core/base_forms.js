@@ -1,5 +1,3 @@
-console.log("🔥 BASE FORMS NOVO 🔥");
-
 function configurarFormulario({
   formId,
   validar,

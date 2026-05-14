@@ -40,6 +40,33 @@ main {
   margin-right: auto;
 }
 
+/* setas de navegação */
+.nav-setas {
+  display: flex;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.btn-nav {
+  background: transparent;
+  border: var(--borda);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--texto-principal);
+  transition: all 0.2s ease;
+}
+
+.btn-nav:hover {
+  background: var(--mensagem-sucesso);
+  color: white;
+}
+
 /*parte clicável */
 
 .icone-mensagem, 

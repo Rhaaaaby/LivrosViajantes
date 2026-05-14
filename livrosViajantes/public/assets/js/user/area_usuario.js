@@ -106,15 +106,15 @@ async function carregarPublicacoes() {
 
         livros.forEach(livro => {
             const item = document.createElement('div');
-            item.className = 'livro-item';
+            item.className = 'book-card'; // Usando a classe padrão
 
             item.innerHTML = `
-                <img src="${livro.imagem ? `/livrosViajantes/public/${livro.imagem}` : '/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}">
-                <div class="livro-info">
-                    <h4>${livro.titulo}</h4>
-                    <p>${livro.descricao || 'Sem descrição'}</p>
-                    <p><strong>Categoria:</strong> ${livro.categoria_nome || 'N/A'}</p>
-                    <p><strong>Status:</strong> ${livro.status ? 'Disponível' : 'Indisponível'}</p>
+                <img src="${livro.imagem ? `/livrosViajantes/public/${livro.imagem}` : '/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
+                <div class="info-livro">
+                    <h1 class="titulo-livro">${livro.titulo}</h1>
+                    <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
+                    <p class="descricao-publicacao">${livro.descricao || 'Sem descrição'}</p>
+                    <button class="btn-interesse" disabled style="background:#555; cursor:default; border-color:#555;">Sua publicação</button>
                 </div>
             `;
 

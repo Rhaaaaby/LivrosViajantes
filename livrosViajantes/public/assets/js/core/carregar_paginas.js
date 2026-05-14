@@ -25,3 +25,5 @@ carregar("header", "header.html");
 carregar("footer", "footer.html");
 carregar("tab_menu", "tab_menu.html");
 carregar("branding", "branding.html");
+carregar("lista-livros", "lista_livros.html");
+carregar("cabecalho", "cabecalho.html");

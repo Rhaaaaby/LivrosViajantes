@@ -1,0 +1,30 @@
+/* LINKS EM PILHA -> AGORA EM LINHA E FLEX WRAP */
+.cabecalho {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    gap: 12px;                
+    justify-content: center;     
+    padding: 10px;
+}
+
+/* ESTILO DOS LINKS (TIPO FILTRO-BTN) */
+.links-container {
+    padding: 0.4rem 0.9rem;
+    border-radius: 10px;
+    outline: var(--borda);
+    background-color: var(--categorias);
+    color: var(--texto-principal);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--fonte-sistema);
+    transition: all 0.2s ease;
+}
+
+.links-container:hover {
+    background: #222;
+    color: #fff;
+    border-color: #222;
+}
+

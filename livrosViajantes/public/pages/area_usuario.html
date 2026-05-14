@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/headerstyle.css">
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/footerstyle.css">
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/tab_menustyle.css">
+  <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/bookcardstyle.css">
 
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/pages/area_usuario.css">
 
@@ -19,82 +20,88 @@
   <!-- Header Global -->
   <header id="header"></header>
 
-  <main class="area-usuario">
+  <div class="layout-com-sidebar">
+    <main class="area-usuario conteudo-principal">
 
-    <!-- TOPO -->
-    <section class="perfil-topo">
-      <img src="/livrosViajantes/public/assets/img/cabecalho/icone-avatar.svg" class="foto-perfil">
+        <!-- TOPO -->
+        <section class="perfil-topo">
+        <img src="/livrosViajantes/public/assets/img/cabecalho/icone-avatar.svg" class="foto-perfil">
 
-      <div>
-        <h2>Nome do Usuário</h2>
-        <button class="seguir">Seguir</button>
-      </div>
-    </section>
+        <div>
+            <h2>Nome do Usuário</h2>
+            <button class="seguir">Seguir</button>
+        </div>
+        </section>
 
-    <!-- CARDS -->
-    <section class="cards-acoes">
-      <div class="card" data-target="editar">
-        Editar
-      </div>
+        <!-- CARDS -->
+        <section class="cards-acoes">
+        <div class="card" data-target="editar">
+            Editar
+        </div>
 
-      <div class="card" data-target="config">
-        Configurações
-      </div>
+        <div class="card" data-target="config">
+            Configurações
+        </div>
 
-      <div class="card" data-target="publicacoes">
-        Publicações
-      </div>
-    </section>
+        <div class="card" data-target="publicacoes">
+            Publicações
+        </div>
+        </section>
 
-    <!-- EDITAR PERFIL -->
-    <section id="editar" class="bloco oculto">
-      <h3>Editar Perfil</h3>
+        <!-- EDITAR PERFIL -->
+        <section id="editar" class="bloco oculto">
+        <h3>Editar Perfil</h3>
 
-      <form class="editar_perfil">
-        <label class="texto">
-          Nome
-          <input type="text" class="campo">
-        </label>
+        <form class="editar_perfil">
+            <label class="texto">
+            Nome
+            <input type="text" class="campo">
+            </label>
 
-        <label class="texto">
-          Email
-          <input type="email" class="campo">
-        </label>
+            <label class="texto">
+            Email
+            <input type="email" class="campo">
+            </label>
 
-        <label class="texto">
-          Foto
-          <input type="file" accept="image/*">
+            <label class="texto">
+            Foto
+            <input type="file" accept="image/*">
+            </label>
+
+            <button class="btn-salvar">Salvar</button>
+        </form>
+        </section>
+
+        <!-- CONFIGURAÇÕES -->
+        <section id="config" class="bloco oculto">
+        <h3>Configurações</h3>
+
+        <label>
+            <input type="checkbox">
+            Receber notificações
         </label>
 
         <button class="btn-salvar">Salvar</button>
-      </form>
-    </section>
+        <button class="btn-logout">Logout</button>
+        <button class="btn-excluir">Excluir Conta</button>
+        </section>
 
-    <!-- CONFIGURAÇÕES -->
-    <section id="config" class="bloco oculto">
-      <h3>Configurações</h3>
+        <!-- PUBLICAÇÕES -->
+        <section id="publicacoes" class="bloco">
+        <h3>Minhas Publicações</h3>
 
-      <label>
-        <input type="checkbox">
-        Receber notificações
-      </label>
+        <p>Você ainda não publicou nada. :((</p>
 
-      <button class="btn-salvar">Salvar</button>
-      <button class="btn-logout">Logout</button>
-      <button class="btn-excluir">Excluir Conta</button>
-    </section>
+        <!--
+        <div id="lista-livros"></div> 
+        -->
+        </section>
+    </main>
 
-    <!-- PUBLICAÇÕES -->
-    <section id="publicacoes" class="bloco">
-      <h3>Minhas Publicações</h3>
-
-      <p>Você ainda não publicou nada. :((</p>
-
-      <!--
-      <div id="lista-livros"></div> 
-      -->
-    </section>
-  </main>
+    <aside class="sidebar-mensagens">
+        <iframe src="/livrosViajantes/public/pages/mensagem.html" frameborder="0"></iframe>
+    </aside>
+  </div>
 
   <nav id="tab_menu"></nav>
 

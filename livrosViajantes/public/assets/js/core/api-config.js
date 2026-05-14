@@ -1,6 +1,5 @@
-// api-config.js - Configuração centralizada para todas as requisições API
+// api-config.js
 
-// API_BASE será usado em todos os fetch
-const API_BASE = '/livrosViajantes/public';
+window.API_BASE = '/livrosViajantes/public';
 
-console.log('[API Config] API_BASE:', API_BASE);
+console.log('[API Config] API_BASE:', window.API_BASE);

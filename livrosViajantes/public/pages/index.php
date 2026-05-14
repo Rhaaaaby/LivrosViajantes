@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/footerstyle.css">
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/tab_menustyle.css">
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/cabecalho.css">
 
     <link rel="icon" href="/livrosViajantes/public/assets/img/logo.png">
 </head>
@@ -19,23 +20,32 @@
     <!-- Header Global -->
     <header id="header"></header>
     
-    <main>
-        <div id="lista-livros"></div>
+    <div class="cabecalho"></div>
 
-        <nav id="tab_menu"></nav>
-    </main>
+    <div class="layout-com-sidebar">
+        <main class="conteudo-principal">
+            <div id="lista-livros"></div>
+
+            <nav id="tab_menu"></nav>
+        </main>
+
+        <aside class="sidebar-mensagens" 
+        style="
+            display: flex;  
+            margin-top: 90px;    
+        "                                                                                                   
+        >
+            <iframe src="/livrosViajantes/public/pages/mensagem.html" frameborder="0"></iframe>
+        </aside>
+    </div>
 
     <!-- Footer Global -->
     <footer id="footer"></footer>
 
     <!-- carregando as páginas -->
-    <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
-    <script>
-        const BASE_COMPONENTS = "/livrosViajantes/public/assets/js/core/components/";
-    </script>
-    <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
-    <script src="/livrosViajantes/public/assets/js/bookcard/bookcard.js"></script>
-    <script src="/livrosViajantes/public/assets/js/bookcard/publicacao_detalhada.js"></script>
+    <script src="/livrosViajantes/public/assets/js/core/api-config.js?v=1"></script>
+    <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js?v=1"></script>
+    <script src="/livrosViajantes/public/assets/js/bookcard/bookcard.js?v=123456789"></script>
 
 </body>
 </html>

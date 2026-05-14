@@ -3,11 +3,11 @@ Thumbs.db
 desktop.ini
 
 # Pastas que não devem ir pro git
-node_modules/
 vendor/
 .env
 .env.*
 *.log
+tests/
 
 # IDEs e editores
 .vscode/
