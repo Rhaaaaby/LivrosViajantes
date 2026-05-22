@@ -125,6 +125,7 @@ img {
         align-self: center;
     }
 
+    .btn-detalhes,
     .btn-interesse {
         width: 100%;
     }
@@ -196,9 +197,8 @@ img {
         height: 70px;
     }
 
-    /* Cards de ações empilham em coluna no mobile */
     .cards-acoes {
-        flex-wrap: wrap;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .card {
@@ -261,8 +261,8 @@ img {
    10. MENSAGEM / CHAT
 ------------------------------------------------------- */
 @media (max-width: 600px) {
-    .mensagens-layout {
-        height: calc(100vh - 70px);
+    .mensagem-layout {
+        height: 100dvh;
     }
 
     .mensagem {
@@ -303,12 +303,19 @@ img {
         flex-direction: column;
         padding: 10px;
         gap: 0;
+        max-width: 100%;
     }
 }
 
 @media (min-width: 769px) {
     .sidebar-mensagens {
         display: flex !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .cards-acoes {
+        grid-template-columns: 1fr;
     }
 }
 

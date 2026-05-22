@@ -89,8 +89,9 @@
 }
 
 
-/*botao "tenho interesse" */
+/* botoes dos cards */
 
+.btn-detalhes,
 .btn-interesse {
   font-family: var(--fonte-sistema);
   margin-top: 8px;
@@ -104,6 +105,11 @@
   outline: var(--borda);
 }
 
+.btn-detalhes {
+  background: var(--cabecalho);
+}
+
+.btn-detalhes:hover,
 .btn-interesse:hover {
   box-shadow: var(--shadow);
 }

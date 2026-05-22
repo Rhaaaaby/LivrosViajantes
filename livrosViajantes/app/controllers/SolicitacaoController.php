@@ -52,7 +52,22 @@ class SolicitacaoController
         $resultado = $this->solicitacaoModel->criar($data, $user_id);
 
         if ($resultado) {
-            return Response::success('Interesse registrado com sucesso!', 201);
+            $mensagem = "Olá! Tenho interesse no livro \"{$livro['titulo']}\".";
+            try {
+                $chatCriado = $this->mensagemModel->enviar($user_id, (int)$livro['autor_id'], $mensagem);
+            } catch (\Throwable $error) {
+                error_log('Erro ao abrir chat de interesse: ' . $error->getMessage());
+                $chatCriado = false;
+            }
+
+            if (!$chatCriado) {
+                return Response::error('Interesse registrado, mas nÃ£o foi possÃ­vel abrir o chat.', 500);
+            }
+
+            return Response::success('Interesse registrado! Um chat foi aberto com o dono do livro.', 201, [
+                'livro_id' => (int)$livro['id'],
+                'dono_id' => (int)$livro['autor_id']
+            ]);
         } else {
             return Response::error('Você já demonstrou interesse neste livro', 409);
         }

@@ -136,6 +136,15 @@
   box-shadow: var(--shadow);
 }
 
+.btn-interesse:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-interesse[data-enviando="1"] {
+  opacity: 0.8;
+}
+
 /* Desktop: layout lado a lado */
 @media (min-width: 640px) {
   .detalhes-container {

@@ -29,8 +29,8 @@ function criarCard(livro) {
         }
             </p>
 
-            <button class="btn-interesse" data-id="${livro.id}">
-                Tenho interesse
+            <button class="btn-detalhes" data-id="${livro.id}">
+                Ver Detalhes
             </button>
         </div>
     `;
@@ -38,11 +38,17 @@ function criarCard(livro) {
     // Clique no card
     card.addEventListener("click", (e) => {
 
-        // Ignora clique do botão
-        if (e.target.classList.contains("btn-interesse")) {
+        // O botao tem a propria navegacao abaixo.
+        if (e.target.classList.contains("btn-detalhes")) {
             return;
         }
 
+        window.location.href =
+            `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
+    });
+
+    const btnDetalhes = card.querySelector(".btn-detalhes");
+    btnDetalhes.addEventListener("click", () => {
         window.location.href =
             `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
     });

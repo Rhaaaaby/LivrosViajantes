@@ -50,7 +50,7 @@ function criarElementoChat(conversa) {
             <strong>${conversa.parceiro_nome}</strong>
             <span class="chat-item-subtitle">${conversa.ultima_mensagem || 'Sem mensagens ainda'}</span>
         </div>
-        <span class="chat-item-time">${formatarData(conversa.criado_em)}</span>
+        <span class="chat-item-time">${formatarData(conversa.criado_em || conversa.enviada_em)}</span>
     `;
 
     li.addEventListener('click', () => selecionarConversa(conversa.parceiro_id, conversa.parceiro_nome));
@@ -211,7 +211,7 @@ async function carregarMensagens(parceiroId, parceiroNome = '') {
             msgItem.className = `mensagem ${enviadoPorMim ? 'enviada' : 'recebida'}`;
             msgItem.innerHTML = `
                 <p>${mensagem.conteudo}</p>
-                <span>${formatarData(mensagem.criado_em)}</span>
+                <span>${formatarData(mensagem.criado_em || mensagem.enviada_em)}</span>
             `;
             mensagensContainer.appendChild(msgItem);
         });

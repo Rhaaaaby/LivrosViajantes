@@ -14,6 +14,7 @@
   <!-- CSS específico -->
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/pages/notificacao.css">
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/cabecalho.css">
+  <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/mensagem_sistema.css">
 
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
 </head>
@@ -22,6 +23,13 @@
   <div id="cabecalho"></div>
 
   <main class="notificacoes-container">
+
+    <section class="notificacoes-section">
+      <h2>Mensagens recebidas</h2>
+      <ul id="lista-mensagens-recebidas" class="lista-notificacoes">
+        <li class="notificacao-carregando">Carregando mensagens recebidas...</li>
+      </ul>
+    </section>
 
     <section class="notificacoes-section">
       <h2>Solicitações recebidas</h2>
@@ -54,6 +62,7 @@
   <!-- SCRIPTS -->
   <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
   <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
+  <script src="/livrosViajantes/public/assets/js/core/mensagem_sistema.js"></script>
   <script src="/livrosViajantes/public/assets/js/notificacoes.js"></script>
 
 </body>

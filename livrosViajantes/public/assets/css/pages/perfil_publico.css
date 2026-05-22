@@ -1,0 +1,72 @@
+.perfil-publico {
+  max-width: 900px;
+}
+
+.perfil-publico .perfil-topo {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-publico-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.perfil-publico-textos {
+  min-width: 0;
+}
+
+.perfil-publico-textos h2 {
+  margin: 0 0 6px;
+  overflow-wrap: anywhere;
+}
+
+.perfil-publico-textos p {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.btn-seguir {
+  background-color: var(--mensagem-sucesso);
+  border-radius: var(--radius);
+  font-family: var(--fonte-sistema);
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  min-width: 140px;
+}
+
+.btn-seguir.seguindo {
+  background: var(--footer);
+}
+
+.btn-seguir:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.perfil-publico-status {
+  padding: 16px;
+  border-radius: var(--radius);
+  outline: var(--borda);
+  background: var(--footer);
+  text-align: center;
+}
+
+.perfil-publico .lista-livros {
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .perfil-publico .perfil-topo,
+  .perfil-publico-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .btn-seguir {
+    width: 100%;
+  }
+}

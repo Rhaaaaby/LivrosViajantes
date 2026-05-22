@@ -26,6 +26,12 @@ class MensagemController
         return Response::success('Mensagens carregadas', 200, ['mensagens' => $mensagens]);
     }
 
+    public function listarNotificacoes(int $user_id)
+    {
+        $mensagens = $this->model->listarNotificacoesRecebidas($user_id);
+        return Response::success('Notificacoes de mensagens carregadas', 200, ['mensagens' => $mensagens]);
+    }
+
     public function enviarMensagem(int $remetente_id, int $destinatario_id, string $conteudo)
     {
         if (empty(trim($conteudo))) {

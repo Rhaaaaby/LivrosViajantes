@@ -44,6 +44,20 @@ class Livro
         return $stmt->fetchAll();
     }
 
+    public function listarPublicosPorAutor(int $user_id)
+    {
+        $sql = "SELECT l.id, l.titulo, l.descricao, l.imagem, l.status, l.criado_em,
+                       c.nome as categoria_nome
+                FROM livro l
+                LEFT JOIN categoria c ON l.categoria_id = c.id
+                WHERE l.autor_id = :user_id AND l.status = true
+                ORDER BY l.criado_em DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':user_id' => $user_id]);
+        return $stmt->fetchAll();
+    }
+
     // Criar novo livro
     public function criar(array $data, int $autor_id, ?string $imagem = null): bool
     {

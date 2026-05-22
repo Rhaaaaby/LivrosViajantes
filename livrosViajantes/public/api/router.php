@@ -205,6 +205,12 @@ if (preg_match('#^solicitacoes/(\d+)/cancelar$#', $uri, $matches)) {
 }
 
 // -------- MENSAGENS --------
+if ($uri === 'mensagens/notificacoes' && $method === 'GET') {
+    $user_id = auth();
+    $result = $mensagemCtrl->listarNotificacoes($user_id);
+    json_response($result);
+}
+
 if ($uri === 'conversas' && $method === 'GET') {
     $user_id = auth();
     $result = $mensagemCtrl->listarConversas($user_id);

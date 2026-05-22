@@ -63,6 +63,8 @@ main {
     flex-direction: column;
     gap: 0.2rem;
     font-family: var(--fonte-sistema);
+    flex: 1;
+    min-width: 0;
 }
 
 /* Texto */
@@ -71,6 +73,7 @@ main {
     color: #222;
     line-height: 1.3;
     font-family: var(--fonte-sistema);
+    overflow-wrap: anywhere;
 }
 
 /* Tempo */
@@ -164,4 +167,42 @@ main {
 .btn-cancelar:hover {
     background: rgba(255, 82, 82, 0.2);
     color: #d00020;
+}
+
+.notificacao-mensagem-item {
+    align-items: flex-start;
+}
+
+.notificacao-mensagem-item .icone {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cabecalho);
+    outline: var(--borda);
+    font-size: 0.8rem;
+}
+
+.btn-abrir-chat {
+    background: var(--cabecalho);
+    color: #000;
+    outline: var(--borda);
+}
+
+.btn-abrir-chat:hover {
+    box-shadow: var(--shadow);
+}
+
+@media (max-width: 560px) {
+    .notificacao-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .acoes-solicitacao,
+    .btn-acao {
+        width: 100%;
+    }
 }

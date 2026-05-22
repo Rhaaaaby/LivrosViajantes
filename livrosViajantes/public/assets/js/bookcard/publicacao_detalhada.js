@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const id = Number(params.get("id"));
     const container = document.querySelector(".detalhes-container");
 
-    if (!container) return; // Se a página não tiver o container (ex: home page), encerra aqui.
+    if (!container) return;
 
     if (!id || isNaN(id)) {
-        container.innerHTML = "<p>ID do livro não informado.</p>";
+        container.innerHTML = "<p>ID do livro nao informado.</p>";
         return;
     }
 
@@ -17,35 +17,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
 
         if (!response.ok) {
-            container.innerHTML = `<p>${data.erro || 'Livro não encontrado'}</p>`;
+            container.innerHTML = `<p>${data.erro || "Livro nao encontrado"}</p>`;
             return;
         }
 
         const livro = data.livro;
+        const btnInteresse = document.querySelector(".btn-interesse");
 
         document.getElementById("detalhe-titulo").textContent = livro.titulo;
-        document.getElementById("detalhe-categoria").textContent = livro.categoria_nome || 'Sem categoria';
-        document.getElementById("detalhe-descricao").textContent = livro.descricao || 'Sem descrição.';
+        document.getElementById("detalhe-categoria").textContent = livro.categoria_nome || "Sem categoria";
+        document.getElementById("detalhe-descricao").textContent = livro.descricao || "Sem descricao.";
 
-        // Imagem
+        if (btnInteresse) {
+            btnInteresse.dataset.id = livro.id;
+            btnInteresse.dataset.donoId = livro.autor_id;
+        }
+
         const img = document.getElementById("detalhe-capa");
         img.src = livro.imagem
             ? `/livrosViajantes/public/${livro.imagem}`
-            : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
+            : "/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp";
 
-        // Buscar nome do autor
-        const autorResponse = await fetch(`${API_BASE}/api/usuarios/${livro.autor_id}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-            }
-        });
+        const autorResponse = await fetch(`${API_BASE}/api/perfil-publico/${livro.autor_id}`);
         if (autorResponse.ok) {
             const autorData = await autorResponse.json();
-            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${autorData.usuario.nome_usuario}</a>`;
+            const autor = autorData.dados?.usuario;
+            const nomeAutor = autor?.nome_usuario || `Usuario ${livro.autor_id}`;
+            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${nomeAutor}</a>`;
         } else {
-            document.getElementById("detalhe-usuario").textContent = 'Publicado por: Usuário desconhecido';
+            document.getElementById("detalhe-usuario").textContent = "Publicado por: Usuario desconhecido";
         }
 
+        if (btnInteresse) {
+            btnInteresse.disabled = false;
+        }
     } catch (error) {
         console.error(error);
         container.innerHTML = "<p>Erro ao carregar os detalhes do livro.</p>";

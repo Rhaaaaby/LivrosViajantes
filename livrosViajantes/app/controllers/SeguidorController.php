@@ -42,7 +42,7 @@ class SeguidorController
         return Response::success('Usuários que você segue', 200, ['seguindo' => $seguindo]);
     }
 
-    public function perfilPublico(int $perfil_id, int $user_id = null): array
+    public function perfilPublico(int $perfil_id, ?int $user_id = null): array
     {
         $usuario = $this->usuarioModel->buscarPorId($perfil_id);
         if (!$usuario) {
@@ -51,7 +51,7 @@ class SeguidorController
 
         unset($usuario['senha_hash'], $usuario['email']);
 
-        $livros = $this->livroModel->listarMeusLivros($perfil_id);
+        $livros = $this->livroModel->listarPublicosPorAutor($perfil_id);
 
         $segue = false;
         if ($user_id) {
