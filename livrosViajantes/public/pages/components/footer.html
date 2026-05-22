@@ -3,5 +3,22 @@
     <p>
       Livros Viajantes — Incentivando a cultura através da tecnologia 🌍
     </p>
+    
+    <div class="site-rating" style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Avalie nosso site!</h4>
+        <form id="formAvaliacaoSite" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+            <div class="estrelas" style="font-size: 24px; cursor: pointer; color: #ccc;">
+                <span data-valor="1">★</span>
+                <span data-valor="2">★</span>
+                <span data-valor="3">★</span>
+                <span data-valor="4">★</span>
+                <span data-valor="5">★</span>
+            </div>
+            <input type="hidden" id="avaliacaoEstrelas" name="estrelas" value="0">
+            <textarea id="avaliacaoComentario" name="comentario" placeholder="Deixe um comentário (opcional)" style="width: 100%; max-width: 300px; padding: 5px; border-radius: 4px; font-size: 12px;"></textarea>
+            <button type="submit" style="padding: 5px 15px; background: var(--mensagem-sucesso); border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Enviar Avaliação</button>
+        </form>
+        <p id="msgAvaliacao" style="font-size: 12px; margin-top: 5px; display: none;"></p>
+    </div>
   </div>
 </div>

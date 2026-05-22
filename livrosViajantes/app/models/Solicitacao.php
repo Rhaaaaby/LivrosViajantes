@@ -14,6 +14,13 @@ class Solicitacao
         $this->pdo = Connection::connect();
     }
 
+    public function buscarPorId(int $id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM solicitacao WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
+    }
+
     // Criar nova solicitação de interesse
     public function criar(array $data, int $solicitante_id): bool
     {

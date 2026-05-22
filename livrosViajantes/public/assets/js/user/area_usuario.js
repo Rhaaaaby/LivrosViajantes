@@ -94,19 +94,26 @@ async function carregarPublicacoes() {
         const placeholder = container.querySelector('p');
 
         if (livros.length === 0) {
+            placeholder.style.display = 'block';
             placeholder.textContent = 'Você ainda não publicou nada. :(';
             return;
         }
 
         placeholder.style.display = 'none';
 
-        const lista = document.createElement('div');
-        lista.id = 'lista-livros';
-        lista.className = 'lista-livros';
+        let lista = document.getElementById('lista-livros');
+        if (!lista) {
+            lista = document.createElement('div');
+            lista.id = 'lista-livros';
+            lista.className = 'lista-livros';
+            container.appendChild(lista);
+        } else {
+            lista.innerHTML = '';
+        }
 
         livros.forEach(livro => {
             const item = document.createElement('div');
-            item.className = 'book-card'; // Usando a classe padrão
+            item.className = 'book-card';
 
             item.innerHTML = `
                 <img src="${livro.imagem ? `/livrosViajantes/public/${livro.imagem}` : '/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
@@ -114,14 +121,41 @@ async function carregarPublicacoes() {
                     <h1 class="titulo-livro">${livro.titulo}</h1>
                     <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
                     <p class="descricao-publicacao">${livro.descricao || 'Sem descrição'}</p>
-                    <button class="btn-interesse" disabled style="background:#555; cursor:default; border-color:#555;">Sua publicação</button>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button class="btn-editar" data-id="${livro.id}" style="padding: 5px; border-radius: 5px; cursor: pointer; flex: 1;">Editar</button>
+                        <button class="btn-excluir-livro" data-id="${livro.id}" style="padding: 5px; border-radius: 5px; background: red; color: white; cursor: pointer; flex: 1;">Excluir</button>
+                    </div>
                 </div>
             `;
 
             lista.appendChild(item);
         });
 
-        container.appendChild(lista);
+        // Configurar botões de edição e exclusão
+        document.querySelectorAll('.btn-editar').forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.location.href = `/livrosViajantes/public/pages/publicar.html?id=${btn.dataset.id}`;
+            });
+        });
+
+        document.querySelectorAll('.btn-excluir-livro').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if(confirm('Tem certeza que deseja excluir esta publicação?')) {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/livros/${btn.dataset.id}`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (res.ok) {
+                            mostrarMensagem('Livro excluído com sucesso!', 'sucesso');
+                            carregarPublicacoes();
+                        }
+                    } catch (error) {
+                        mostrarMensagem('Erro ao excluir', 'erro');
+                    }
+                }
+            });
+        });
 
     } catch (error) {
         console.error('Erro ao carregar publicações:', error);
@@ -221,3 +255,43 @@ function configurarBotoes() {
         });
     }
 }
+
+// Função para carregar a lista de usuários que sigo
+async function carregarSeguindo() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/api/seguidores`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const container = document.getElementById('lista-seguindo');
+        if (!container) return;
+
+        if (response.ok) {
+            const data = await response.json();
+            const seguindo = data.seguindo;
+            if (seguindo.length === 0) {
+                container.innerHTML = '<p>Você não segue ninguém ainda.</p>';
+            } else {
+                container.innerHTML = '';
+                seguindo.forEach(u => {
+                    container.innerHTML += `
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:10px; border:1px solid #ccc; border-radius:8px;">
+                            <img src="${u.foto ? '/livrosViajantes/public/'+u.foto : '/livrosViajantes/public/assets/img/cabecalho/icone-avatar.svg'}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+                            <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${u.id}" style="text-decoration:none; color:black; font-weight:bold;">${u.nome_usuario}</a>
+                        </div>
+                    `;
+                });
+            }
+        } else {
+            container.innerHTML = '<p>Erro ao carregar lista.</p>';
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    carregarSeguindo();
+});

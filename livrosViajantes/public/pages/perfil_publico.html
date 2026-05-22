@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil Público - Livros Viajantes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/basestyle.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/headerstyle.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/cabecalho.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/bookcardstyle.css">
+    <style>
+        .perfil-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--fundo);
+            border-radius: var(--radius);
+        }
+        .perfil-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .perfil-foto {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--borda);
+        }
+        .perfil-info h2 {
+            margin: 0 0 10px 0;
+            color: var(--texto-principal);
+        }
+        .btn-seguir {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            background: var(--mensagem-sucesso);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-seguir.seguindo {
+            background: #ccc;
+            color: #333;
+        }
+        .livros-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header id="header"></header>
+    <div id="cabecalho"></div>
+
+    <main class="perfil-container">
+        <div class="perfil-header" id="perfilHeader">
+            <img src="/livrosViajantes/public/assets/img/cabecalho/icone-avatar.svg" alt="Avatar" class="perfil-foto" id="perfilFoto">
+            <div class="perfil-info">
+                <h2 id="perfilNome">Carregando...</h2>
+                <button id="btnSeguir" class="btn-seguir" style="display:none;">Seguir</button>
+            </div>
+        </div>
+
+        <h3>Livros de <span id="perfilNomeLivros"></span></h3>
+        <div class="livros-container" id="livrosLista">
+            <p>Carregando livros...</p>
+        </div>
+    </main>
+
+    <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
+    <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const params = new URLSearchParams(window.location.search);
+            const perfilId = params.get('id');
+            if (!perfilId) {
+                document.querySelector('.perfil-container').innerHTML = '<p>Usuário não encontrado.</p>';
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+            try {
+                const res = await fetch(`${API_BASE}/api/perfil-publico/${perfilId}`, { headers });
+                if (!res.ok) throw new Error('Erro ao carregar perfil');
+                const data = await res.json();
+                
+                if (data.sucesso) {
+                    const usuario = data.dados.usuario;
+                    const livros = data.dados.livros;
+                    const segue = data.dados.segue;
+
+                    document.getElementById('perfilNome').textContent = usuario.nome_usuario;
+                    document.getElementById('perfilNomeLivros').textContent = usuario.nome_usuario;
+                    if (usuario.foto) {
+                        document.getElementById('perfilFoto').src = `/livrosViajantes/public/${usuario.foto}`;
+                    }
+
+                    // Botão Seguir
+                    if (token) {
+                        const btnSeguir = document.getElementById('btnSeguir');
+                        btnSeguir.style.display = 'inline-block';
+                        if (segue) {
+                            btnSeguir.textContent = 'Deixar de Seguir';
+                            btnSeguir.classList.add('seguindo');
+                        }
+                        
+                        btnSeguir.addEventListener('click', async () => {
+                            const method = btnSeguir.classList.contains('seguindo') ? 'DELETE' : 'POST';
+                            const followRes = await fetch(`${API_BASE}/api/seguidores/${perfilId}`, {
+                                method: method,
+                                headers: { 'Authorization': `Bearer ${token}` }
+                            });
+                            
+                            if (followRes.ok) {
+                                if (method === 'POST') {
+                                    btnSeguir.textContent = 'Deixar de Seguir';
+                                    btnSeguir.classList.add('seguindo');
+                                } else {
+                                    btnSeguir.textContent = 'Seguir';
+                                    btnSeguir.classList.remove('seguindo');
+                                }
+                            }
+                        });
+                    }
+
+                    // Livros
+                    const livrosLista = document.getElementById('livrosLista');
+                    if (livros.length === 0) {
+                        livrosLista.innerHTML = '<p>Este usuário não tem livros publicados.</p>';
+                    } else {
+                        livrosLista.innerHTML = '';
+                        livros.forEach(livro => {
+                            livrosLista.innerHTML += `
+                                <div class="book-card">
+                                    <img src="${livro.imagem ? `/livrosViajantes/public/${livro.imagem}` : '/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp'}" alt="Capa" class="capa-livro">
+                                    <div class="info-livro">
+                                        <h1 class="titulo-livro">${livro.titulo}</h1>
+                                        <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
+                                        <p class="descricao-publicacao">${livro.descricao || ''}</p>
+                                        <a href="/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}">
+                                            <button class="btn-interesse">Ver Detalhes</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                document.querySelector('.perfil-container').innerHTML = '<p>Erro ao carregar o perfil.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

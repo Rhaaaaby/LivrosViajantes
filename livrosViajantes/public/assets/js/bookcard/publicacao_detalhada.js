@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         if (autorResponse.ok) {
             const autorData = await autorResponse.json();
-            document.getElementById("detalhe-usuario").textContent = `Publicado por: ${autorData.usuario.nome_usuario}`;
+            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${autorData.usuario.nome_usuario}</a>`;
         } else {
             document.getElementById("detalhe-usuario").textContent = 'Publicado por: Usuário desconhecido';
         }

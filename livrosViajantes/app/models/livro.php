@@ -151,4 +151,19 @@ class Livro
             ':user_id' => $user_id
         ]);
     }
+
+    public function reservar(int $id, int $user_id): bool
+    {
+        $livro = $this->buscarPorId($id);
+        if (!$livro || $livro['autor_id'] != $user_id) {
+            return false;
+        }
+
+        $sql = "UPDATE livro SET status = false WHERE id = :id AND autor_id = :user_id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':id'      => $id,
+            ':user_id' => $user_id
+        ]);
+    }
 }

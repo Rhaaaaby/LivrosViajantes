@@ -46,6 +46,11 @@
 .titulo-livro {
     font-size: 1.2rem;
     margin: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
 }
 
 /*categoria (disponivel, emprestado e doado) */

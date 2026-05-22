@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/bookcardstyle.css">
 
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/pages/area_usuario.css">
+  <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/cabecalho.css">
 
   <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
 </head>
@@ -19,6 +20,7 @@
 <body>
   <!-- Header Global -->
   <header id="header"></header>
+  <div id="cabecalho"></div>
 
   <div class="layout-com-sidebar">
     <main class="area-usuario conteudo-principal">
@@ -29,7 +31,6 @@
 
         <div>
             <h2>Nome do Usuário</h2>
-            <button class="seguir">Seguir</button>
         </div>
         </section>
 
@@ -46,6 +47,10 @@
         <div class="card" data-target="publicacoes">
             Publicações
         </div>
+
+        <div class="card" data-target="seguindo">
+            Quem Eu Sigo
+        </div>
         </section>
 
         <!-- EDITAR PERFIL -->
@@ -55,17 +60,17 @@
         <form class="editar_perfil">
             <label class="texto">
             Nome
-            <input type="text" class="campo">
+            <input type="text" class="campo" name="nome_usuario">
             </label>
 
             <label class="texto">
             Email
-            <input type="email" class="campo">
+            <input type="email" class="campo" name="email">
             </label>
 
             <label class="texto">
             Foto
-            <input type="file" accept="image/*">
+            <input type="file" accept="image/*" name="foto">
             </label>
 
             <button class="btn-salvar">Salvar</button>
@@ -95,6 +100,14 @@
         <!--
         <div id="lista-livros"></div> 
         -->
+        </section>
+
+        <!-- SEGUINDO -->
+        <section id="seguindo" class="bloco oculto">
+        <h3>Usuários que eu sigo</h3>
+        <div id="lista-seguindo">
+            <p>Carregando...</p>
+        </div>
         </section>
     </main>
 

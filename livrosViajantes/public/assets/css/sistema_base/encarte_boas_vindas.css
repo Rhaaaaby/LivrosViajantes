@@ -1,0 +1,268 @@
+/* ============================================================
+   ENCARTE DE BOAS-VINDAS — primeiro acesso
+   ============================================================ */
+
+/* Reset de box-sizing para todos os elementos do encarte */
+#encarte-overlay *,
+#encarte-overlay *::before,
+#encarte-overlay *::after {
+    box-sizing: border-box;
+}
+
+/* Overlay escuro que cobre tudo */
+#encarte-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+
+    /* fundo com desfoque */
+    background: rgba(10, 30, 50, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    /* animação de entrada */
+    animation: overlay-fade-in 0.4s ease forwards;
+}
+
+@keyframes overlay-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Quando fechando */
+#encarte-overlay.saindo {
+    animation: overlay-fade-out 0.4s ease forwards;
+}
+
+@keyframes overlay-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* ---- Card principal ---- */
+#encarte-card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    overflow: hidden;
+
+    background: var(--background, #F2F5EE);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+
+    animation: card-slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes card-slide-up {
+    from { transform: translateY(60px) scale(0.95); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+/* Faixa colorida no topo */
+#encarte-topo {
+    background: var(--cabecalho, #569FCA);
+    padding: 32px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+#encarte-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    animation: voar-diagonal 3s ease-in-out infinite;
+}
+
+@keyframes voar-diagonal {
+    0%   { transform: translateX(-6px) translateY(6px); }
+    50%  { transform: translateX(6px)  translateY(-6px); }
+    100% { transform: translateX(-6px) translateY(6px); }
+}
+
+#encarte-titulo {
+    font-family: var(--fonte-sistema, "Pixelify Sans", sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#encarte-subtitulo {
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.9);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Corpo do card */
+#encarte-corpo {
+    padding: 32px 32px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Bloco de features */
+.encarte-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.encarte-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.encarte-feature-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.encarte-feature-texto {
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 0.9rem;
+    color: var(--text-dark, #1A1A1A);
+    line-height: 1.45;
+}
+
+.encarte-feature-texto strong {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+/* Divisor */
+.encarte-divisor {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin: 0;
+}
+
+/* Botões */
+.encarte-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#btn-encarte-criar {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 20px;
+    border-radius: var(--radius, 10px);
+    border: none;
+    cursor: pointer;
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background: var(--cabecalho, #569FCA);
+    box-shadow: 0 4px 16px rgba(86, 159, 202, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+#btn-encarte-criar:hover {
+    background: #3d85b0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(86, 159, 202, 0.5);
+}
+
+#btn-encarte-criar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(86, 159, 202, 0.3);
+}
+
+#btn-encarte-pular {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    padding: 6px;
+    transition: color 0.2s;
+}
+
+#btn-encarte-pular:hover {
+    color: var(--text-dark, #1A1A1A);
+    text-decoration: underline;
+}
+
+/* Botão ✕ de fechar */
+#btn-encarte-fechar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: rgba(255,255,255,0.25);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 1;
+}
+
+#btn-encarte-fechar:hover {
+    background: rgba(255,255,255,0.45);
+}
+
+/* Rodapé do card */
+#encarte-rodape {
+    text-align: center;
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 0.8rem;
+    color: #aaa;
+    padding-bottom: 4px;
+}
+
+#encarte-rodape a {
+    color: var(--cabecalho, #569FCA);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#encarte-rodape a:hover {
+    text-decoration: underline;
+}
+
+/* ---- Responsivo ---- */
+@media (max-width: 520px) {
+    #encarte-card {
+        border-radius: 16px;
+    }
+
+    #encarte-titulo {
+        font-size: 1.6rem;
+    }
+
+    #encarte-corpo {
+        padding: 22px 20px 26px;
+    }
+}

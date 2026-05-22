@@ -6,6 +6,8 @@ use App\Controllers\UsuarioController;
 use App\Controllers\LivroController;
 use App\Controllers\SolicitacaoController;
 use App\Controllers\MensagemController;
+use App\Controllers\SeguidorController;
+use App\Controllers\AvaliacaoController;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -53,6 +55,8 @@ $usuarioCtrl = new UsuarioController();
 $livroCtrl   = new LivroController();
 $solicitacaoCtrl = new SolicitacaoController();
 $mensagemCtrl = new MensagemController();
+$seguidorCtrl = new SeguidorController();
+$avaliacaoCtrl = new AvaliacaoController();
 
 // ================== ROTAS ==================
 
@@ -131,6 +135,16 @@ if (preg_match('#^livros/(\d+)$#', $uri, $matches)) {
         $user_id = auth();
         $livroCtrl->deletar($livro_id, $user_id);
     }
+}
+
+if (preg_match('#^atualizar-livro/(\d+)$#', $uri, $matches) && $method === 'POST') {
+    $livro_id = (int)$matches[1];
+    $user_id = auth();
+    $data = $_POST;
+    if (empty($data)) {
+        $data = get_json_input();
+    }
+    $livroCtrl->atualizar($livro_id, $data, $user_id); // LivroController->atualizar should handle $_FILES
 }
 
 // -------- SOLICITAÇÕES --------
@@ -223,6 +237,54 @@ if (preg_match('#^usuarios/(\d+)$#', $uri, $matches) && $method === 'GET') {
     $user_id = auth();
     $target_id = (int)$matches[1];
     $usuarioCtrl->buscarPorId($target_id);
+}
+
+// -------- SEGUIDORES --------
+if ($uri === 'seguidores' && $method === 'GET') {
+    $user_id = auth();
+    $result = $seguidorCtrl->listarSeguindo($user_id);
+    json_response($result);
+}
+
+if (preg_match('#^seguidores/(\d+)$#', $uri, $matches)) {
+    $user_id = auth();
+    $seguido_id = (int)$matches[1];
+
+    if ($method === 'POST') {
+        $result = $seguidorCtrl->seguir($seguido_id, $user_id);
+        json_response($result);
+    }
+    
+    if ($method === 'DELETE') {
+        $result = $seguidorCtrl->deixarDeSeguir($seguido_id, $user_id);
+        json_response($result);
+    }
+}
+
+// -------- PERFIL PÚBLICO --------
+if (preg_match('#^perfil-publico/(\d+)$#', $uri, $matches) && $method === 'GET') {
+    // Pode ser acessado por logados ou não logados, então tentamos auth opcional
+    $headers = getallheaders();
+    $auth = $headers['Authorization'] ?? '';
+    $user_id = null;
+    
+    if (preg_match('/Bearer\s(\S+)/', $auth, $auth_matches)) {
+        try {
+            $decoded = JWT::decode($auth_matches[1], new Key($_ENV['JWT_SECRET'], 'HS256'));
+            $user_id = (int) $decoded->sub;
+        } catch (\Exception $e) {}
+    }
+    
+    $perfil_id = (int)$matches[1];
+    $result = $seguidorCtrl->perfilPublico($perfil_id, $user_id);
+    json_response($result);
+}
+
+// -------- AVALIAÇÃO DO SITE --------
+if ($uri === 'avaliacoes' && $method === 'POST') {
+    $user_id = auth();
+    $result = $avaliacaoCtrl->criar(get_json_input(), $user_id);
+    json_response($result);
 }
 
 // -------- 404 --------

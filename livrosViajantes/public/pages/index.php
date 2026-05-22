@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/tab_menustyle.css">
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
     <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/cabecalho.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/menu_hamburger.css">
+    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/encarte_boas_vindas.css">
 
     <link rel="icon" href="/livrosViajantes/public/assets/img/logo.png">
 </head>
@@ -20,7 +22,7 @@
     <!-- Header Global -->
     <header id="header"></header>
     
-    <div class="cabecalho"></div>
+    <div id="cabecalho"></div>
 
     <div class="layout-com-sidebar">
         <main class="conteudo-principal">
@@ -45,7 +47,9 @@
     <!-- carregando as páginas -->
     <script src="/livrosViajantes/public/assets/js/core/api-config.js?v=1"></script>
     <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js?v=1"></script>
+    <script src="/livrosViajantes/public/assets/js/core/menu_hamburger.js?v=1"></script>
     <script src="/livrosViajantes/public/assets/js/bookcard/bookcard.js?v=123456789"></script>
+    <script src="/livrosViajantes/public/assets/js/core/encarte_boas_vindas.js?v=1"></script>
 
 </body>
 </html>

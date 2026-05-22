@@ -1,9 +1,22 @@
 <div class="cabecalho">
-    <nav class="links-container">
-        <a href="/livrosViajantes/public/pages/index.php" class="footer-btn">Home</a>
-        <a href="/livrosViajantes/public/pages/pesquisar.html" class="footer-btn">Pesquisar</a>
-        <a href="/livrosViajantes/public/pages/publicar.html" class="footer-btn">Nova Publicação</a>
-        <a href="/livrosViajantes/public/pages/area_usuario.html" class="footer-btn">Área do Usuário</a>
-        <a href="/livrosViajantes/public/pages/mensagem.html" class="footer-btn">Mensagens</a>
-    </nav>
+    <!-- Navegação (seta de voltar) -->
+    <div class="nav-setas">
+      <button onclick="history.back()" title="Voltar" class="btn-nav"> <img src="/livrosViajantes/public/assets/img/publi_detalhada/Arrow left-circle.svg" alt="Seta para voltar"> </button>
+      <!-- Menu hamburger (visível apenas em mobile) -->
+      <button class="menu-hamburger" title="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Links do menu -->
+    <div class="links-container">
+        <a href="/livrosViajantes/public/pages/index.php" class="links-btn">Home</a>
+        <a href="/livrosViajantes/public/pages/pesquisar.html" class="links-btn">Pesquisar</a>
+        <a href="/livrosViajantes/public/pages/publicar.html" class="links-btn">Nova Publicação</a>
+        <a href="/livrosViajantes/public/pages/area_usuario.html" class="links-btn">Área do Usuário</a>
+        <a href="/livrosViajantes/public/pages/mensagem.html" class="links-btn">Mensagens</a>
+    </div>
+
 </div>

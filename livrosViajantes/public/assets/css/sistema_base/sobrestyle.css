@@ -1,0 +1,71 @@
+#card-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+
+    /* fundo com desfoque */
+    background: rgba(10, 30, 50, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    /* animação de entrada */
+    animation: overlay-fade-in 0.4s ease forwards;
+}
+
+@keyframes overlay-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Quando fechando */
+#encarte-overlay.saindo {
+    animation: overlay-fade-out 0.4s ease forwards;
+}
+
+@keyframes overlay-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* ---- Card principal ---- */
+#card-sobre {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    overflow: hidden;
+
+    background: var(--background, #F2F5EE);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+
+    animation: card-slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#card-titulo {
+    font-family: var(--fonte-sistema, "Alata", sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Corpo do card */
+#card-sobre {
+    padding: 32px 32px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.p {
+    font-family: var(--fonte-body, "Alata", sans-serif);
+    font-size: 0.9rem;
+    color: var(--text-dark, #1A1A1A);
+    line-height: 1.45;
+}

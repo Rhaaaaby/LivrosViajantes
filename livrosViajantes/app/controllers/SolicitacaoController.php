@@ -4,17 +4,20 @@ namespace App\Controllers;
 
 use App\Models\Solicitacao;
 use App\Models\Livro;
+use App\Models\Mensagem;
 use App\Utils\Response;
 
 class SolicitacaoController
 {
     private Solicitacao $solicitacaoModel;
     private Livro $livroModel;
+    private Mensagem $mensagemModel;
 
     public function __construct()
     {
         $this->solicitacaoModel = new Solicitacao();
         $this->livroModel = new Livro();
+        $this->mensagemModel = new Mensagem();
     }
 
     // Criar nova solicitação de interesse
@@ -90,6 +93,14 @@ class SolicitacaoController
         $resultado = $this->solicitacaoModel->atualizarStatus($solicitacao_id, $status, $user_id);
 
         if ($resultado) {
+            if ($acao === 'aceitar') {
+                $solicitacao = $this->solicitacaoModel->buscarPorId($solicitacao_id);
+                if ($solicitacao) {
+                    $this->livroModel->reservar((int)$solicitacao['livro_id'], $user_id);
+                    $mensagem = "Olá! Aceitei sua solicitação para o livro que você se interessou.";
+                    $this->mensagemModel->enviar($user_id, (int)$solicitacao['solicitante_id'], $mensagem);
+                }
+            }
             return Response::success("Solicitação {$acao}ada com sucesso!", 200);
         }
 

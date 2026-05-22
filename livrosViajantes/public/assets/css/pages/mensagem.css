@@ -54,6 +54,9 @@ main {
   flex: 1;
   padding: 20px;
   background: var(--fundo);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .chat-vazio {
