@@ -97,4 +97,48 @@ carregar("footer", "footer.html");
 carregar("tab_menu", "tab_menu.html");
 carregar("branding", "branding.html");
 carregar("lista-livros", "lista_livros.html");
-carregar("cabecalho", "cabecalho.html");
+carregar("cabecalho", "cabecalho.html").then(() => {
+    verificarNotificacoesMensagens();
+    setInterval(verificarNotificacoesMensagens, 10000); // Poll a cada 10s
+});
+
+async function verificarNotificacoesMensagens() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE}/api/mensagens/notificacoes`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            const unreadCount = data.mensagens ? data.mensagens.length : 0;
+            
+            // Procura o link de mensagens no cabeçalho
+            const links = document.querySelectorAll('.links-btn');
+            let msgLink = null;
+            links.forEach(link => {
+                if (link.getAttribute('href') && link.getAttribute('href').includes('mensagem.html')) {
+                    msgLink = link;
+                }
+            });
+
+            if (msgLink) {
+                let badge = msgLink.querySelector('.msg-badge');
+                if (unreadCount > 0) {
+                    if (!badge) {
+                        badge = document.createElement('span');
+                        badge.className = 'msg-badge';
+                        badge.style.cssText = 'background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; margin-left: 5px; vertical-align: top;';
+                        msgLink.appendChild(badge);
+                    }
+                    badge.textContent = unreadCount;
+                } else if (badge) {
+                    badge.remove();
+                }
+            }
+        }
+    } catch (e) {
+        console.error('Erro ao buscar notificações de mensagens', e);
+    }
+}

@@ -36,7 +36,7 @@ class Livro
                        c.nome as categoria_nome
                 FROM livro l
                 LEFT JOIN categoria c ON l.categoria_id = c.id
-                WHERE l.autor_id = :user_id
+                WHERE l.autor_id = :user_id AND l.status = true
                 ORDER BY l.criado_em DESC";
 
         $stmt = $this->pdo->prepare($sql);

@@ -3,7 +3,7 @@ html, body {
 }
 
 main {
-  padding-top: 80px;   /* altura do header */
+  /* padding-top removido, o header é sticky e ocupa espaço no fluxo */
 }
 
 .header {

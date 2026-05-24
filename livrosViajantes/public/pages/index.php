@@ -34,7 +34,10 @@
         <aside class="sidebar-mensagens" 
         style="
             display: flex;  
-            margin-top: 90px;    
+            margin-top: 90px;
+            position: sticky;
+            top: 90px;
+            height: calc(100vh - 90px);
         "                                                                                                   
         >
             <iframe src="/livrosViajantes/public/pages/mensagem.html" frameborder="0"></iframe>

@@ -41,7 +41,7 @@
 .layout-com-sidebar {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 20px;
     padding: 20px;
     max-width: 1200px;
@@ -73,6 +73,12 @@
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* Correção global para margem superior do conteúdo principal */
+main {
+    margin-top: 20px;
+    box-sizing: border-box;
 }
 
 @media (max-width: 900px) {

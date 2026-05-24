@@ -281,15 +281,21 @@ if (preg_match('#^perfil-publico/(\d+)$#', $uri, $matches) && $method === 'GET')
         } catch (\Exception $e) {}
     }
     
+    // CORREÇÃO: Pegamos o ID do perfil da URL e chamamos o controller para preencher o $result
     $perfil_id = (int)$matches[1];
     $result = $seguidorCtrl->perfilPublico($perfil_id, $user_id);
+    
     json_response($result);
 }
 
 // -------- AVALIAÇÃO DO SITE --------
 if ($uri === 'avaliacoes' && $method === 'POST') {
     $user_id = auth();
-    $result = $avaliacaoCtrl->criar(get_json_input(), $user_id);
+    $data = $_POST;
+    if (empty($data)) {
+        $data = get_json_input();
+    }
+    $result = $avaliacaoCtrl->criar($data, $user_id);
     json_response($result);
 }
 
