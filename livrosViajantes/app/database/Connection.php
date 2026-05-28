@@ -11,26 +11,29 @@ class Connection
 
     /**
      * Retorna a conexão PDO (singleton - cria apenas uma vez)
-     * Usa valores do arquivo .env
+     * Usa valores do arquivo .env ou variáveis do servidor
      *
      * @return PDO
      * @throws PDOException 
      */
-    
     public static function connect(): PDO
     {
         if (self::$instance !== null) {
             return self::$instance;
         }
 
-        $host     = $_ENV['DB_HOST']     ?? 'localhost';
-        $port     = $_ENV['DB_PORT']     ?? '5432';
-        $dbname   = $_ENV['DB_NAME']     ?? 'livros_viajantes';
-        $user     = $_ENV['DB_USER']     ?? 'postgres';
-        $password = $_ENV['DB_PASS']     ?? '123456';
+        // Busca primeiro no getenv() [comum na nuvem] e depois no $_ENV [comum local]
+        $host     = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+        $port     = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+        $dbname   = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'livros_viajantes');
+        $user     = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
+        $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '123456');
+        $appEnv   = getenv('APP_ENV')  ?: ($_ENV['APP_ENV']  ?? 'production');
 
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};";
+        // O segredo do Neon: adicionado o sslmode=require na string de conexão
+        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;";
 
+        // Mantém a opção de enconding UTF8 que você já tinha
         $dsn .= "options='--client_encoding=UTF8'";
 
         try {
@@ -49,7 +52,7 @@ class Connection
             return self::$instance;
 
         } catch (PDOException $e) {
-            if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
+            if ($appEnv === 'development') {
                 throw $e;
             }
 
