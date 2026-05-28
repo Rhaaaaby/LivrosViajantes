@@ -11,6 +11,6 @@ RUN apt-get update && apt-get install -y libpq-dev \
 COPY . /var/www/html/
 
 # Garante as permissões corretas para o Apache ler os arquivos
-RUN chown -r www-data:www-data /var/www/html/
+RUN chown -R www-data:www-data /var/www/html/
 
 EXPOSE 80
