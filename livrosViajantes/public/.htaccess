@@ -1,10 +1,13 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /livrosViajantes/public/
+Options -MultiViews
+RewriteEngine On
 
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [L]
-</IfModule>
+# Define a base para reescrita (garante que parta da raiz que o Apache mapeou)
+RewriteBase /
 
-Options -Indexes
+# Se o arquivo ou pasta solicitado existir fisicamente dentro de public, entrega ele direto e para aqui
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Se não for um arquivo/diretório real, manda tudo para o index.php
+RewriteRule ^ index.php [L]
