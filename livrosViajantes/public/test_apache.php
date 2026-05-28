@@ -1,0 +1,1 @@
+<?php echo "O Apache encontrou esta pasta!"; ?>
