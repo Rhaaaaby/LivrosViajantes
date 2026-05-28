@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     if (!token) {
         mostrarMensagem("Você precisa estar logado para acessar esta página.", "erro");
-        window.location.href = "/livrosViajantes/public/pages/login.html";
+        window.location.href = "./pages/login.html";
         return;
     }
 
@@ -81,7 +81,7 @@ configurarFormulario({
             if (response.ok) {
                 mostrarMensagem(editId ? "Livro atualizado com sucesso!" : "Livro publicado com sucesso!", "sucesso");
                 setTimeout(() => {
-                    window.location.href = "/livrosViajantes/public/pages/area_usuario.html";
+                    window.location.href = "./pages/area_usuario.html";
                 }, 1500);
             } else {
                 mostrarMensagem(resultado.erro || "Erro ao salvar livro", "erro");

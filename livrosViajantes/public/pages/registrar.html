@@ -10,14 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS BASE (sempre presente) -->
-    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/basestyle.css">
+    <link rel="stylesheet" href="./assets/css/sistema_base/basestyle.css">
 
     <!-- CSS específico (formulários)-->
-    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/brandingstyle.css">
-    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/form_basestyle.css">
-    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/mensagem_sistema.css">
+    <link rel="stylesheet" href="./assets/css/sistema_base/brandingstyle.css">
+    <link rel="stylesheet" href="./assets/css/sistema_base/form_basestyle.css">
+    <link rel="stylesheet" href="./assets/css/sistema_base/mensagem_sistema.css">
 
-    <link rel="stylesheet" href="/livrosViajantes/public/assets/css/sistema_base/responsive.css">
+    <link rel="stylesheet" href="./assets/css/sistema_base/responsive.css">
     <style> 
         body  {
             background-color: #569FCA; 
@@ -30,7 +30,7 @@
     <div id="branding"></div>
 
     <section>
-        <form id="formRegistrar" class="form-container" action="/livrosViajantes/public/api/cadastrar" method="POST">
+        <form id="formRegistrar" class="form-container" action="./api/cadastrar" method="POST">
 
             <h1>Bem Vindo :D!</h1>
 
@@ -47,22 +47,22 @@
 
             <button type="submit">Criar Conta</button>
 
-            <a href="/livrosViajantes/public/pages/login.html"> Já tem uma conta?</a>
+            <a href="./pages/login.html"> Já tem uma conta?</a>
         </form>
 
         <!-- mensagens (sucesso, alerta, erro)-->
         <div id="mensagem-global" class="msg hidden"></div>
     </section>
 
-    <script src="/livrosViajantes/public/assets/js/core/api-config.js"></script>
+    <script src="/api-config.js"></script>
     <script>
-        const BASE_COMPONENTS = "/livrosViajantes/public/assets/js/core/components/";
+        const BASE_COMPONENTS = "./assets/js/core/components/";
     </script>
-    <script src="/livrosViajantes/public/assets/js/core/carregar_paginas.js"></script>
-    <script src="/livrosViajantes/public/assets/js/core/base_forms.js"></script>
-    <script src="/livrosViajantes/public/assets/js/core/mensagem_sistema.js"></script>
+    <script src="./assets/js/core/carregar_paginas.js"></script>
+    <script src="./assets/js/core/base_forms.js"></script>
+    <script src="./assets/js/core/mensagem_sistema.js"></script>
     <!-- scripts específicos -->
-    <script src="/livrosViajantes/public/assets/js/forms/registrar.js"></script>
+    <script src="/assets/js/forms/registrar.js"></script>
 </body>
 
 </html>

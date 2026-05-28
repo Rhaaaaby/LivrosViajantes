@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const img = document.getElementById("detalhe-capa");
         img.src = livro.imagem
-            ? `/livrosViajantes/public/${livro.imagem}`
-            : "/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp";
+            ? `./${livro.imagem}`
+            : "./assets/img/bookcard/livro-sonho.webp";
 
         // Busca os dados do autor do livro
         const autorResponse = await fetch(`${API_BASE}/api/perfil-publico/${livro.autor_id}`);
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const autorData = JSON.parse(textoBruto);
             const autor = autorData.dados?.usuario;
             const nomeAutor = autor?.nome_usuario || `Usuário ${livro.autor_id}`;
-            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${nomeAutor}</a>`;
+            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="./pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${nomeAutor}</a>`;
         } catch (err) {
             console.error("O JSON.parse quebrou porque o texto acima não é um JSON válido!");
             document.getElementById("detalhe-usuario").textContent = "Publicado por: Erro no formato dos dados do autor";
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const autorData = await autorResponse.json();
             const autor = autorData.dados?.usuario;
             const nomeAutor = autor?.nome_usuario || `Usuário ${livro.autor_id}`;
-            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="/livrosViajantes/public/pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${nomeAutor}</a>`;
+            document.getElementById("detalhe-usuario").innerHTML = `Publicado por: <a href="./pages/perfil_publico.html?id=${livro.autor_id}" style="color: var(--texto-principal); text-decoration: underline;">${nomeAutor}</a>`;
         } else {
             // Se o servidor falhar aqui, pegamos a resposta em texto para inspecionar
             const textoErroAutor = await autorResponse.text();

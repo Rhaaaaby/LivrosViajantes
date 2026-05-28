@@ -9,8 +9,8 @@ function criarCard(livro) {
     card.classList.add("book-card");
 
     const imagem = livro.imagem
-        ? `/livrosViajantes/public/${livro.imagem}`
-        : `/livrosViajantes/public/assets/img/bookcard/livro-sonho.webp`;
+        ? `./${livro.imagem}`
+        : `./assets/img/bookcard/livro-sonho.webp`;
 
     card.innerHTML = `
         <img src="${imagem}" alt="${livro.titulo}" class="capa-livro">
@@ -44,13 +44,13 @@ function criarCard(livro) {
         }
 
         window.location.href =
-            `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
+            `./pages/publicacao_detalhada.html?id=${livro.id}`;
     });
 
     const btnDetalhes = card.querySelector(".btn-detalhes");
     btnDetalhes.addEventListener("click", () => {
         window.location.href =
-            `/livrosViajantes/public/pages/publicacao_detalhada.html?id=${livro.id}`;
+            `./pages/publicacao_detalhada.html?id=${livro.id}`;
     });
 
     return card;
