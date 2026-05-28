@@ -1,16 +1,19 @@
 FROM php:8.2-apache
 
-# Ativa o mod_rewrite do Apache (essencial para rotas amigáveis)
+# 1. Configura o Apache para apontar para a pasta public/
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
+
+# 2. Ativa o mod_rewrite do Apache (essencial para rotas/URL amigável)
 RUN a2enmod rewrite
 
-# Instala a extensão PDO PostgreSQL para o PHP conversar com o Neon
+# 3. Instala a extensão do PostgreSQL para o PHP
 RUN apt-get update && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
-# Copia os arquivos do seu projeto para a pasta do servidor
+# 4. Copia o projeto e aplica as permissões corretas
 COPY . /var/www/html/
-
-# Garante as permissões corretas para o Apache ler os arquivos
 RUN chown -R www-data:www-data /var/www/html/
 
 EXPOSE 80
