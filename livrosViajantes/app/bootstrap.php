@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // 2. Carrega as variáveis de ambiente do .env
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+$dotenv-> safeLoad();
 
 $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS', 'JWT_SECRET']);
 
