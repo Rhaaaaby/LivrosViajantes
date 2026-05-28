@@ -25,6 +25,7 @@ async function carregar(id, arquivo) {
   }
 }
 
+//avaliações do site
 function initFooterRating() {
     const estrelas = document.querySelectorAll('.estrelas span');
     const inputEstrelas = document.getElementById('avaliacaoEstrelas');
