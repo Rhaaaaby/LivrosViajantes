@@ -1,16 +1,30 @@
 FROM php:8.2-apache
 
-# 1. Ativa o mod_rewrite do Apache (essencial para rotas/URL amigável)
-RUN a2enmod rewrite
-
-# 2. Instala a extensão do PostgreSQL para o PHP
-RUN apt-get update && apt-get install -y libpq-dev \
+# 1. Instala dependências do sistema e ferramentas necessárias para o Composer e PostgreSQL
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    git \
+    unzip \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
-# 3. Copia TODO o conteúdo do repositório para o servidor
+# 2. Instala o Composer globalmente no container
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 3. Ativa o mod_rewrite do Apache
+RUN a2enmod rewrite
+
+# 4. Copia todo o código do projeto para o servidor
 COPY . /var/www/html/
 
-# 4. Ajusta o Root do Apache dinamicamente: se a pasta livrosViajantes/public existir, usa ela; se não, usa public/
+# 5. Executa o Composer install para gerar a pasta vendor/ automática na nuvem
+# Ele vai procurar onde está o seu arquivo composer.json automaticamente
+RUN if [ -f "/var/www/html/livrosViajantes/composer.json" ]; then \
+        cd /var/www/html/livrosViajantes && composer install --no-dev --optimize-autoloader; \
+    else \
+        cd /var/www/html && composer install --no-dev --optimize-autoloader; \
+    fi
+
+# 6. Ajusta o Root do Apache dinamicamente (raiz ou subpasta)
 RUN if [ -d "/var/www/html/livrosViajantes/public" ]; then \
         ENV_ROOT="/var/www/html/livrosViajantes/public"; \
     else \
@@ -19,7 +33,7 @@ RUN if [ -d "/var/www/html/livrosViajantes/public" ]; then \
     sed -ri -e "s!/var/www/html!${ENV_ROOT}!g" /etc/apache2/sites-available/*.conf && \
     sed -ri -e "s!/var/www/html!${ENV_ROOT}!g" /etc/apache2/apache2.conf
 
-# 5. Aplica as permissões corretas para o servidor ler os arquivos
+# 7. Dá as permissões necessárias para o servidor ler os arquivos e a pasta vendor
 RUN chown -R www-data:www-data /var/www/html/
 
 EXPOSE 80
