@@ -22,16 +22,16 @@ class Connection
             return self::$instance;
         }
 
-        // Busca primeiro no getenv() [comum na nuvem] e depois no $_ENV [comum local]
+        // 1. Mudado de DB_PASS para DB_PASSWORD para bater com o padrão da Render/Neon
         $host     = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
         $port     = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
         $dbname   = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'livros_viajantes');
         $user     = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
-        $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '123456');
+        $password = getenv('DB_PASSWORD') ?: (getenv('DB_PASS') ?: ($_ENV['DB_PASSWORD'] ?? ($_ENV['DB_PASS'] ?? '123456')));
         $appEnv   = getenv('APP_ENV')  ?: ($_ENV['APP_ENV']  ?? 'production');
 
-        // O segredo do Neon: adicionado o sslmode=require na string de conexão
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;";
+        // 2. String de conexão limpa e direta com o encoding correto aceito pelo PDO pgsql
+        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;options='--client_encoding=UTF8'";
 
         // Mantém a opção de enconding UTF8 que você já tinha
         $dsn .= "options='--client_encoding=UTF8'";
