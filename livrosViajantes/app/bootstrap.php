@@ -1,4 +1,5 @@
 <?php
+//consertando nomes antigos no github
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // 2. Carrega as variáveis de ambiente do .env
