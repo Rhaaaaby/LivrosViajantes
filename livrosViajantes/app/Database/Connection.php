@@ -22,7 +22,6 @@ class Connection
             return self::$instance;
         }
 
-        // 1. Mudado de DB_PASS para DB_PASSWORD para bater com o padrão da Render/Neon
         $host     = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
         $port     = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
         $dbname   = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'livros_viajantes');
@@ -30,11 +29,8 @@ class Connection
         $password = getenv('DB_PASSWORD') ?: (getenv('DB_PASS') ?: ($_ENV['DB_PASSWORD'] ?? ($_ENV['DB_PASS'] ?? '123456')));
         $appEnv   = getenv('APP_ENV')  ?: ($_ENV['APP_ENV']  ?? 'production');
 
-        // 2. String de conexão limpa e direta com o encoding correto aceito pelo PDO pgsql
+        // Configuração da DSN limpa, sem repetições
         $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;options='--client_encoding=UTF8'";
-
-        // Mantém a opção de enconding UTF8 que você já tinha
-        $dsn .= "options='--client_encoding=UTF8'";
 
         try {
             self::$instance = new PDO(
@@ -52,15 +48,15 @@ class Connection
             return self::$instance;
 
         } catch (PDOException $e) {
-            if ($appEnv === 'production') {
-                throw $e;
-            }
-
+            // Enviamos o erro real para o log da Render de qualquer forma
             error_log("Erro de conexão com banco: " . $e->getMessage());
-            throw new PDOException("Não foi possível conectar ao banco de dados. Tente novamente mais tarde.");
+
+            // Se der erro, vamos jogar o erro REAL na tela temporariamente para sabermos o motivo exato
+            throw new PDOException("Erro Real: " . $e->getMessage());
         }
     }
 
+    
     public static function reconnect(): PDO
     {
         self::$instance = null;
