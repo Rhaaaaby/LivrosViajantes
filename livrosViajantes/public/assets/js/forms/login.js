@@ -40,7 +40,7 @@ configurarFormulario({
                 mostrarMensagem("Login realizado com sucesso!", "sucesso");
 
                 setTimeout(() => {
-                    window.location.href = "./pages/index.php";
+                    window.location.href = "/pages/index.php";
                 }, 1500);
             } else {
                 mostrarMensagem(resultado.erro || "Email ou senha incorretos", "erro");

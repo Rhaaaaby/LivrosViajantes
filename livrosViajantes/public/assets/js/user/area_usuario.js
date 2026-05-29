@@ -30,7 +30,7 @@ async function carregarPerfil() {
     const token = localStorage.getItem('token');
     if (!token) {
         mostrarMensagem('Você precisa estar logado para acessar esta página.', 'erro');
-        window.location.href = './pages/login.html';
+        window.location.href = '/pages/login.html';
         return;
     }
 
@@ -45,7 +45,7 @@ async function carregarPerfil() {
             if (response.status === 401) {
                 mostrarMensagem('Sessão expirada. Faça login novamente.', 'erro');
                 localStorage.removeItem('token');
-                window.location.href = './pages/login.html';
+                window.location.href = '/pages/login.html';
                 return;
             }
             throw new Error('Erro ao carregar perfil');
@@ -56,8 +56,8 @@ async function carregarPerfil() {
 
         // Preencher dados no topo
         document.querySelector('.foto-perfil').src = usuario.foto
-            ? `./${usuario.foto}`
-            : './assets/img/cabecalho/icone-avatar.svg';
+            ? `/${usuario.foto}`
+            : '/assets/img/cabecalho/icone-avatar.svg';
         document.querySelector('.perfil-topo h2').textContent = usuario.nome_usuario;
 
         // Preencher formulário de edição
@@ -116,7 +116,7 @@ async function carregarPublicacoes() {
             item.className = 'book-card';
 
             item.innerHTML = `
-                <img src="${livro.imagem ? `./${livro.imagem}` : './assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
+                <img src="${livro.imagem ? `./${livro.imagem}` : '/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
                 <div class="info-livro">
                     <h1 class="titulo-livro">${livro.titulo}</h1>
                     <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
@@ -134,7 +134,7 @@ async function carregarPublicacoes() {
         // Configurar botões de edição e exclusão
         document.querySelectorAll('.btn-editar').forEach(btn => {
             btn.addEventListener('click', () => {
-                window.location.href = `./pages/publicar.html?id=${btn.dataset.id}`;
+                window.location.href = `/pages/publicar.html?id=${btn.dataset.id}`;
             });
         });
 
@@ -214,7 +214,7 @@ function configurarBotoes() {
             localStorage.removeItem('token');
             mostrarMensagem('Logout realizado com sucesso.', 'sucesso');
             setTimeout(() => {
-                window.location.href = './pages/login.html';
+                window.location.href = '/pages/login.html';
             }, 1000);
         });
     }
@@ -242,7 +242,7 @@ function configurarBotoes() {
                     mostrarMensagem(data.mensagem || 'Conta excluída com sucesso.', 'sucesso');
                     localStorage.removeItem('token');
                     setTimeout(() => {
-                        window.location.href = './pages/login.html';
+                        window.location.href = '/pages/login.html';
                     }, 2000);
                 } else {
                     mostrarMensagem(data.erro || 'Erro ao excluir conta.', 'erro');
@@ -278,8 +278,8 @@ async function carregarSeguindo() {
                 seguindo.forEach(u => {
                     container.innerHTML += `
                         <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:10px; border:1px solid #ccc; border-radius:8px;">
-                            <img src="${u.foto ? './'+u.foto : './assets/img/cabecalho/icone-avatar.svg'}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
-                            <a href="./pages/perfil_publico.html?id=${u.id}" style="text-decoration:none; color:black; font-weight:bold;">${u.nome_usuario}</a>
+                            <img src="${u.foto ? '/'+u.foto : '/assets/img/cabecalho/icone-avatar.svg'}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+                            <a href="/pages/perfil_publico.html?id=${u.id}" style="text-decoration:none; color:black; font-weight:bold;">${u.nome_usuario}</a>
                         </div>
                     `;
                 });

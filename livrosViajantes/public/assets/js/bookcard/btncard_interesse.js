@@ -59,7 +59,7 @@ document.addEventListener("click", async function (e) {
 
             if (parceiroId) {
                 setTimeout(() => {
-                    window.location.href = `./pages/mensagem.html?destino=${parceiroId}`;
+                    window.location.href = `/pages/mensagem.html?destino=${parceiroId}`;
                 }, 900);
             }
             return;

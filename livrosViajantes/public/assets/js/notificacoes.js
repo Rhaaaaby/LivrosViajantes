@@ -112,7 +112,7 @@ function criarNotificacaoMensagem(item) {
     abrirChat.className = 'btn-acao btn-abrir-chat';
     abrirChat.textContent = 'Abrir chat';
     abrirChat.addEventListener('click', () => {
-        window.location.href = `./pages/mensagem.html?destino=${item.remetente_id}`;
+        window.location.href = `/pages/mensagem.html?destino=${item.remetente_id}`;
     });
 
     acoes.appendChild(abrirChat);
@@ -123,7 +123,7 @@ function criarNotificacaoMensagem(item) {
 
     li.addEventListener('click', (event) => {
         if (event.target.closest('button')) return;
-        window.location.href = `./pages/mensagem.html?destino=${item.remetente_id}`;
+        window.location.href = `/pages/mensagem.html?destino=${item.remetente_id}`;
     });
 
     return li;

@@ -28,7 +28,7 @@
                     <button id="btn-encarte-fechar" aria-label="Fechar boas-vindas">✕</button>
                     <img
                         id="encarte-logo"
-                        src="./assets/img/logo.png"
+                        src="/assets/img/logo.png"
                         alt="Logo Livros Viajantes"
                     />
                     <h1 id="encarte-titulo">Livros Viajantes</h1>
@@ -69,18 +69,18 @@
                     <div class="encarte-acoes">
                         <a
                             id="btn-encarte-criar"
-                            href="./pages/registrar.html"
+                            href="/pages/registrar.html"
                         >
                             Criar minha conta 🚀
                         </a>
-                        <a id="btn-encarte-pular" href="./pages/sobre.html">
+                        <a id="btn-encarte-pular" href="/pages/sobre.html">
                             Leia sobre o projeto ❤️
                         </a>
                     </div>
 
                     <p id="encarte-rodape">
                         Já tem uma conta?
-                        <a href="./pages/login.html">Entrar</a>
+                        <a href="/pages/login.html">Entrar</a>
                     </p>
                 </div>
 

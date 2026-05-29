@@ -38,7 +38,7 @@ configurarFormulario({
             if (response.ok) {
                 mostrarMensagem("Conta criada com sucesso! Faça login.", "sucesso");
                 setTimeout(() => {
-                    window.location.href = "./pages/login.html";
+                    window.location.href = "/pages/login.html";
                 }, 2000);
             } else {
                 mostrarMensagem(resultado.erro || "Erro ao criar conta", "erro");

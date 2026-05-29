@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     if (!token) {
         mostrarMensagem("Você precisa estar logado para acessar esta página.", "erro");
-        window.location.href = "./pages/login.html";
+        window.location.href = "/pages/login.html";
         return;
     }
 
