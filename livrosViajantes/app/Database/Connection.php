@@ -24,7 +24,7 @@ class Connection
 
         $host     = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
         $port     = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
-        $dbname   = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'livros_viajantes');
+        $dbname   = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'neondb');
         $user     = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
         $password = getenv('DB_PASSWORD') ?: (getenv('DB_PASS') ?: ($_ENV['DB_PASSWORD'] ?? ($_ENV['DB_PASS'] ?? '123456')));
         $appEnv   = getenv('APP_ENV')  ?: ($_ENV['APP_ENV']  ?? 'production');
@@ -56,7 +56,7 @@ class Connection
         }
     }
 
-    
+
     public static function reconnect(): PDO
     {
         self::$instance = null;
