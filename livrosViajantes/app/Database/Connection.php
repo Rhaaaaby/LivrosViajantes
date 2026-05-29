@@ -52,7 +52,7 @@ class Connection
             return self::$instance;
 
         } catch (PDOException $e) {
-            if ($appEnv === 'development') {
+            if ($appEnv === 'production') {
                 throw $e;
             }
 
