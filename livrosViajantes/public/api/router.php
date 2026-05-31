@@ -61,9 +61,25 @@ $avaliacaoCtrl = new AvaliacaoController();
 // ================== ROTAS ==================
 
 // -------- PÚBLICAS --------
+
 if ($uri === 'cadastrar' && $method === 'POST') {
+    // TESTE TEMPORÁRIO: Vamos cuspir na tela exatamente o que o PHP está recebendo antes de validar
+    $json_bruto = file_get_contents('php://input');
+    
+    if (empty($json_bruto)) {
+        json_response([
+            'erro' => 'O corpo bruto da requisição chegou completamente vazio na Render.',
+            'headers_recebidos' => getallheaders()
+        ], 400);
+    }
+
+    $usuarioCtrl->registrar(get_json_input());
+    exit; // Garante que o script morre aqui e não roda o resto do arquivo
+}
+/*if ($uri === 'cadastrar' && $method === 'POST') {
     $usuarioCtrl->registrar(get_json_input());
 }
+*/
 
 if ($uri === 'login' && $method === 'POST') {
     $usuarioCtrl->login(get_json_input());
