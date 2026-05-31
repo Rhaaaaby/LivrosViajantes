@@ -1,10 +1,8 @@
 // login.js
 
-const formLogin = document.getElementById('formLogin');
-if (formLogin) {
-    formLogin.action = `${API_BASE}/api/login`;
-    formLogin.method = 'POST';
-}
+// 1. Torna a busca da API autossuficiente (corrige o problema do api-config.js ausente)
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = isLocalhost ? '/livrosViajantes/public' : window.location.origin;
 
 configurarFormulario({
     formId: "formLogin",
@@ -16,22 +14,24 @@ configurarFormulario({
         return true;
     },
     aoEnviar: async (form) => {
-        const usuario = {
-            email: form.email.value.trim(),
-            senha: form.senha.value
-        };
-
         try {
+            // 2. Transforma em formato de formulário tradicional que a Render aceita nativamente
+            const URLDados = new URLSearchParams();
+            URLDados.append('email', form.email.value.trim());
+            URLDados.append('senha', form.senha.value);
+
             const response = await fetch(`${API_BASE}/api/login`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(usuario)
+                headers: { 
+                    "Content-Type": "application/x-www-form-urlencoded" 
+                },
+                body: URLDados
             });
 
             const resultado = await response.json();
 
             if (response.ok) {
-                // Salva o token
+                // 3. Preserva todas as suas gravações cruciais de estado de login
                 localStorage.setItem("token", resultado.token);
                 localStorage.setItem("usuarioLogado", "true");
                 localStorage.setItem("usuarioNome", resultado.usuario.nome_usuario);
