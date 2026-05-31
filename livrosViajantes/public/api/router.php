@@ -60,7 +60,17 @@ function auth(): int {
 $method = $_SERVER['REQUEST_METHOD'];
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode('/api/', $uri, 2)[1] ?? '';
+
+// Se houver '/api/' na URL, isolamos o que vem depois
+if (strpos($uri, '/api/') !== false) {
+    $uri = explode('/api/', $uri, 2)[1] ?? '';
+} else {
+    // Caso a Render repasse a rota direta (ex: /cadastrar ou /livros/1)
+    // Remove o caminho até a pasta pública, se houver
+    $uri = str_replace('/public/api', '', $uri);
+}
+
+// Garante letras minúsculas e remove barras sobrando nas pontas
 $uri = strtolower(trim($uri, '/'));
 
 // ================== CONTROLLERS ==================
