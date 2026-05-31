@@ -4,24 +4,21 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- SEO básico -->
     <title>Login</title>
     <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS BASE (sempre presente) -->
     <link rel="stylesheet" href="/assets/css/sistema_base/basestyle.css">
 
-    <!--CSS específico da página-->
     <link rel="stylesheet" href="/assets/css/sistema_base/brandingstyle.css">
     <link rel="stylesheet" href="/assets/css/sistema_base/form_basestyle.css">
     <link rel="stylesheet" href="/assets/css/sistema_base/mensagem_sistema.css">
 
     <link rel="stylesheet" href="/assets/css/sistema_base/responsive.css">
 
-    <style> 
-        body  {
-            background-color: #569FCA; 
+    <style>
+        body {
+            background-color: #569FCA;
         }
     </style>
 </head>
@@ -30,7 +27,7 @@
     <section>
         <div id="branding"></div>
 
-        <form id="formLogin" class="form-container" action="/api/login" method="POST">
+        <form id="formLogin" class="form-container">
             <h1>Bem vindo de volta :)!</h1>
 
             <span>Login</span>
@@ -48,11 +45,9 @@
             <a href="/pages/registrar.html"> Ainda não tem uma conta?</a>
         </form>
 
-        <!-- mensagens (sucesso, alerta, erro)-->
         <div id="mensagem-global" class="msg hidden"></div>
     </section>
 
-    <!-- scripts gerais -->
     <script src="/assets/js/core/api-config.js"></script>
     <script>
         const BASE_COMPONENTS = "/assets/js/core/components/";
@@ -60,9 +55,65 @@
     <script src="/assets/js/core/carregar_paginas.js"></script>
     <script src="/assets/js/core/base_forms.js"></script>
     <script src="/assets/js/core/mensagem_sistema.js"></script>
-    
-    <!-- Scripts específicos -->
-     <script src="/assets/js/forms/login.js"></script>
+
+    <script>
+        // Script embutido para forçar o navegador a usar a versão nova sem cache!
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const API_BASE = isLocalhost ? '/livrosViajantes/public' : window.location.origin;
+
+        // Seleciona o formulário na marra pelo ID
+        const form = document.getElementById('formLogin');
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                // ISSO IMPEDE O NAVEGADOR DE ABRIR O JSON NA TELA
+                e.preventDefault();
+
+                if (!form.email.value || !form.senha.value) {
+                    mostrarMensagem("Preencha email e senha!", "erro");
+                    return;
+                }
+
+                try {
+                    const URLDados = new URLSearchParams();
+                    URLDados.append('email', form.email.value.trim());
+                    URLDados.append('senha', form.senha.value);
+
+                    const response = await fetch(`${API_BASE}/api/login`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: URLDados
+                    });
+
+                    const resultado = await response.json();
+
+                    if (response.ok) {
+                        // Guarda os dados no seu navegador
+                        localStorage.setItem("token", resultado.token);
+                        localStorage.setItem("usuarioLogado", "true");
+                        localStorage.setItem("usuarioNome", resultado.usuario.nome_usuario);
+                        localStorage.setItem("usuario_id", resultado.usuario.id);
+
+                        mostrarMensagem("Login realizado com sucesso!", "sucesso");
+
+                        // Redireciona
+                        setTimeout(() => {
+                            window.location.href = "/pages/index.php";
+                        }, 1500);
+                    } else {
+                        mostrarMensagem(resultado.erro || "Email ou senha incorretos", "erro");
+                    }
+                } catch (erro) {
+                    console.error(erro);
+                    mostrarMensagem("Erro ao fazer login", "erro");
+                }
+            });
+        } else {
+            console.error("ERRO CRÍTICO: Não achei o id 'formLogin' neste HTML!");
+        }
+    </script>
 </body>
 
 </html>
