@@ -34,9 +34,10 @@ function json_response($data, $status = 200) {
     exit;
 }
 
-function get_json_input() {
+/* function get_json_input() {
     return json_decode(file_get_contents('php://input'), true) ?? [];
 }
+*/
 
 // ================== AUTH ==================
 function auth(): int {
@@ -72,22 +73,42 @@ $avaliacaoCtrl = new AvaliacaoController();
 
 // ================== ROTAS ==================
 
-// -------- PÚBLICAS --------
-
-if ($uri === 'cadastrar' && $method === 'POST') {
-    // TESTE TEMPORÁRIO: Vamos cuspir na tela exatamente o que o PHP está recebendo antes de validar
-    $json_bruto = file_get_contents('php://input');
+// 1. Atualize a função para limpar o JSON de qualquer caractere invisível
+function get_json_input() {
+    $input = file_get_contents('php://input');
     
-    if (empty($json_bruto)) {
-        json_response([
-            'erro' => 'O corpo bruto da requisição chegou completamente vazio na Render.',
-            'headers_recebidos' => getallheaders()
-        ], 400);
+    // Remove caracteres de controle invisíveis que quebram o json_decode no Linux
+    $input = trim($input);
+    
+    if (empty($input)) {
+        return [];
     }
-
-    $usuarioCtrl->registrar(get_json_input());
-    exit; // Garante que o script morre aqui e não roda o resto do arquivo
+    
+    $decoded = json_decode($input, true);
+    
+    // Se falhar na decodificação padrão, tenta limpar caracteres UTF-8 inválidos
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [];
+    }
+    
+    return $decoded;
 }
+
+// ================== ROTAS ==================
+
+// -------- PÚBLICAS --------
+if ($uri === 'cadastrar' && $method === 'POST') {
+    $dados = get_json_input();
+    
+    // Fallback: Se o JSON falhar completamente, tenta ler do $_POST tradicional
+    if (empty($dados)) {
+        $dados = $_POST;
+    }
+    
+    $usuarioCtrl->registrar($dados);
+    exit; // Garante que encerra aqui
+}
+
 /*if ($uri === 'cadastrar' && $method === 'POST') {
     $usuarioCtrl->registrar(get_json_input());
 }
