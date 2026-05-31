@@ -3,17 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-
     <title>Login</title>
     <meta name="description" content="Compartilhe e descubra livros que viajam pelo mundo!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="/assets/css/sistema_base/basestyle.css">
-
     <link rel="stylesheet" href="/assets/css/sistema_base/brandingstyle.css">
     <link rel="stylesheet" href="/assets/css/sistema_base/form_basestyle.css">
     <link rel="stylesheet" href="/assets/css/sistema_base/mensagem_sistema.css">
-
     <link rel="stylesheet" href="/assets/css/sistema_base/responsive.css">
 
     <style>
@@ -57,16 +54,12 @@
     <script src="/assets/js/core/mensagem_sistema.js"></script>
 
     <script>
-        // Script embutido para forçar o navegador a usar a versão nova sem cache!
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const API_BASE = isLocalhost ? '/livrosViajantes/public' : window.location.origin;
-
-        // Seleciona o formulário na marra pelo ID
+        // Seleciona o formulário pelo ID
         const form = document.getElementById('formLogin');
 
         if (form) {
             form.addEventListener('submit', async (e) => {
-                // ISSO IMPEDE O NAVEGADOR DE ABRIR O JSON NA TELA
+                // IMPEDE O NAVEGADOR DE IR PARA A TELA DO JSON
                 e.preventDefault();
 
                 if (!form.email.value || !form.senha.value) {
@@ -79,7 +72,10 @@
                     URLDados.append('email', form.email.value.trim());
                     URLDados.append('senha', form.senha.value);
 
-                    const response = await fetch(`${API_BASE}/api/login`, {
+                    // 2. CORREÇÃO AQUI: Usamos a URL base dinâmica ou o fallback caso venha vazia da Render
+                    const urlFinal = window.API_BASE ? `${window.API_BASE}/api/login` : `${window.location.origin}/api/login`;
+
+                    const response = await fetch(urlFinal, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded"
@@ -90,7 +86,6 @@
                     const resultado = await response.json();
 
                     if (response.ok) {
-                        // Guarda os dados no seu navegador
                         localStorage.setItem("token", resultado.token);
                         localStorage.setItem("usuarioLogado", "true");
                         localStorage.setItem("usuarioNome", resultado.usuario.nome_usuario);
@@ -98,7 +93,6 @@
 
                         mostrarMensagem("Login realizado com sucesso!", "sucesso");
 
-                        // Redireciona
                         setTimeout(() => {
                             window.location.href = "/pages/index.php";
                         }, 1500);
