@@ -1,4 +1,9 @@
 // registrar.js
+// registrar.js
+
+// Garante que o API_BASE sempre terá o domínio correto, independente de arquivos externos
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = isLocalhost ? '/livrosViajantes/public' : window.location.origin;
 
 configurarFormulario({
     formId: "formRegistrar",
