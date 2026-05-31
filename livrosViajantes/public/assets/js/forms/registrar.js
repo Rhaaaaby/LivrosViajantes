@@ -14,17 +14,20 @@ configurarFormulario({
         return true;
     },
     aoEnviar: async (form) => {
-        const usuario = {
-            nome_usuario: form.nome.value.trim(),
-            email: form.email.value.trim(),
-            senha: form.senha.value
-        };
-
         try {
+            // Transformamos o objeto em formato de formulário padrão (chave=valor&chave2=valor2)
+            const URLDados = new URLSearchParams();
+            URLDados.append('nome_usuario', form.nome.value.trim());
+            URLDados.append('email', form.email.value.trim());
+            URLDados.append('senha', form.senha.value);
+
             const response = await fetch(`${API_BASE}/api/cadastrar`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(usuario)
+                headers: { 
+                    // Formato tradicional que a Render preserva sem corromper
+                    "Content-Type": "application/x-www-form-urlencoded" 
+                },
+                body: URLDados
             });
 
             const resultado = await response.json();
