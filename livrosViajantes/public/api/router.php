@@ -14,6 +14,18 @@ use Firebase\JWT\Key;
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// ================== CABEÇALHOS CORS (ADICIONE ESTE BLOCO) ==================
+header("Access-Control-Allow-Origin: *"); // Permite requisições de qualquer origem
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+// Se for uma requisição de pré-vôo (OPTIONS), responde com 200 e encerra
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+// ===========================================================================
+
 // ================== HELPERS ==================
 function json_response($data, $status = 200) {
     http_response_code($status);
