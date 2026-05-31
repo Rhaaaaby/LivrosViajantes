@@ -119,13 +119,17 @@ if ($uri === 'cadastrar' && $method === 'POST') {
     exit; // Garante que encerra aqui
 }
 
-/*if ($uri === 'cadastrar' && $method === 'POST') {
-    $usuarioCtrl->registrar(get_json_input());
-}
-*/
-
+// ATUALIZE ESTE BLOCO DO LOGIN:
 if ($uri === 'login' && $method === 'POST') {
-    $usuarioCtrl->login(get_json_input());
+    $dados = get_json_input();
+    
+    // Fallback: Se o JSON estiver vazio, pega o que veio do formulário URLSearchParams
+    if (empty($dados)) {
+        $dados = $_POST;
+    }
+    
+    $usuarioCtrl->login($dados);
+    exit; // Garante que encerra o script aqui
 }
 
 // -------- USUÁRIO --------
