@@ -14,6 +14,43 @@ class Livro
         $this->pdo = Connection::connect();
     }
 
+    private function ensureCategoriasSeeded(): void
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT 1 FROM categoria LIMIT 1");
+            if ($stmt->fetchColumn() === false) {
+                $this->pdo->beginTransaction();
+                $inserir = $this->pdo->prepare("INSERT INTO categoria (id, nome) VALUES (:id, :nome)");
+                $categorias = [
+                    ['id' => 1, 'nome' => 'Disponível'],
+                    ['id' => 2, 'nome' => 'Emprestado'],
+                    ['id' => 3, 'nome' => 'Doação'],
+                ];
+                foreach ($categorias as $categoria) {
+                    $inserir->execute($categoria);
+                }
+                $this->pdo->commit();
+            }
+        } catch (\Throwable $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+        }
+    }
+
+    public function categoriaExiste(int $categoria_id): bool
+    {
+        $this->ensureCategoriasSeeded();
+
+        try {
+            $stmt = $this->pdo->prepare("SELECT 1 FROM categoria WHERE id = :id");
+            $stmt->execute([':id' => $categoria_id]);
+            return (bool) $stmt->fetchColumn();
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     // Listar todos os livros disponíveis (público)
     public function listarTodos()
     {

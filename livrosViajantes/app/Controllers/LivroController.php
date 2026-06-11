@@ -34,6 +34,10 @@ class LivroController
             json_response(['erro' => 'Título e categoria são obrigatórios'], 400);
         }
 
+        if (!$this->model->categoriaExiste((int)$data['categoria_id'])) {
+            json_response(['erro' => 'Categoria inválida ou não configurada'], 400);
+        }
+
         $imagemPath = $this->uploadImagem();
 
         $sucesso = $this->model->criar($data, $user_id, $imagemPath);
@@ -50,6 +54,10 @@ class LivroController
     {
         if (empty($data['titulo'])) {
             json_response(['erro' => 'Título é obrigatório'], 400);
+        }
+
+        if (!empty($data['categoria_id']) && !$this->model->categoriaExiste((int)$data['categoria_id'])) {
+            json_response(['erro' => 'Categoria inválida ou não configurada'], 400);
         }
 
         $novaImagem = $this->uploadImagem();

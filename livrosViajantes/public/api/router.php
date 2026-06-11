@@ -11,7 +11,9 @@ use App\Controllers\AvaliacaoController;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-ini_set('display_errors', 1);
+if (defined('APP_ENV') && APP_ENV === 'production') {
+    ini_set('display_errors', 0);
+}
 error_reporting(E_ALL);
 
 // ================== CABEÇALHOS CORS (ADICIONE ESTE BLOCO) ==================
@@ -89,10 +91,17 @@ $avaliacaoCtrl = new AvaliacaoController();
 
 // ================== ROTAS ==================
 
-// Função robusta para ler o body da requisição. Tenta JSON, limpa BOM/caracteres
-// de controle, redecodifica com correção de encoding e por fim tenta parse_str
-// (útil para PUT com body URL-encoded). Retorna array vazio se nada for lido.
+// Função robusta para ler o body da requisição. Prioriza $_POST (FormData/multipart)
+// e depois tenta JSON, limpa BOM/caracteres de controle, redecodifica com correção
+// de encoding e por fim tenta parse_str (útil para PUT com body URL-encoded).
+// Retorna array vazio se nada for lido.
 function get_json_input() {
+    // Prioridade 1: $_POST (vem de FormData/multipart ou application/x-www-form-urlencoded via PHP)
+    if (!empty($_POST)) {
+        return $_POST;
+    }
+
+    // Prioridade 2: php://input (JSON ou outros formatos)
     $input = file_get_contents('php://input');
 
     if ($input === false) {
@@ -138,6 +147,8 @@ function get_json_input() {
 
 // ================== ROTAS ==================
 
+try {
+
 // -------- PÚBLICAS --------
 if ($uri === 'cadastrar' && $method === 'POST') {
     $dados = get_json_input();
@@ -172,12 +183,7 @@ if ($uri === 'perfil' && $method === 'GET') {
 
 if ($uri === 'atualizar' && ($method === 'PUT' || $method === 'POST')) {
     $user_id = auth();
-
-    $data = $_POST;
-    if (empty($data)) {
-        $data = get_json_input();
-    }
-
+    $data = get_json_input(); // Já tenta $_POST primeiro, depois php://input
     $usuarioCtrl->atualizar($user_id, $data);
 }
 
@@ -202,13 +208,7 @@ if ($uri === 'meus-livros' && $method === 'GET') {
 // criar livro (JSON ou form-data)
 if ($uri === 'publicar' && $method === 'POST') {
     $user_id = auth();
-
-    $data = $_POST;
-
-    if (empty($data)) {
-        $data = get_json_input();
-    }
-
+    $data = get_json_input(); // Já tenta $_POST primeiro, depois php://input
     $livroCtrl->criar($data, $user_id);
 }
 
@@ -235,11 +235,8 @@ if (preg_match('#^livros/(\d+)$#', $uri, $matches)) {
 if (preg_match('#^atualizar-livro/(\d+)$#', $uri, $matches) && $method === 'POST') {
     $livro_id = (int)$matches[1];
     $user_id = auth();
-    $data = $_POST;
-    if (empty($data)) {
-        $data = get_json_input();
-    }
-    $livroCtrl->atualizar($livro_id, $data, $user_id); // LivroController->atualizar should handle $_FILES
+    $data = get_json_input(); // Já tenta $_POST primeiro, depois php://input
+    $livroCtrl->atualizar($livro_id, $data, $user_id);
 }
 
 // -------- SOLICITAÇÕES --------
@@ -387,13 +384,15 @@ if (preg_match('#^perfil-publico/(\d+)$#', $uri, $matches) && $method === 'GET')
 // -------- AVALIAÇÃO DO SITE --------
 if ($uri === 'avaliacoes' && $method === 'POST') {
     $user_id = auth();
-    $data = $_POST;
-    if (empty($data)) {
-        $data = get_json_input();
-    }
+    $data = get_json_input(); // Já tenta $_POST primeiro, depois php://input
     $result = $avaliacaoCtrl->criar($data, $user_id);
     json_response($result);
 }
 
 // -------- 404 --------
 json_response(['erro' => 'Rota não encontrada'], 404);
+
+} catch (\Throwable $e) {
+    $message = (defined('APP_ENV') && APP_ENV !== 'production') ? $e->getMessage() : 'Erro interno do servidor';
+    json_response(['erro' => $message], 500);
+}
