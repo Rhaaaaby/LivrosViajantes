@@ -41,8 +41,14 @@ function json_response($data, $status = 200) {
 
 // ================== AUTH ==================
 function auth(): int {
-    $headers = getallheaders();
-    $auth = $headers['Authorization'] ?? '';
+    // Busca Authorization em várias fontes para compatibilidade com diferentes servidores
+    $auth = '';
+    if (function_exists('getallheaders')) {
+        $h = getallheaders();
+        $auth = $h['Authorization'] ?? $h['authorization'] ?? '';
+    }
+
+    $auth = $auth ?: ($_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '');
 
     if (!preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
         json_response(['erro' => 'Token obrigatório'], 401);
@@ -83,25 +89,51 @@ $avaliacaoCtrl = new AvaliacaoController();
 
 // ================== ROTAS ==================
 
-// 1. Atualize a função para limpar o JSON de qualquer caractere invisível
+// Função robusta para ler o body da requisição. Tenta JSON, limpa BOM/caracteres
+// de controle, redecodifica com correção de encoding e por fim tenta parse_str
+// (útil para PUT com body URL-encoded). Retorna array vazio se nada for lido.
 function get_json_input() {
     $input = file_get_contents('php://input');
-    
-    // Remove caracteres de controle invisíveis que quebram o json_decode no Linux
+
+    if ($input === false) {
+        return [];
+    }
+
     $input = trim($input);
-    
-    if (empty($input)) {
+    if ($input === '') {
         return [];
     }
-    
+
+    // Remove BOM UTF-8 se existir
+    $input = preg_replace('/^\xEF\xBB\xBF/', '', $input);
+
+    // Tenta o decode direto
     $decoded = json_decode($input, true);
-    
-    // Se falhar na decodificação padrão, tenta limpar caracteres UTF-8 inválidos
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        return [];
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $decoded;
     }
-    
-    return $decoded;
+
+    // Remove caracteres de controle (exceto tab/newline) e tenta novamente
+    $clean = preg_replace('/[\x00-\x1F\x7F]+/u', '', $input);
+    $decoded = json_decode($clean, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $decoded;
+    }
+
+    // Tenta forçar para UTF-8 válido
+    $utf = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
+    $decoded = json_decode($utf, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $decoded;
+    }
+
+    // Por fim, se veio como urlencoded (ex.: PUT com application/x-www-form-urlencoded), parseia
+    parse_str($input, $output);
+    if (!empty($output)) {
+        return $output;
+    }
+
+    return [];
 }
 
 // ================== ROTAS ==================
@@ -246,7 +278,8 @@ if (preg_match('#^solicitacoes/(\d+)/responder$#', $uri, $matches)) {
     $user_id = auth();
 
     if ($method === 'PUT') {
-        $acao = $_GET['acao'] ?? '';
+        $input = get_json_input();
+        $acao = $input['acao'] ?? ($_GET['acao'] ?? '');
         $result = $solicitacaoCtrl->responder($solicitacao_id, $acao, $user_id);
         json_response($result);
     } else {
