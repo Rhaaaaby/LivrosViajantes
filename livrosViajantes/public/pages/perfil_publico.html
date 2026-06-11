@@ -62,8 +62,8 @@
             card.className = 'book-card';
 
             const imagem = livro.imagem
-                ? `./${livro.imagem}`
-                : './assets/img/bookcard/livro-sonho.webp';
+                ? `/${livro.imagem}`
+                : '/assets/img/bookcard/livro-sonho.webp';
 
             card.innerHTML = `
                 <img src="${imagem}" alt="Capa de ${textoSeguro(livro.titulo, 'livro')}" class="capa-livro">

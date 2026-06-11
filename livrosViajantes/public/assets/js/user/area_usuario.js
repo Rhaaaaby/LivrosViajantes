@@ -116,7 +116,7 @@ async function carregarPublicacoes() {
             item.className = 'book-card';
 
             item.innerHTML = `
-                <img src="${livro.imagem ? `./${livro.imagem}` : '/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
+                <img src="${livro.imagem ? `/${livro.imagem}` : '/assets/img/bookcard/livro-sonho.webp'}" alt="${livro.titulo}" class="capa-livro">
                 <div class="info-livro">
                     <h1 class="titulo-livro">${livro.titulo}</h1>
                     <span class="categoria">${livro.categoria_nome || 'Sem categoria'}</span>
