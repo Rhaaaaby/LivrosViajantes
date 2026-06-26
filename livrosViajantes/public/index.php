@@ -11,8 +11,9 @@ if (strpos($request, '/api/') !== false || strpos($request, '/api') === 0) {
 }
 
 // O PULO DO GATO: Descobre o basePath dinamicamente
-// Se o domínio NÃO for localhost, o basePath na Render é apenas vazio ''
-$isLocalhost = in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']);
+// Trata HTTP_HOST que pode conter porta (ex: localhost:8080)
+$hostOnly = explode(':', $_SERVER['HTTP_HOST'])[0];
+$isLocalhost = in_array($hostOnly, ['localhost', '127.0.0.1']);
 $basePath = $isLocalhost ? '/livrosViajantes/public' : '';
 
 $relativePath = $request;
